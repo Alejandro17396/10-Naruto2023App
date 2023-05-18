@@ -1,0 +1,27 @@
+/*.container {
+    text-align: center; 
+ }*/
+  
+  .item {
+    display: inline-block;
+    margin-right: 10px; /* para agregar un espacio entre los elementos */
+  }
+
+  .container {
+    display: flex;
+}
+
+.item-1 {
+    flex: 7;
+    background-color: yellow;
+}
+
+.item-2 {
+    flex: 3;
+    background-color: green;
+}
+
+.depurar{
+  border: 1px solid #ffffff;
+}
+  

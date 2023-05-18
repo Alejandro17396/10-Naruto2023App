@@ -1,0 +1,38 @@
+<div class="container" style="background: #2a323d;">
+    <!-- style="border: 1px solid #ffffff;" -->
+<div class="border-1 surface-border border-round item mt-3" *ngIf="rechargeAccesoriesSetList">
+<p-table #accesoriesTable [value]="accesories" selectionMode="single" [(selection)]="selectedAccesorie"  
+[rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+<ng-template pTemplate="header">
+    <tr>
+        <th pSortableColumn="name" >Accesories list</th>
+    </tr>
+    <tr>
+        <th>
+            <input pInputText type="text" (input)="filter($event,accesoriesTable)" placeholder="Search by Name" class="w-full">
+        </th>
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
+    <tr >
+        <td class="btn-cell">
+            <p-button label="Compare" styleClass="p-button-primary" (click)="addAccesorieSetToCompare(rowIndex)" ></p-button>
+            <a class="setName">{{accesorieSet.nombre}}</a>
+            <p-button label="Show" styleClass="p-button-secondary" (click)="showAccesorieSetStats(rowIndex,'sets')"></p-button>
+        </td>
+    </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="4">No sets found.</td>
+    </tr>
+</ng-template>
+</p-table>
+</div> 
+<div class="border-1 surface-border border-round item mt-3 card" >
+    
+</div> 
+<div class="border-1 surface-border border-round item mt-3 card" >
+    
+</div> 
+</div>

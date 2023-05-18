@@ -1,0 +1,30 @@
+
+.setName{
+    font-size: 0.8rem;
+}
+
+:host ::ng-deep .custom-button-size .p-button {
+    width: 100px !important;;
+    height: 40px !important;;
+}
+
+
+
+.btn-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .container {
+    display: flex;
+}
+
+.item{
+    flex: 33%;
+}
+
+.item-2 {
+    flex: 3;
+    background-color: green;
+}
