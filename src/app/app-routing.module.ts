@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./accesories/accesories.module').then(m => m.AccesoriesModule)
   },
   {
+    path:'ninjas',
+    loadChildren: () => import('./ninjas/ninja.module').then(m => m.NinjaModule)
+  },
+  {
     path:'**',
     redirectTo:'auth'
   }

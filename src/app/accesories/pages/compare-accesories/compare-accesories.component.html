@@ -1,1 +1,60 @@
-<p>compare-accesories works!</p>
+<div class="card-container indigo-container" >
+    <p-carousel [value]="accesories" [numVisible]="4" [numScroll]="4" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-accesorieSet pTemplate="item">
+            <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+                <div class="mb-3">
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[7].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[6].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[5].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[4].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                </div>
+                <div class="mb-3">
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[3].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[2].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[1].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                    <img src="assets/images/accesorios/{{accesorieSet.partes[0].nombre}}.jpg" style="height:50px; width:50px;"
+                    [alt]="accesorieSet.nombre"
+                    class="m-1"/>
+                </div>
+                <div>
+                    <h4 class="mb-1">{{ accesorieSet.nombre }}</h4>
+                    <div class="car-buttons mt-5">
+                        <p-button type="button" label="Add" 
+                        styleClass="p-button p-button-rounded mr-2" 
+                        icon="pi pi-arrow-down-left"
+                        (click)="changeSetLeft(accesorieSet)"></p-button>
+                        <p-button type="button" label="Add" 
+                        styleClass="p-button-success p-button-rounded mr-2" 
+                        icon="pi pi-arrow-down-right" iconPos="right"
+                        (click)="changeSetRight(accesorieSet)"></p-button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
+
+<div class="card-container indigo-container"  >
+    <div class="flex overflow-hidden justify-content-center">
+        <div class="flex w-6 m-2 overflow-hidden justify-content-center">
+            <app-view-accesorie-set-differences [setId]="1"></app-view-accesorie-set-differences>
+        </div> 
+        <div class="flex w-6 m-2 overflow-hidden justify-content-center" >
+             <app-view-accesorie-set-differences [setId]="2"></app-view-accesorie-set-differences> 
+        </div>
+    </div>
+</div>

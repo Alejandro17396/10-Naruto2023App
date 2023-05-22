@@ -31,7 +31,7 @@ export class MenuComponent  implements OnInit {
         ]
       },
       { 
-        label: 'Accesoriess',
+        label: 'Accesories',
         items: [
           {
             label: 'Accesories list',
@@ -51,9 +51,30 @@ export class MenuComponent  implements OnInit {
           }
         ]
       },
+      { 
+        label: 'Ninjas',
+        items: [
+          {
+            label: 'Ninjas list',
+            routerLink:'/ninjas/list'
+          },
+          {
+            label: 'Compare ninjas',
+            routerLink:'/ninjas/NinjasComparator'
+          },
+          {
+            label:'View own accesories combo',
+            routerLink:'/ninjas/viewOwnNinjas'
+          },
+          {
+            label:'Create own accesories combo',
+            routerLink:'/ninjas/createOwnNinjas'
+          }
+        ]
+      },
       {
         label: 'Pipes personalizados',
-        routerLink: 'ordenar'
+        routerLink: '/auth/login'
       }
   ];
 }

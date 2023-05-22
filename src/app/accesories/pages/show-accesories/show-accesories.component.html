@@ -1,0 +1,131 @@
+<div class="card-container indigo-container" > 
+    <div class="grid overflow-hidden">
+        <div class="col-4 mt-2 grid" >
+            <div class="col-12 m-1 overflow-hidden grid" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[0].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[0].nombre}} ({{showAccesories.partes[0].valor}})</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 mt-2 m-1 grid" >
+            <div class="col-12 m-1 grid overflow-hidden" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[1].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[1].nombre}} ({{showAccesories.partes[1].valor}})</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 mt-2 grid" >
+            <div class="col-12 m-1 grid overflow-hidden" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[2].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[2].nombre}} ({{showAccesories.partes[2].valor}})</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid overflow-hidden">
+        <div class="col-4 mt-2 grid" >
+            <div class="col-12 m-1 overflow-hidden grid" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[3].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[3].nombre}} ({{showAccesories.partes[3].valor}})</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 mt-2 m-1 grid" >
+            <div class="col-12 m-1 grid overflow-hidden" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[4].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[4].nombre}} ({{showAccesories.partes[4].valor}})</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 mt-2 grid" >
+            <div class="col-12 m-1 grid overflow-hidden" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[5].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[5].nombre}} ({{showAccesories.partes[5].valor}})</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid overflow-hidden justify-content-center">
+        <div class="col-4 mt-2 grid" >
+            <div class="col-12 m-1 overflow-hidden grid" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[6].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[6].nombre}} ({{showAccesories.partes[6].valor}})</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 mt-2 m-1 grid" >
+            <div class="col-12 m-1 grid overflow-hidden" >
+                <div class="col-6 overflow-hidden">
+                    <img src="assets/images/accesorios/{{showAccesories.partes[7].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                </div>
+                <div class="col-6 overflow-hidden">
+                    <a style="font-size:smaller;color:white">{{showAccesories.partes[7].nombre}} ({{showAccesories.partes[7].valor}})</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card-container indigo-container" >
+    <div class="grid overflow-hidden" >
+        <div class="col-3 p-2 m-2 overflow-hidden" *ngFor="let bonusAtributo of listaBonus">
+            {{ bonusAtributo.nombreAtributo }}: {{ bonusAtributo.valor }}
+        </div>
+    </div>
+</div>
+<div class="card-container indigo-container" *ngIf="showButtons">
+    <div class="flex overflow-hidden justify-content-center text-center" >
+        <div class="w-6 p-2 mb-3 mt-8 overflow-hidden">
+            <p-button label="Add set to my list" 
+            styleClass="p-button-primary"
+            (click)="mostrarResultados()"
+            >
+        </p-button>
+        </div>
+        <div class="w-6 p-2 mb-3 mt-8 overflow-hidden ">
+            <p-button label="Compare sets" 
+            styleClass="p-button-primary" 
+            (click)="compareSets()"
+            >
+        </p-button>
+        </div>
+    </div>
+</div>
+<div class="card-container indigo-container" *ngIf="showButtons">
+    <p-toast></p-toast>
+    <div class="flex overflow-hidden justify-content-center text-center" >
+        <div class="w-6 p-2 mb-3 overflow-hidden ">
+            <p-button label="Generate Combo Sets" 
+            styleClass="p-button-primary" 
+            (click)="generateComboSets()">
+        </p-button>
+        </div>
+        <div class="w-6 p-2 mb-3 overflow-hidden ">
+            <p-button label="Show Filters" 
+            styleClass="p-button-primary"
+            (click)="showFilterPanel()">
+        </p-button>
+        </div>
+    </div>
+</div>
+<p-toast></p-toast>

@@ -10,6 +10,10 @@ import { LayoutAccesoriesComponent } from './pages/layout-accesories/layout-acce
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { ShowAccesoriesComponent } from './pages/show-accesories/show-accesories.component';
+import { ViewAccesorieSetDifferencesComponent } from './pages/view-accesorie-set-differences/view-accesorie-set-differences.component';
+import { CreateOwnAccesoriesSetComponent } from './pages/create-own-accesories-set/create-own-accesories-set.component';
+import { ConfirmDialogAccesorieSetComponent } from './pages/confirm-dialog-accesorie-set/confirm-dialog-accesorie-set.component';
 
 
 @NgModule({
@@ -18,7 +22,11 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
     CompareAccesoriesComponent,
     CreateOwnAccesoriesComponent,
     ViewOwnAccesoriesComponent,
-    LayoutAccesoriesComponent
+    LayoutAccesoriesComponent,
+    ShowAccesoriesComponent,
+    ViewAccesorieSetDifferencesComponent,
+    CreateOwnAccesoriesSetComponent,
+    ConfirmDialogAccesorieSetComponent
   ],
   imports: [
     CommonModule,

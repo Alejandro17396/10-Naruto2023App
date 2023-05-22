@@ -119,7 +119,7 @@ export class FilterSetPanelComponent implements OnInit{
 
     this.filter.filter = this.filterCheckbox?.checked();
     this.filter.order = this.orderCheckbox?.checked();
-    this.filter.set = this.selectedSet.nombre;
+    this.filter.set = this.selectedSet?.nombre? this.selectedSet.nombre :"";
     this.ref.close();
     
   }

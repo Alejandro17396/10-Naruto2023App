@@ -1,7 +1,18 @@
+import { AccesorieSet, Tipo } from 'src/app/accesories/interfaces/accesories.interfaces';
 import { ListaBonus } from '../interfaces/set.interfaces';
 
 
 export class ListaBonusUtils {
+
+
+    static mergeBonusesAccesorieSet(set:AccesorieSet):AccesorieSet{
+        let list :ListaBonus [] = [];
+        set.bonuses.forEach(bonus =>{
+            list.push(...bonus.bonuses);
+        });
+        set.bonuses = [{tipo:Tipo.Merge, bonuses:this.mergeListBonus(list)}];
+        return set;
+    }
 
 
     static mergeListBonus(list:ListaBonus[]):ListaBonus[] {

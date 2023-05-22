@@ -1,0 +1,52 @@
+<div class="border-1 surface-border border-round m-2 text-center py-5 px-3" style="border: 1px solid red;" *ngIf="setReady">
+    <div class="mb-3">
+        <img src="assets/images/accesorios/{{set.partes[7].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/>
+        <img src="assets/images/accesorios/{{set.partes[6].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/>
+        <img src="assets/images/accesorios/{{set.partes[5].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/> 
+        <img src="assets/images/accesorios/{{set.partes[4].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/> 
+    </div>
+    <div class="mb-3" >
+        <img src="assets/images/accesorios/{{set.partes[3].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/>
+        <img src="assets/images/accesorios/{{set.partes[2].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/>
+        <img src="assets/images/accesorios/{{set.partes[1].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/>
+        <img src="assets/images/accesorios/{{set.partes[0].nombre}}.jpg" style="height:50px; width:50px;"
+        
+        class="m-1"/> 
+    </div>
+    <div class="mb-3" >
+        {{set.nombre}}
+        <!-- <p-button (click)="ver()">boton</p-button> -->
+    </div>
+</div>
+<div class="grid m-2 py-5 px-3" *ngIf="setReady">
+    <div class="col-4 mb-3 overflow-hidden text-center" 
+    *ngFor="let bonusAtributo of listaBonus">
+
+    <p [ngStyle]="{'color': bonusAtributo.valor < 0 ? '#FF0000' : '#00FF33'}"> 
+     {{ bonusAtributo.nombreAtributo }}: {{ bonusAtributo.valor }}
+    </p>  
+    </div>
+    <div class="col-4 mb-3 overflow-hidden text-center" 
+    *ngFor="let bonusAtributo of listaBonus2">
+
+    <p [ngStyle]="{'color': '#FFFF00'}"> 
+     {{ bonusAtributo.nombreAtributo }}: {{ bonusAtributo.valor }}
+    </p>  
+    </div>
+        
+</div>
+

@@ -168,6 +168,8 @@ export class SearchSetsComponent implements OnInit{
       
       if(this.setsToCompare.length>1){
         this.setdataSharedService.SetsToCompareList=this.setsToCompare;
+        this.setdataSharedService.setShowSetLeft = false; // Establecer en false antes de navegar
+        this.setdataSharedService.setShowSetRight = false; // Establecer en false antes de navegar
         this.router.navigate(['/sets/setsComparator']);
         this.showSuccess();
       }else{

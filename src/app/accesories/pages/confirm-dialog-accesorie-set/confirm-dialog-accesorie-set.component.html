@@ -1,0 +1,18 @@
+<div class="card-container indigo-container" > 
+    <div class="grid overflow-hidden justify-content-center text-center" >
+        <div class="col-12 p-2 m-2 overflow-hidden justify-content-center text-center" >
+            <span class="p-float-label">
+                <input pInputText placeholder="Set Name" id="setName" [(ngModel)]="userSetName" />
+                <p style="color: red;" *ngIf="warnMessage">You must write a name</p>
+            </span> 
+        </div>
+    </div><p-toast></p-toast>
+    <div class="grid overflow-hidden justify-content-center text-center" >
+        <div class="col-4 p-2 m-2 overflow-hidden justify-content-center text-center" >
+            <button type="button" pButton label="Yes" class="p-button-primary ml-2" (click)="accept()"></button>
+        </div>
+        <div class="col-4 p-2 m-2 overflow-hidden justify-content-center text-center" >
+            <button type="button" pButton label="No" class="p-button-danger mr-2" (click)="reject()"></button>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { ListAccesoriesComponent } from './pages/list-accesories/list-accesories
 import { CompareAccesoriesComponent } from './pages/compare-accesories/compare-accesories.component';
 import { CreateOwnAccesoriesComponent } from './pages/create-own-accesories/create-own-accesories.component';
 import { ViewOwnAccesoriesComponent } from './pages/view-own-accesories/view-own-accesories.component';
+import { CreateOwnAccesoriesSetComponent } from './pages/create-own-accesories-set/create-own-accesories-set.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     children:[
       { path:'list',component:ListAccesoriesComponent },
       { path:'accesoriesComparator', component:CompareAccesoriesComponent},
-      { path:'createOwnAccesories',component:CreateOwnAccesoriesComponent},
+      { path:'createOwnAccesories',component:CreateOwnAccesoriesSetComponent},
       { path:'viewOwnAccesories',component:ViewOwnAccesoriesComponent},
       { path:'**', redirectTo:'list'}
     ]

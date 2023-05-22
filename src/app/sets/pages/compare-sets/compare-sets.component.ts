@@ -61,6 +61,9 @@ export class CompareSetsComponent implements OnInit {
               numScroll: 1
           }
       ];
+      
+      this.setDataSharedService.setShowSetLeft = false; // Establecer en false antes de navegar
+      this.setDataSharedService.setShowSetRight = false; // Establecer en false antes de navegar
   }
 
   changeSetLeft(set:Set){

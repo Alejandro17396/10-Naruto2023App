@@ -30,9 +30,42 @@
 </p-table>
 </div> 
 <div class="border-1 surface-border border-round item mt-3 card" >
-    
+    <show-accesories 
+     [showAccesories]="showAccesories" 
+     [listaBonus]="listaBonus"
+     [attributesFilterList]="attributesFilterList"
+     (setsChanged)="handleDataFromChild($event)"
+     (showCompareView)="compareSets($event)">
+    </show-accesories>
 </div> 
-<div class="border-1 surface-border border-round item mt-3 card" >
-    
+<div class="border-1 surface-border border-round item mt-3 card" *ngIf="rechargeCompareAccesoriesSetList">
+    <p-table #setsTableToCompare [value]="accesoriesToCompare" selectionMode="single" [(selection)]="selectedCompareAccesorieSet"  
+    [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="name" >Sets to compare list</th>
+        </tr>
+        <tr>
+            <th>
+                <input pInputText type="text" (input)="filter($event,setsTableToCompare)" placeholder="Search by Name" class="w-full">
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-set  let-rowIndex="rowIndex">
+        <tr >
+            <td class="btn-cell">
+                <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
+                <a class="setName">{{set.nombre}}</a>
+                <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showAccesorieSetStats(rowIndex,'setCompareList')"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="4">No sets to compare.</td>
+        </tr>
+    </ng-template>
+    </p-table>
 </div> 
 </div>
+<p-toast></p-toast>
