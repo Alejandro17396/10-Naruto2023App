@@ -11,6 +11,8 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowNinjaComponent } from './pages/show-ninja/show-ninja.component';
+import { ViewNinjaDifferencesComponent } from './pages/view-ninja-differences/view-ninja-differences.component';
+import { ShowNinjaUserComponent } from './pages/show-ninja-user/show-ninja-user.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { ShowNinjaComponent } from './pages/show-ninja/show-ninja.component';
     NinjaCompareComponent,
     NinjaListComponent,
     ViewOwnNinjasComponent,
-    ShowNinjaComponent
+    ShowNinjaComponent,
+    ViewNinjaDifferencesComponent,
+    ShowNinjaUserComponent
   ],
   exports:[
     LayoutNinjasComponent,

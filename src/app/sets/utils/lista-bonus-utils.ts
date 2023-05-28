@@ -1,9 +1,35 @@
 import { AccesorieSet, Tipo } from 'src/app/accesories/interfaces/accesories.interfaces';
 import { ListaBonus } from '../interfaces/set.interfaces';
+import { Attribute } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 
 
 export class ListaBonusUtils {
 
+
+    static AttributeNinjaToListaBonus(attribute:Attribute):ListaBonus{
+        let response :ListaBonus = {
+            nombreAtributo:attribute.attributeName,
+            valor:attribute.value,
+            action:attribute.action,
+            impact:attribute.impact,
+            condition:attribute.condition,
+            time:attribute.time
+        }
+        return response; 
+    }
+
+    static ListaBonusToAttributeNinja(attribute:ListaBonus):Attribute{
+        let response :Attribute = {
+            attributeName:attribute.nombreAtributo,
+            value:attribute.valor,
+            action:attribute.action,
+            impact:attribute.impact,
+            condition:attribute.condition,
+            time:attribute.time,
+            color:"green"
+        }
+        return response; 
+    }
 
     static mergeBonusesAccesorieSet(set:AccesorieSet):AccesorieSet{
         let list :ListaBonus [] = [];
@@ -32,6 +58,36 @@ export class ListaBonusUtils {
 
         return returnList;
     }
+
+    static MergeNinjaTalentAttributes(attributes : Attribute[]):Attribute[]{
+        let mapa: Map<string,Attribute> = new Map<string,Attribute>();
+        attributes.forEach(
+            attribute =>{
+                var cad = ListaBonusUtils.getKeyAttributeNotTime(attribute);
+                let exist  = mapa.get(cad);
+                if(exist){
+                    exist.value += attribute.value;
+                    mapa.set(cad,exist);
+                }else{
+                    mapa.set(cad,JSON.parse(JSON.stringify(attribute)));
+                }
+            }
+        );
+
+        let result:Attribute[] = Array.from(mapa.values());
+        return result;
+    }
+
+    static getKeyAttributeNotTime(attribute:Attribute){
+        return JSON.stringify(attribute, function(key, value) {
+            var excludedFields = ["time","value"];
+           if (excludedFields.indexOf(key) !== -1) {
+              return undefined;
+            }
+            return value;
+        });
+    }
+
 
     static equals(l1:ListaBonus,l2:ListaBonus):number{
 

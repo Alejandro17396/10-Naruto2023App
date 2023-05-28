@@ -1,3 +1,4 @@
+
 export interface SetsResponsePaginated {
     content:          Set[];
     pageable:         Pageable;
@@ -212,15 +213,21 @@ export enum TypeItemSet{
 }
 
 export class ListaBonus {
+    
+    
     nombreAtributo: string;
     valor:          number;
-    action?:         string;
-    impact?:         string;
-    condition?:      string;
-    time?:           string;
+    action:         string;
+    impact:         string;
+    condition:      string;
+    time:           string;
 
     constructor(){
         this.nombreAtributo = '';
+        this.action= "";
+        this.impact= "";
+        this.condition= "";
+        this.time= "";
         this.valor = 0;
     }
 }

@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
-import { NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
+import { NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
 import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
@@ -15,6 +15,17 @@ export class NinjasService {
 
   getNinjas():Observable<NinjasResponsePaginated>{
     return this.http.get<NinjasResponsePaginated>(`${this.baseUrl}/ninjas`);
+  }
+
+  getUserNinjas():Observable<NinjaUserFormationDTO[]>
+  {
+    const url = `${this.baseUrl}/ninjas/findByUser`;
+    const headers = new HttpHeaders().set('Authorization', 
+    'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.get<NinjaUserFormationDTO[]>(url, {
+        headers
+    });
   }
 
   /*getNinjasComboSets(attributes : Atributo [],

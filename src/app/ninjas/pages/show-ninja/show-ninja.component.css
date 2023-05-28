@@ -1,0 +1,4 @@
+.custom-tab-panel {
+    height: 200px; /* Establece la altura fija deseada */
+    overflow-y: auto; /* Permite el desplazamiento vertical cuando el contenido excede la altura */
+  }

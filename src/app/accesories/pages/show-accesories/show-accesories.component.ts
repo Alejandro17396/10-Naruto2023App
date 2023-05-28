@@ -77,7 +77,7 @@ export class ShowAccesoriesComponent implements OnInit{
       this.attributesFilterList.forEach(attribute =>{
         attributes.push({nombre:attribute.name});
         order.push({nombre:attribute.name});
-        attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value});
+        attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value,action:"",impact:"",condition:"",time:""});
       });
 
       this.accesoriesService.getAccesoriesComboSets(

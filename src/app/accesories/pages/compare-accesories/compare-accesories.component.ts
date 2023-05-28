@@ -64,7 +64,6 @@ export class CompareAccesoriesComponent implements OnInit{
     console.log(accesorieSet)
     console.log(accesorieSet2)
     if(this.setCompareRight){
-      console.log("si hay set der para comparar")
       this.setCompareLeft = this.calculateDifferences(JSON.parse(JSON.stringify(accesorieSet)),
       JSON.parse(JSON.stringify(this.setRight)));
       this.setCompareRight = this.calculateDifferences(JSON.parse(JSON.stringify(this.setRight)),
@@ -74,7 +73,6 @@ export class CompareAccesoriesComponent implements OnInit{
       this.accesoriesSharedDataService.setRight = this.setCompareRight;
       this.accesoriesSharedDataService.setShowSetLeft= true;
     }else{
-      console.log("no hay set der para comparar")
       this.setCompareLeft = JSON.parse(JSON.stringify(accesorieSet));
       this.setLeft = JSON.parse(JSON.stringify(accesorieSet));
       this.accesoriesSharedDataService.setLeft = this.setCompareLeft;
@@ -88,7 +86,6 @@ export class CompareAccesoriesComponent implements OnInit{
     console.log(accesorieSet)
     console.log(accesorieSet2)
     if(this.setCompareLeft){
-      console.log("si hay set izq para comparar")
       this.setCompareRight = this.calculateDifferences(JSON.parse(JSON.stringify(accesorieSet)),
       JSON.parse(JSON.stringify(this.setLeft)));
       this.setCompareLeft = this.calculateDifferences(JSON.parse(JSON.stringify(this.setLeft)),
@@ -98,7 +95,6 @@ export class CompareAccesoriesComponent implements OnInit{
       this.accesoriesSharedDataService.setLeft = this.setCompareLeft;
       this.accesoriesSharedDataService.setShowSetRight= true;
     }else{
-      console.log("no hay set izq para comparar")
       this.setCompareRight = JSON.parse(JSON.stringify(accesorieSet));
       this.setRight = JSON.parse(JSON.stringify(accesorieSet));
       this.accesoriesSharedDataService.setRight = this.setCompareRight;

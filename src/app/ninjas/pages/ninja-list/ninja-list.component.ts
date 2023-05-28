@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
 import { Ninja } from '../../interfaces/Ninja.interfaces';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { NinjasService } from '../../services/ninjas-service.service';
 import { AccesoriesSharedDataService } from 'src/app/shared/services/accesories-shared-data.service';
 import { NinjasSharedDataService } from '../../services/ninjas-shared-data.service';
+import { ShowNinjaComponent } from '../show-ninja/show-ninja.component';
 
 @Component({
   selector: 'app-ninja-list',
@@ -27,13 +28,13 @@ export class NinjaListComponent implements OnInit{
     this.ninjasService.getNinjas().subscribe(
       response =>{
         this.ninjas = response.ninjas;
-        console.log(this.ninjas);
+        console.log(this.ninjas); 
       }
     )
   }
 
   filter(elemento:any,elemento2:any){
-    elemento2.filter(elemento.target.value,'nombre', 'contains');
+    elemento2.filter(elemento.target.value,'name', 'contains');
     console.log(elemento2);
   }
 
@@ -43,11 +44,26 @@ export class NinjaListComponent implements OnInit{
   rechargeCompareNinjasList:boolean = true;
   selectedNinja!:Ninja;
   selectedCompareNinja!:Ninja;
-  showNinja!:Ninja ;//= AccesorieSet.createSetAux();
+  showNinja:Ninja = Ninja.createNinja();
   listaBonus: ListaBonus[] = [];
   attributesFilterList:BonusAttribute[]=[];
+  @ViewChild(ShowNinjaComponent)
+  hijoComponent!: ShowNinjaComponent;
 
   showNinjaStats(index:number,table:string){
+    if(table === 'setCompareList'){
+      this.showNinja=this.ninjas[index];
+    }else{
+      this.showNinja=this.ninjas[index];
+    }
+    if(this.hijoComponent){
+      this.hijoComponent.setShowNinja(this.showNinja);
+      console.log("existo" +index);
+      console.log(this.showNinja);
+    }
+
+
+
   }
 
   addNinjaToCompare(rowIndex:number){

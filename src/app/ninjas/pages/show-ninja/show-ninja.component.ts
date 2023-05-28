@@ -1,40 +1,91 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NinjasService } from '../../services/ninjas-service.service';
 import { Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
-import { Ninja } from '../../interfaces/Ninja.interfaces';
+import { Ninja, SkillType } from '../../interfaces/Ninja.interfaces';
 import { FilterSetPanelComponent } from 'src/app/sets/pages/filter-set-panel/filter-set-panel.component';
+import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 
 @Component({
-  selector: 'app-show-ninja',
+  selector: 'show-ninja',
   templateUrl: './show-ninja.component.html',
-  styleUrls: ['./show-ninja.component.css']
+  styleUrls: ['./show-ninja.component.css'],
+  providers:[DialogService,MessageService,ConfirmationService]
 })
 export class ShowNinjaComponent implements OnInit{
 
   ngOnInit(): void {
+    this.setShowNinja(this.showNinja);
+   
+  }
+
+
+  setShowNinja(ninja:Ninja){
+    console.log(ninja);
+    this.showNinja = ninja;
+    let mapa : Map<string,ListaBonus[]> = new Map<string,ListaBonus[]>();
+    this.showNinja.skills.forEach(skill =>{
+      if(skill.type === SkillType.Talent){
+        this.listaBonus = [];
+        skill.attributes.forEach( attribute =>{
+         let aux :ListaBonus = ListaBonusUtils.AttributeNinjaToListaBonus(attribute);
+         this.listaBonus.push(aux);
+        });
+        this.listaBonus.forEach(bonus =>{
+          let value:ListaBonus []|undefined;
+          if(bonus.action){
+            value = mapa.get(bonus.action);
+          }
+           
+          if(value){
+            value.push(bonus);
+            if(bonus.action){
+              mapa.set(bonus.action,value)
+            }
+          }else{
+            value = [];
+            value.push(bonus);
+            if(bonus.action){
+              mapa.set(bonus.action,value)
+            } 
+          }
+        })
+        console.log(mapa);
+        this.mapaBonuses = mapa;
+      }
+    });
+   /* this.showStats = false;
+    setTimeout(() => {
+      this.showStats = true;
+    }, 0);*/
+    this.cdr.detectChanges();
   }
 
   constructor(public dialogService: DialogService,
     private ninjasService:NinjasService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService){}
+    private confirmationService: ConfirmationService,
+    private cdr: ChangeDetectorRef){}
 
-  @Input() showNinja!:Ninja;
+  @Input() showNinja:Ninja = Ninja.createNinja();
+  
   @Input() listaBonus!: ListaBonus[];
   @Input() attributesFilterList!:BonusAttribute[];
   @Input() showButtons:boolean = true;
   @Output() ninjasChanged: EventEmitter<Ninja[]>= new EventEmitter<Ninja[]>() ;
   @Output() showCompareView: EventEmitter<string>= new EventEmitter<string>() ;
             ninjas:Ninja[]=[];
-
+            mapaBonuses : Map<string,ListaBonus[]> = new Map<string,ListaBonus[]>();
+            loading : boolean = true;
+            showStats: boolean = true;
   filter:Filters = {
     order:false,
     filter:false,
     set:"All sets"
   };
+  var:string ="wwk";
   setFilter!:Ninja;// = new AccesorieSet("",[],[]);
   displayConfirmDialog:boolean = false;
     
@@ -42,7 +93,7 @@ export class ShowNinjaComponent implements OnInit{
 
 
   showFilterPanel(){
-    const data = {
+    /*const data = {
       attributesFilterList: this.attributesFilterList,
       filters: this.filter,
       setFilter :this.setFilter
@@ -55,11 +106,11 @@ export class ShowNinjaComponent implements OnInit{
       baseZIndex: 10000,
       maximizable: true,
       data: data
-    });
+    });*/
   }
 
   compareSets(){
-    this.showCompareView.emit("CompareSets");
+    //this.showCompareView.emit("CompareSets");
 
   }
 

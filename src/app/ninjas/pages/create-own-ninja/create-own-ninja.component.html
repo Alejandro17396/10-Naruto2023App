@@ -1,1 +1,173 @@
-<p>create-own-ninja works!</p>
+<div class="grid container" style="background: #2a323d;">
+    <!-- style="border: 1px solid #ffffff;" -->
+<div class="col-4 border-1 surface-border border-round m-2" *ngIf="rechargeNinjasList" style="border: 1px solid black;">
+    
+    <p-tabView [scrollable]="true">
+        <!-- NINJAS -->
+        <p-tabPanel header="ninjas" *ngIf="ninjas.length>0" > 
+            <p-table #ninjasTable [value]="ninjas" selectionMode="single" [(selection)]="selectedNinja"  
+            [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name" >Ninjas list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" (input)="filter($event,ninjasTable,'name')" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-ninja let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <img src="assets/images/ninjas/images/{{ninja.name}}.jpg" alt="" style="height:50px; width:50px;">
+                        <a class="setName">{{ninja.name}}</a>
+                        <p-button label="Add" styleClass="p-button-primary" (click)="showNinja(ninja,rowIndex)" ></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <!-- SETS ITEMS -->
+        <p-tabPanel header="equipmentItems" *ngIf="setsItems.length>0">
+            <p-table #setItemsTable [value]="setsItems" selectionMode="single" [(selection)]="selectedNinja"  
+            [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre" >Sets list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" (input)="filter($event,setItemsTable,'nombre')" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-set let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <img src="assets/images/sets/{{set.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                        <a class="setName">{{set.nombre}}</a>
+                        <p-button label="Add" styleClass="p-button-primary"  (click)="addSetItem(set)"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <!-- ACCESORIES ITEMS -->
+        <p-tabPanel header="accesoriesItems" *ngIf="accesoriesItems.length>0">
+            <p-table #accesoriesItemsTable [value]="accesoriesItems" selectionMode="single" [(selection)]="selectedNinja"  
+            [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre" >Sets list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" (input)="filter($event,accesoriesItemsTable,'nombre')" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <img src="assets/images/accesorios/{{accesorieSet.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                        <a class="setName">{{accesorieSet.nombre}}</a>
+                        <p-button label="Add" styleClass="p-button-primary" (click)="addAccesoriesSetItem(accesorieSet)"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+            </p-table>
+        </p-tabPanel>
+
+        <p-tabPanel header="Your Equipments" *ngIf="userSets.length>0">
+            <p-table #userSetsTable [value]="userSets" selectionMode="single" [(selection)]="selectedNinja"  
+            [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre" >Sets list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" (input)="filter($event,userSetsTable,'nombre')" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-set let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <a class="setName">{{set.nombre}}</a>
+                        <p-button label="Add" styleClass="p-button-primary"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+            </p-table>
+        </p-tabPanel>
+        <p-tabPanel header="Your AccesorieSet" *ngIf="userAccesoriesSet.length>0">
+            <p-table #accesoriesUserTable [value]="userAccesoriesSet" selectionMode="single" [(selection)]="selectedNinja"  
+            [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre" >Sets list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" (input)="filter($event,accesoriesUserTable,'nombre')" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                       <a class="setName">{{accesorieSet.nombre}}</a>
+                        <p-button label="Add" styleClass="p-button-primary" ></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+            </p-table>
+        </p-tabPanel>
+    </p-tabView>
+
+</div> 
+
+<div class="col-7 border-1 surface-border border-round  m-2 card justify-content-center text-center" >
+    <show-ninja-user
+    [ninjaShow]="ninjaShow"
+    [canModify]="!modify"
+    [accesorieSetName]="accesorieSetName"
+    [setName]="setName"
+    [ninjaName]="ninjaName"
+    (modifyNinja)="modifyNinja($event)"
+    (deleteNinja)="deleteNinja($event)"
+    (createNinja)="createNinja($event)"
+    (updateNinja)="updateNinja($event)"
+    (deleteItemSetNinja)="deleteSetItem($event)"
+    (deleteItemAccesoriesSetNinja)="deleteAccesoriesSetItem($event)"
+    (deleteNinjaUser_)="deleteNinjaFromUser($event)">
+    </show-ninja-user>
+</div>
+</div>

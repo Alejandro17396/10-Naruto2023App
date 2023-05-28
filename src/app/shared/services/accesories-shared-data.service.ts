@@ -60,7 +60,6 @@ export class AccesoriesSharedDataService {
   }
 
   set setShowSetLeft(value:boolean){
-    console.log("pongo el mostrar a " +value)
     this._showSetLeft.next(value);
   }
 
@@ -69,7 +68,6 @@ export class AccesoriesSharedDataService {
   }
 
   set setShowSetRight(value:boolean){
-    console.log("pongo el mostrar a " +value)
     this._showSetRight.next(value);
   }
 }

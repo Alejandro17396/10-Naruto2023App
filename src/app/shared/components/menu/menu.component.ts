@@ -63,11 +63,11 @@ export class MenuComponent  implements OnInit {
             routerLink:'/ninjas/NinjasComparator'
           },
           {
-            label:'View own accesories combo',
+            label:'View own ninja combo',
             routerLink:'/ninjas/viewOwnNinjas'
           },
           {
-            label:'Create own accesories combo',
+            label:'Create own ninja combo',
             routerLink:'/ninjas/createOwnNinjas'
           }
         ]
