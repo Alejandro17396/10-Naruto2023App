@@ -6,6 +6,7 @@ import { NinjasService } from '../../services/ninjas-service.service';
 import { Ninja, NinjaUserFormationDTO, Skill } from '../../interfaces/Ninja.interfaces';
 import { ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
+import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
 
 @Component({
   selector: 'app-view-own-ninjas',
@@ -71,7 +72,7 @@ export class ViewOwnNinjasComponent implements OnInit{
   showNinja(ninja:NinjaUserFormationDTO,index:number){
     
     this.indexSelectedNinja = index;
-    this.ninja = ninja.ninja;
+    //this.ninja = ninja.ninja;
     this.ninjaShow = ninja;
     let listaBonusL:ListaBonus [] = [];
     console.log(ninja);
@@ -99,11 +100,11 @@ export class ViewOwnNinjasComponent implements OnInit{
     console.log("tengo que eliminar");
   }
 
-  createNinja(cadena:string){
+  create(cadena:SaveElement){
     console.log("tengo que crear");
   }
 
-  updateNinja(cadena:string){
+  updateNinja(cadena:SaveElement){
     console.log("tengo que update");
     this.modify =false;
   }

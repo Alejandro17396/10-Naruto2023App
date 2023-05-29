@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Ninja, NinjaUserFormationDTO, Skill } from '../../interfaces/Ninja.interfaces';
-import { Bonus, ListaBonus, Set, TypeItemSet } from 'src/app/sets/interfaces/set.interfaces';
+import { Attribute, Attribute2, ICreateUserNinja, Ninja, NinjaUserFormationDTO, Skill, SkillType } from '../../interfaces/Ninja.interfaces';
+import { Bonus, ICreateUserSet, ListaBonus, Set, TypeItemSet } from 'src/app/sets/interfaces/set.interfaces';
 import { NinjasService } from '../../services/ninjas-service.service';
 import { Router } from '@angular/router';
 import { NinjasSharedDataService } from '../../services/ninjas-shared-data.service';
@@ -9,7 +9,7 @@ import { AccesoriesService } from '../../../accesories/services/accesories.servi
 import { SetsService } from '../../../sets/services/sets.service';
 import { UserSetDTOResponse } from '../../../sets/interfaces/set.interfaces';
 import { Parte as ParteSet } from 'src/app/sets/interfaces/set.interfaces';
-import {Parte as ParteAccesorio, TypeAccesorieItemSet} from 'src/app/accesories/interfaces/accesories.interfaces';
+import {ICreateUserAccesorieSet, Parte as ParteAccesorio, TypeAccesorieItemSet} from 'src/app/accesories/interfaces/accesories.interfaces';
 
 import { AccesorieSet, ContentBonus, Tipo} from 'src/app/accesories/interfaces/accesories.interfaces';
 import { UserAccesorieSetDTO } from '../../../accesories/interfaces/accesories.interfaces';
@@ -17,6 +17,9 @@ import { SetItemsService } from 'src/app/sets/services/set-items-service.service
 import { concatMap, partition } from 'rxjs';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 import { AccesorieSetItemsService } from 'src/app/accesories/services/accesorie-set-items.service';
+import { NinjaUtils } from '../../utils/NinjaUtils';
+import { HttpResponse } from '@angular/common/http';
+import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
 
 
 
@@ -39,25 +42,6 @@ export class CreateOwnNinjaComponent {
     private ninjasDataSharedService:NinjasSharedDataService){}
 
   ngOnInit(): void {
-    this.ninjasService.getUserNinjas().subscribe(
-      response =>{
-        this.ninjasUser = response;
-        if(response.length > 0){
-          this.ninjaShow = response[0];
-          if(response[0].accesories && response[0].accesories.nombre){
-            this.accesorieSetName = response[0].accesories.nombre;
-          }
-          if(response[0].equipment && response[0].equipment.nombre){
-            this.setName =  response[0].equipment.nombre;
-          }
-          if(response[0].nombre){
-            this.ninjaName =  response[0].nombre;
-          }
-        }
-        this.setItemUsed(this.ninjaShow.equipment.partes);
-        this.setAccesoriesItemUsed(this.ninjaShow.accesories.partes);
-      }
-    );
     this.ninjasService.getNinjas().subscribe(
       response =>{
         this.ninjas = response.ninjas;
@@ -86,14 +70,12 @@ export class CreateOwnNinjaComponent {
           });
         });
         return this.setItemsService.getSetItems();
-      })
-    ).
-    subscribe((response) => {
-      this.setsItems = response;
-    });
-
-    this.accesoriesService.getAccesories().pipe(
-      concatMap((response) => {
+      }),
+      concatMap((response)=>{
+        this.setsItems = response;
+        return this.accesoriesService.getAccesories();
+      }),
+      concatMap((response)=>{
         response.content.forEach((set) => {
           //let bonus: ContentBonus[] = set.bonuses;
           set.bonuses.forEach((bonus) => {
@@ -123,18 +105,31 @@ export class CreateOwnNinjaComponent {
           });
         });
         return this.accesorieSetItemsService.getSetItems();
-      })
-    ).subscribe((response) => {
+      }),
+      concatMap((response) =>{
         this.accesoriesItems = response;
+        return this.ninjasService.getUserNinjas();
+      })
+    ).
+    subscribe((response) => {
+      this.ninjasUser = response;
+        if(response.length > 0){
+          this.ninjaShow = response[0];
+          if(response[0].accesories && response[0].accesories.nombre){
+            this.accesorieSetName = response[0].accesories.nombre;
+          }
+          if(response[0].equipment && response[0].equipment.nombre){
+            this.setName =  response[0].equipment.nombre;
+          }
+          if(response[0].nombre){
+            this.ninjaName =  response[0].nombre;
+          }
+        }
+        this.setItemUsed(this.ninjaShow.equipment.partes);
+        this.setAccesoriesItemUsed(this.ninjaShow.accesories.partes);
+        this.addNinja(this.ninjaShow.ninja); 
     });
 
-    /*this.accesoriesService.getAccesories().subscribe(
-      response =>{
-        response.content.forEach(set =>{
-          this.accesoriesItems.push(...set.partes);
-        })
-      }
-    );*/
 
     this.setsService.getUserSets().subscribe(
       response =>{
@@ -188,6 +183,24 @@ export class CreateOwnNinjaComponent {
 
   modify:boolean =false;
 
+  addUserSet(set:UserSetDTOResponse){
+    this.typeItemsAdded = [];
+    this.ninjaShow.equipment = JSON.parse(JSON.stringify(set));
+    this.setItemUsed(set.partes);
+    this.calculateFinalBonus();
+    this.setName = set.nombre;
+  }
+
+
+  addUserAccesorieSet(accesorieSet:UserAccesorieSetDTO){
+    this.typeAccesorieItemsAdded = [];
+    this.ninjaShow.accesories = JSON.parse(JSON.stringify(accesorieSet));
+    this.setAccesoriesItemUsed(accesorieSet.partes);
+    this.calculateFinalBonus();
+    this.accesorieSetName = accesorieSet.nombre;
+    //console.log(accesorieSet);
+  }
+
   setItemUsed(parts:ParteSet[]){
 
     parts.forEach(
@@ -203,6 +216,10 @@ export class CreateOwnNinjaComponent {
             break;
           }
         }
+        let setName = this.setsByItemMap.get(part.nombre)?.nombre;
+        if(setName){
+          part.setName = setName;
+        }
      }
     )
   }
@@ -215,12 +232,16 @@ export class CreateOwnNinjaComponent {
         for(let key of Object.values(TypeAccesorieItemSet)){
           if(part.nombre.includes(key)){
             type = key;
-            if(this.typeItemsAdded.includes(key)){
+            if(this.typeAccesorieItemsAdded.includes(key)){
               return;
             }
-            this.typeItemsAdded.push(type);
+            this.typeAccesorieItemsAdded.push(type);
             break;
           }
+        }
+        let setName = this.accesoriesByItemMap.get(part.nombre)?.nombre;
+        if(setName){
+          part.setName = setName;
         }
       }
     );
@@ -242,9 +263,12 @@ export class CreateOwnNinjaComponent {
   }
 
   showNinja(ninja:NinjaUserFormationDTO,index:number){
-    
-   // this.indexSelectedNinja = index;
-    this.ninja = ninja.ninja;
+    if(ninja?.ninja){
+      this.ninja = ninja.ninja;
+    }else{
+      this.ninja = Ninja.createNinja();
+    }
+   
     this.ninjaShow = ninja;
     let listaBonusL:ListaBonus [] = [];
     console.log(ninja);
@@ -274,14 +298,8 @@ export class CreateOwnNinjaComponent {
     }
 
     if(this.ninjaShow.equipment.partes.length < 6 ){
-      console.log("siii")
-      let setName = this.setsByItemMap.get(item.nombre)?.nombre;
-      if(setName){
-        item.setName = setName;
       this.ninjaShow.equipment.partes.push(item);
-      this.calculateBonuses(this.ninjaShow.equipment.partes);
-      }
-      
+      this.calculateFinalBonus();
     }else{
       console.log("nooo")
     }
@@ -301,57 +319,10 @@ export class CreateOwnNinjaComponent {
     } 
     
     this.ninjaShow.equipment.partes = resultado;
-    this.calculateBonuses(this.ninjaShow.equipment.partes);
-    console.log("toca elimianr un item del set")
+    this.calculateFinalBonus();
   }
 
-  calculateBonuses(partes: ParteSet[]) {
-
-    let mapa: Map<string,number> = new Map<string,number>();
-    partes.forEach(item =>{
-      let num = mapa.get(item.setName);
-      if(num){
-        mapa.set(item.setName,(num+1));
-      }else{
-        mapa.set(item.setName,1);
-      }
-    });
-
-    this.findBonuses(mapa);
-  }
-
-  findBonuses(mapa: Map<string, number>) {
-    let listBonusL : ListaBonus [] = [];
-    mapa.forEach((key,value)=>{
-        let num = Number(key);
-        if(num >= 2){
-          let bonus = this.bonusesMap.get("2 "+value);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.listaBonus));
-            listBonusL.push(...listaAux);
-          }
-        }
-
-        if(num >= 4){
-          let bonus = this.bonusesMap.get("4 "+value);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.listaBonus));
-            listBonusL.push(...listaAux);
-          }
-        }
-
-        if(num >= 6){
-          let bonus = this.bonusesMap.get("6 "+value);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.listaBonus));
-            listBonusL.push(...listaAux);
-          }
-        }
-    });
-    this.listaBonus = ListaBonusUtils.mergeListBonus(listBonusL);
-    console.log(this.listaBonus);
-  }
-
+ 
   //Parte Accesorios
 
   addAccesoriesSetItem(item:ParteAccesorio){
@@ -359,20 +330,16 @@ export class CreateOwnNinjaComponent {
     for(let key of Object.values(TypeAccesorieItemSet)){
       if(item.nombre.includes(key)){
         type = key;
-        if(this.typeItemsAdded.includes(key)){
+        if(this.typeAccesorieItemsAdded.includes(key)){
           return;
         }
-        this.typeItemsAdded.push(type);
+        this.typeAccesorieItemsAdded.push(type);
         break;
       }
     }
     if(this.ninjaShow.accesories.partes.length < 8 ){
-      let setName = this.accesoriesByItemMap.get(item.nombre)?.nombre;
-      if(setName){
-      item.setName =setName;
       this.ninjaShow.accesories.partes.push(item);
-      this.calculateAccesoriesSetBonuses(this.ninjaShow.accesories.partes);
-      }
+      this.calculateFinalBonus();
     }
   }
 
@@ -382,93 +349,42 @@ export class CreateOwnNinjaComponent {
     if(itemToDelete){
       for(let key of Object.values(TypeAccesorieItemSet)){
         if(itemToDelete.nombre.includes(key)){
-          this.typeItemsAdded = this.typeItemsAdded.filter(type => type != key);
+          this.typeAccesorieItemsAdded = this.typeAccesorieItemsAdded.filter(type => type != key);
         }
       }
     }
     
     this.ninjaShow.accesories.partes = resultado;
-    this.calculateAccesoriesSetBonuses(this.ninjaShow.accesories.partes);
-  }
-  
-
-  calculateAccesoriesSetBonuses(partes: ParteAccesorio[]) {
-
-    let mapa: Map<string,number> = new Map<string,number>();
-    partes.forEach(item =>{
-      let num = mapa.get(item.tipo + " " + item.setName);
-      if(num){
-        mapa.set(item.tipo + " " + item.setName,(num+1));
-      }else{
-        mapa.set(item.tipo + " " + item.setName,1);
-      }
-    });
-
-    this.findAccesoriesSetBonuses(mapa,this.isFullSet(partes));
-
+    this.calculateFinalBonus();
   }
 
-  isFullSet(partes:ParteAccesorio[]){
-    let setN:string|undefined = partes[0].setName;
-    let returnValue:string | undefined = Tipo.FullSetBonus+" "+partes[0].setName;
-    let cont = 0;
-    partes.forEach(item =>{
-          if(setN === item.setName){
-           cont++;
-          }
-    });
-    if(cont == 8){
-      return returnValue;
-    }else{
-      return undefined;
-    }
-    
-  }
-
-  findAccesoriesSetBonuses(mapa: Map<string, number>,isFull:string|undefined) {
-    let listBonusL : ListaBonus [] = [];
-    mapa.forEach((key,value)=>{
-        let num = Number(key);
-        if(num == 2){
-          let bonus = this.bonusesAccesorieMap.get(value);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.bonuses));
-            listBonusL.push(...listaAux);
-          }
-        }
-
-        if(num >= 4){
-          let bonus = this.bonusesAccesorieMap.get("4 "+value);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.bonuses));
-            listBonusL.push(...listaAux);
-          }
-        }
-
-        if(num >= 6){
-          let bonus = this.bonusesAccesorieMap.get("6 "+value);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.bonuses));
-            listBonusL.push(...listaAux);
-          }
-        }
-    });
-
-    if(isFull){
-      let bonus = this.bonusesAccesorieMap.get(isFull);
-          if(bonus){
-            let listaAux :ListaBonus[] = JSON.parse(JSON.stringify(bonus.bonuses));
-            listBonusL.push(...listaAux);
-          }
-    }
-    this.listaBonus = ListaBonusUtils.mergeListBonus(listBonusL);
-    console.log(this.listaBonus);
-  }
-
+  equipmentUserBonusList:ListaBonus [] = [];
+  accesoriesUserBonusList:ListaBonus [] = [];
+  ninjaUserBonusList:Attribute[] = [];
+  finalNinjaUserBonusList:Attribute2[] = [];
   //Parte del Ninja
+
+  addNinja(ninja:Ninja){
+    
+      this.ninjaShow.ninja = ninja;
+      this.calculateFinalBonus();
+  }
+
+  calculateFinalBonus(){
+    let body : ICreateUserNinja = NinjaUtils.NinjaUserDTOToICreateNinjaUser(this.ninjaShow);
+      this.ninjasService.calculateNinjaUserFinalBonuses(body).subscribe(
+        response =>{
+          this.ninjaShow.selfBonusWithItems = response.selfBonusWithItems;
+          /*this.finalNinjaUserBonusList = response.selfBonusWithItems[0].listaBonus;
+          console.log(this.finalNinjaUserBonusList);*/
+        }
+    );
+   // console.log("aaauuuu");
+  }
 
   deleteNinjaFromUser(ninja:Ninja){
     console.log(ninja);
+   // this.ninjaShow.ninja = undefined;
 
   }
 
@@ -481,13 +397,207 @@ export class CreateOwnNinjaComponent {
     console.log("tengo que eliminar");
   }
 
-  createNinja(cadena:string){
-    console.log("tengo que crear");
+  create(element:SaveElement){
+    console.log(element)
+    if(element.type === 'ninja'){
+      this.ninjaName = element.name;
+      this.saveNinja();
+    }
+
+    if(element.type === 'set'){
+      this.setName = element.name;
+      this.saveSet();
+    }
+
+    if(element.type === 'accesories'){
+      this.accesorieSetName = element.name;
+      this.saveAccesorieSet();
+    }
   }
 
-  updateNinja(cadena:string){
-    console.log("tengo que update");
-    this.modify =false;
+  update(element:SaveElement){
+
+    if(element.type === 'ninja'){
+      this.ninjaName = element.name;
+      this.updateNinja();
+    }
+
+    if(element.type === 'set'){
+      this.setName = element.name;
+      this.updateSet();
+    }
+
+    if(element.type === 'accesories'){
+      this.accesorieSetName = element.name;
+      this.updateAccesorieSet();
+    }
+
+  }
+
+  updateNinja(){
+    if(this.ninjaShow.ninja && this.ninjaName && this.ninjaName.length > 4 ){
+      this.ninjaShow.nombre = this.ninjaName;
+      let body : ICreateUserNinja = NinjaUtils.NinjaUserDTOToICreateNinjaUser(this.ninjaShow);
+      
+      this.ninjasService.updateNinjaUser(body).subscribe(
+        (response: HttpResponse<NinjaUserFormationDTO>) => {
+          const statusCode = response.status; // Código de respuesta
+          console.log(statusCode);
+          // Resto del manejo de la respuesta
+          this.showSuccess("Ninja "+ this.ninjaName +" updated succesfully");
+        },
+        (error) =>{
+          console.log(error.error);
+          this.showError(error.error.message);
+        }
+      );
+     }else{
+      this.showError("Cant update the ninja name must have 4 characters");
+     }
+  }
+
+  saveNinja(){
+    if(this.ninjaShow.ninja && this.ninjaName && this.ninjaName.length > 4 ){
+      this.ninjaShow.nombre = this.ninjaName;
+      let body : ICreateUserNinja = NinjaUtils.NinjaUserDTOToICreateNinjaUser(this.ninjaShow);
+      console.log("qqq"+this.ninjaShow.nombre);
+      this.ninjasService.createNinjaUser(body).subscribe(
+        /*response => {
+          console.log(response.status);
+        }*/
+        (response: HttpResponse<NinjaUserFormationDTO>) => {
+          const statusCode = response.status; // Código de respuesta
+          console.log(statusCode);
+          this.showSuccess("Ninja " + this.ninjaName + " saved succesfully");
+        },
+        (error) =>{
+          console.log(error.error);
+          this.showError(error.error.message);
+        }
+      );
+     }else{
+      this.showError("Cant save the ninja name must have 4 characters");
+     }
+  }
+
+  updateSet(){
+    if(this.ninjaShow.equipment.partes.length>0 && this.setName && this.setName.length > 6 ){
+      let itemsName:string [] = [];
+      this.ninjaShow.equipment.partes.forEach( item => itemsName.push(item.nombre));
+      let body : ICreateUserSet = {
+        setName:this.setName,
+        equipment:itemsName
+      }
+      this.setsService.updateUserSet(body).subscribe(
+        /*response => {
+          console.log(response.status);
+        }*/
+        (response: HttpResponse<UserSetDTOResponse>) => {
+          const statusCode = response.status; // Código de respuesta
+          console.log(statusCode);
+          // Resto del manejo de la respuesta
+          this.showSuccess("Set "+ this.setName +" updated succesfully");
+        },
+        (error) =>{
+          console.log(error.error);
+          this.showError(error.error.message);
+        }
+      );
+     }else{
+      this.showError("Cant update the set name must have 6 characters and 6 items");
+     }
+  }
+
+  saveSet(){
+    if(this.ninjaShow.equipment.partes.length>0 && this.setName && this.setName.length > 6 ){
+      let itemsName:string [] = [];
+      this.ninjaShow.equipment.partes.forEach( item => itemsName.push(item.nombre));
+      let body : ICreateUserSet = {
+        setName:this.setName,
+        equipment:itemsName
+      }
+      this.setsService.createUserSet(body).subscribe(
+        /*response => {
+          console.log(response.status);
+        }*/
+        (response: HttpResponse<UserSetDTOResponse>) => {
+          const statusCode = response.status; // Código de respuesta
+          console.log(statusCode);
+          // Resto del manejo de la respuesta
+          this.showSuccess("Set " + this.setName + " saved succesfully");
+        },
+        (error) =>{
+          console.log(error.error);
+          this.showError(error.error.message);
+        }
+      );
+     }else{
+      this.showError("Cant save the set name must have 6 characters and 6 items");
+     }
+  }
+
+  updateAccesorieSet(){
+    if(this.ninjaShow.accesories.partes.length>0 && this.accesorieSetName && this.accesorieSetName.length > 6 ){
+      let itemsName:string [] = [];
+      this.ninjaShow.accesories.partes.forEach( item => itemsName.push(item.nombre));
+      let body : ICreateUserAccesorieSet = {
+        accesorieSetName:this.accesorieSetName,
+        accesories:itemsName
+      }
+      this.accesoriesService.updateUserSet(body).subscribe(
+        /*response => {
+          console.log(response.status);
+        }*/
+        (response: HttpResponse<UserAccesorieSetDTO>) => {
+          const statusCode = response.status; // Código de respuesta
+          console.log(statusCode);
+          // Resto del manejo de la respuesta
+          this.showSuccess("Set "+ this.accesorieSetName +" updated succesfully");
+        },
+        (error) =>{
+          console.log(error.error);
+          this.showError(error.error.message);
+        }
+      );
+     }else{
+      this.showError("Cant update the set name must have 6 characters and 6 items");
+     }
+  }
+
+  saveAccesorieSet(){
+    if(this.ninjaShow.accesories.partes.length>0 && this.accesorieSetName && this.accesorieSetName.length > 6 ){
+      let itemsName:string [] = [];
+      this.ninjaShow.accesories.partes.forEach( item => itemsName.push(item.nombre));
+      let body : ICreateUserAccesorieSet = {
+        accesorieSetName:this.accesorieSetName,
+        accesories:itemsName
+      }
+      this.accesoriesService.createUserSet(body).subscribe(
+        /*response => {
+          console.log(response.status);
+        }*/
+        (response: HttpResponse<UserAccesorieSetDTO>) => {
+          const statusCode = response.status; // Código de respuesta
+          console.log(statusCode);
+          // Resto del manejo de la respuesta
+          this.showSuccess("Set " + this.accesorieSetName + " saved succesfully");
+        },
+        (error) =>{
+          console.log(error.error);
+          this.showError(error.error.message);
+        }
+      );
+     }else{
+      this.showError("Cant save the set name must have 6 characters and 6 items");
+     }
+  }
+
+  showSuccess(text:string) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: text });
+  }
+
+  showError(text:string) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: text });
   }
  
 }

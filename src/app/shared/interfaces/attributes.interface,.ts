@@ -6,6 +6,11 @@ export class Attribute {
     }
 }
 
+export interface SaveElement{
+    type:string;
+    name:string;
+}
+
 export class BonusAttribute {
     name: string;
     value: number

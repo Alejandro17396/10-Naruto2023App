@@ -22,7 +22,7 @@
                     <td class="btn-cell">
                         <img src="assets/images/ninjas/images/{{ninja.name}}.jpg" alt="" style="height:50px; width:50px;">
                         <a class="setName">{{ninja.name}}</a>
-                        <p-button label="Add" styleClass="p-button-primary" (click)="showNinja(ninja,rowIndex)" ></p-button>
+                        <p-button label="Add" styleClass="p-button-primary" (click)="addNinja(ninja)" ></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -111,7 +111,7 @@
                 <tr >
                     <td class="btn-cell">
                         <a class="setName">{{set.nombre}}</a>
-                        <p-button label="Add" styleClass="p-button-primary"></p-button>
+                        <p-button label="Add" styleClass="p-button-primary" (click)="addUserSet(set)"></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -139,7 +139,7 @@
                 <tr >
                     <td class="btn-cell">
                        <a class="setName">{{accesorieSet.nombre}}</a>
-                        <p-button label="Add" styleClass="p-button-primary" ></p-button>
+                        <p-button label="Add" styleClass="p-button-primary" (click)="addUserAccesorieSet(accesorieSet)" ></p-button>
                     </td>
                 </tr>
             </ng-template>
@@ -163,8 +163,8 @@
     [ninjaName]="ninjaName"
     (modifyNinja)="modifyNinja($event)"
     (deleteNinja)="deleteNinja($event)"
-    (createNinja)="createNinja($event)"
-    (updateNinja)="updateNinja($event)"
+    (createNinja)="create($event)"
+    (updateNinja)="update($event)"
     (deleteItemSetNinja)="deleteSetItem($event)"
     (deleteItemAccesoriesSetNinja)="deleteAccesoriesSetItem($event)"
     (deleteNinjaUser_)="deleteNinjaFromUser($event)">

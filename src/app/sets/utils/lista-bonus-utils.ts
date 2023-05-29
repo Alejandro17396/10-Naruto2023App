@@ -1,9 +1,23 @@
 import { AccesorieSet, Tipo } from 'src/app/accesories/interfaces/accesories.interfaces';
 import { ListaBonus } from '../interfaces/set.interfaces';
-import { Attribute } from 'src/app/ninjas/interfaces/Ninja.interfaces';
+import { Attribute, AwakeningStat } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 
 
 export class ListaBonusUtils {
+
+    static awakeningStatToAttribute(stat: AwakeningStat) :Attribute{
+   
+        let response:Attribute = {
+            attributeName:stat.attributeName,
+            value:stat.value,
+            action:stat.action,
+            impact:stat.impact,
+            condition:stat.condition,
+            time:stat.time,
+            color:"white"
+        }
+        return response;
+    }
 
 
     static AttributeNinjaToListaBonus(attribute:Attribute):ListaBonus{

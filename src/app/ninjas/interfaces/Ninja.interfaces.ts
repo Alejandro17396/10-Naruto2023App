@@ -1,5 +1,6 @@
-import { UserAccesorieSetDTO } from "src/app/accesories/interfaces/accesories.interfaces";
+import { ICreateUserAccesorieSet, UserAccesorieSetDTO } from "src/app/accesories/interfaces/accesories.interfaces";
 import { UserSetDTOResponse } from "src/app/sets/interfaces/set.interfaces";
+import { ICreateUserSet } from '../../sets/interfaces/set.interfaces';
 
 
 export interface NinjasResponsePaginated {
@@ -125,7 +126,7 @@ export interface NinjaUserFormationDTO {
     nombre:             string;
     accesories:         UserAccesorieSetDTO;
     equipment:          UserSetDTOResponse;
-    ninja:              Ninja;
+    ninja:              Ninja ;
     skill:              string;
     formation:          string;
     chakraNature:       string;
@@ -136,6 +137,24 @@ export interface NinjaUserFormationDTO {
     totallyBonus:       null;
 }
 
+export interface ICreateUserNinja{
+    id?:            number;
+    name:           string;
+    ninja:          string;
+    skilltype?:     SkillType;
+    chakraNature?:  string;
+    accesories:     ICreateUserAccesorieSet;
+    set:            ICreateUserSet;
+}
+
+
+/*private Long id;
+	private String name;
+	private String ninja;
+	private SkillType skilltype;
+	private	ChakraNature chakraNature;
+	private CreateSetDTO set;
+	private CreateAccesorieSetDTO accesories;*/
 export interface BonusWithItems {
     nombre:     string;
     listaBonus: Attribute2[];
