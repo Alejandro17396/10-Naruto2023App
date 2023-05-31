@@ -15,12 +15,8 @@ export class LoginPageComponent {
   password:string = '';
 
   public myForm: FormGroup = this.fb.group({
-    //name: ['', [ Validators.required, Validators.pattern( this.validatorsService.firstNameAndLastnamePattern )  ]],
-    // email: ['', [ Validators.required, Validators.pattern( this.validatorsService.emailPattern )], [ new EmailValidator() ]],
-    //email: ['', [ Validators.required, Validators.pattern( this.validatorsService.emailPattern )], [ this.emailValidator ]],
-    username: ['', [ Validators.required]],
+   username: ['', [ Validators.required]],
     password: ['', [ Validators.required]],
-    //password2: ['', [ Validators.required ]],
   });
 
   constructor(
@@ -39,9 +35,6 @@ export class LoginPageComponent {
                     console.log(respuesta);
                     this.router.navigate(['/sets/search']);
           });
-
-    
-    /**/
   }
 
   isValidField( field: string ) {

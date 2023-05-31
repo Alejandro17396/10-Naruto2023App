@@ -220,7 +220,7 @@ export class ListaBonus {
     action:         string;
     impact:         string;
     condition:      string;
-    time:           string;
+    time?:           string;
 
     constructor(){
         this.nombreAtributo = '';
@@ -278,9 +278,9 @@ export interface ICreateUserSet{
 }
 
 export interface UserSetDTOResponse {
-    id:       number;
+    id?:       number;
     nombre:   string;
-    username: string;
+    username?: string;
     partes:   Parte[];
     bonuses:  Bonus[];
 }

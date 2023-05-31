@@ -2,7 +2,7 @@
     <div class="grid overflow-hidden justify-content-center text-center" >
         <div class="col-11 overflow-hidden border-1 surface-border border-round mt-3 mr-3" >
             <h1>
-                {{ninjaShow.nombre}}
+                Create Ninja
             </h1> 
         </div>
     </div>
@@ -26,7 +26,6 @@
         <div class="col-5 p-2 m-2 overflow-hidden" >
             <div class="col-12 p-2 m-2 overflow-hidden">
                 <span class="p-float-label">
-                    <label >Name</label>
                     <input pInputText placeholder="Set Name" id="setName" [(ngModel)]="ninjaName" />
                 </span> 
             </div>
@@ -43,11 +42,17 @@
                     <i class="pi pi-save" style="font-size: 1rem"></i>
                 </p-button> 
             </div> 
-        </div>
+        </div> 
     </div>
-    <p-tabView class="grid m-3 overflow-hidden border-1 surface-border border-round">
+    <p-tabView [(activeIndex)]="selectedTab" class="grid m-3 overflow-hidden border-1 surface-border border-round">
         <p-tabPanel header="ninja" *ngIf="ninjaShow.ninja">
             <div class="grid overflow-hidden justify-content-center" >
+                <div class="grid col-12 justify-content-center">
+                <p-dropdown [options]="chakraNatures" [(ngModel)]="selectedChakraNature"
+                placeholder="Select a Chakra Nature" [editable]="true">
+                </p-dropdown>
+                </div>
+
                 <div class="col-5 m-2 mt-3 grid justify-content-center" >
                     <div class="overflow-hidden">
                         <img src="assets/images/ninjas/info/{{ninjaShow.ninja.name}}.jpg" alt="" style="height:300px; width: 311px;">
@@ -78,21 +83,21 @@
                 {{ninjaShow.equipment.nombre}}
                 </div>
             </div>
-            <div class="col-12 grid border-1 surface-border border-round mt-2" *ngIf="canModify">
-                <div class="col-6">
-                    <span class="p-float-label">
-                        <label >Name</label>
+            <div class="col-12 grid border-1 surface-border border-round mt-2" *ngIf="canModify && (ninjaShow.equipment.partes.length > 0)">
+                <div class="grid col-12 ">
+                    <span class="col-5 p-float-label">
                         <input pInputText placeholder="Set Name" id="setName" [(ngModel)]="setName" />
                     </span> 
-                </div>
-                <div class="col-6">
-                    <p-button class="m-2" label="Update" styleClass="p-button-success setName" (click)="updateSet('set')">
+                    <p-button class="col-3 m-2" label="Update" styleClass="p-button-success setName" (click)="updateSet('set')">
                         <i class="pi pi-save" style="font-size: 1rem"></i>
                     </p-button>
-                    <p-button class="m-2" label=" Save" styleClass="p-button-primary setName" (click)="createSet('set')">
+                    <p-button class=" col-3 m-2" label=" Save" styleClass="p-button-primary setName" (click)="createSet('set')">
                         <i class="pi pi-save" style="font-size: 1rem"></i>
-                    </p-button> 
+                    </p-button>  
                 </div>
+                <!-- <div class="col-6">
+                    
+                </div> -->
             </div>
                 <div class="col-3 m-2 grid border-1 surface-border border-round" *ngFor="let item of ninjaShow.equipment.partes">
                     <div class="col-4 overflow-hidden">
@@ -117,21 +122,21 @@
                 {{ninjaShow.accesories.nombre}}
                 </div>
             </div>
-            <div class="col-12 grid border-1 surface-border border-round mt-2" *ngIf="canModify">
-                <div class="col-6">
-                    <span class="p-float-label">
-                        <label >Name</label>
+            <div class="col-12 grid border-1 surface-border border-round mt-2" *ngIf="canModify && (ninjaShow.accesories.partes.length > 0)">
+                <div class="grid col-12">
+                    <span class="col-5 p-float-label">
                         <input pInputText placeholder="Set Name" id="setName" [(ngModel)]="accesorieSetName" />
                     </span> 
-                </div>
-                <div class="col-6">
-                    <p-button class="m-2" label="Update" styleClass="p-button-success setName" (click)="updateSet('accesories')">
+                    <p-button class="col-3 m-2" label="Update" styleClass="p-button-success setName" (click)="updateSet('accesories')">
                         <i class="pi pi-save" style="font-size: 1rem"></i>
                     </p-button>
-                    <p-button class="m-2" label=" Save" styleClass="p-button-primary setName" (click)="createSet('accesories')">
+                    <p-button class="col-3 m-2" label=" Save" styleClass="p-button-primary setName" (click)="createSet('accesories')">
                         <i class="pi pi-save" style="font-size: 1rem"></i>
                     </p-button> 
                 </div>
+                <!-- <div class="col-6">
+                    
+                </div> -->
             </div>
                 <div class="col-3 m-2 grid border-1 surface-border border-round" *ngFor="let item of ninjaShow.accesories.partes">
                     <div class="col-4 overflow-hidden">
@@ -151,7 +156,7 @@
     </p-tabView>
 </div>
 <div class="card-container indigo-container mt-4" >
-    <div class="overflow-hidden border-1 surface-border border-round m-3" *ngIf="ninjaShow">
+    <div class="overflow-hidden border-1 surface-border border-round m-3" *ngIf="ninjaShow.selfBonusWithItems.length > 0">
         <!-- *ngFor="let bonusAtributo of ninjaShow.selfBonusWithItems[0].listaBonus" -->
         <div class="overflow-auto border-1 surface-border border-round p-fluid justify-content-center text-center" >
             <p-table

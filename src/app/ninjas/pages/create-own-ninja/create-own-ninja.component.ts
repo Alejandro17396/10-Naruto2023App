@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Attribute, Attribute2, ICreateUserNinja, Ninja, NinjaUserFormationDTO, Skill, SkillType } from '../../interfaces/Ninja.interfaces';
 import { Bonus, ICreateUserSet, ListaBonus, Set, TypeItemSet } from 'src/app/sets/interfaces/set.interfaces';
@@ -20,6 +20,7 @@ import { AccesorieSetItemsService } from 'src/app/accesories/services/accesorie-
 import { NinjaUtils } from '../../utils/NinjaUtils';
 import { HttpResponse } from '@angular/common/http';
 import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
+import { ShowNinjaUserComponent } from '../show-ninja-user/show-ninja-user.component';
 
 
 
@@ -108,10 +109,40 @@ export class CreateOwnNinjaComponent {
       }),
       concatMap((response) =>{
         this.accesoriesItems = response;
-        return this.ninjasService.getUserNinjas();
+        //return this.ninjasService.getUserNinjas();
+        return this.ninjasDataSharedService.getUserNinjaToModify;
       })
     ).
-    subscribe((response) => {
+    subscribe((response) =>{
+      if(response){
+        this.ninjaShow = response;
+        if(response.accesories && response.accesories.nombre){
+          this.accesorieSetName = response.accesories.nombre;
+        }
+        if(response.equipment && response.equipment.nombre){
+          this.setName =  response.equipment.nombre;
+        }
+        if(response.nombre){
+          this.ninjaName =  response.nombre;
+        }
+        if(this.ninjaShow.equipment && this.ninjaShow.equipment.partes.length> 0){
+          this.setItemUsed(this.ninjaShow.equipment.partes);
+        }
+        if(this.ninjaShow.accesories && this.ninjaShow.accesories.partes.length> 0){
+          this.setAccesoriesItemUsed(this.ninjaShow.accesories.partes);
+        }
+        if(this.ninjaShow.ninja){
+          this.addNinja(this.ninjaShow.ninja);
+        }
+
+        /*this.setAccesoriesItemUsed(this.ninjaShow.accesories.partes);
+        this.addNinja(this.ninjaShow.ninja);*/
+      }else{
+        this.ninjaShow = new NinjaUserFormationDTO();
+      }
+       
+    });
+    /*subscribe((response) => {
       this.ninjasUser = response;
         if(response.length > 0){
           this.ninjaShow = response[0];
@@ -128,7 +159,7 @@ export class CreateOwnNinjaComponent {
         this.setItemUsed(this.ninjaShow.equipment.partes);
         this.setAccesoriesItemUsed(this.ninjaShow.accesories.partes);
         this.addNinja(this.ninjaShow.ninja); 
-    });
+    });*/
 
 
     this.setsService.getUserSets().subscribe(
@@ -153,7 +184,7 @@ export class CreateOwnNinjaComponent {
   selectedNinja!:Ninja;
   
   ninja:Ninja = Ninja.createNinja();
-  ninjaShow!:NinjaUserFormationDTO;
+  ninjaShow:NinjaUserFormationDTO = new NinjaUserFormationDTO();
   //ninjaUser!:NinjaUserFormationDTO;
   //listaBonus:ListaBonus[] = [];
   //indexSelectedNinja:number = 0;
@@ -189,6 +220,7 @@ export class CreateOwnNinjaComponent {
     this.setItemUsed(set.partes);
     this.calculateFinalBonus();
     this.setName = set.nombre;
+    this.hijoComponent.setTabTo(1);
   }
 
 
@@ -198,6 +230,7 @@ export class CreateOwnNinjaComponent {
     this.setAccesoriesItemUsed(accesorieSet.partes);
     this.calculateFinalBonus();
     this.accesorieSetName = accesorieSet.nombre;
+    this.hijoComponent.setTabTo(2);
     //console.log(accesorieSet);
   }
 
@@ -300,11 +333,10 @@ export class CreateOwnNinjaComponent {
     if(this.ninjaShow.equipment.partes.length < 6 ){
       this.ninjaShow.equipment.partes.push(item);
       this.calculateFinalBonus();
-    }else{
-      console.log("nooo")
     }
+    this.hijoComponent.setTabTo(1);
   }
-
+  @ViewChild('childComponent') hijoComponent!: ShowNinjaUserComponent;
   
 
   deleteSetItem(item:ParteSet){
@@ -320,6 +352,7 @@ export class CreateOwnNinjaComponent {
     
     this.ninjaShow.equipment.partes = resultado;
     this.calculateFinalBonus();
+    this.hijoComponent.setTabTo(1);
   }
 
  
@@ -341,6 +374,7 @@ export class CreateOwnNinjaComponent {
       this.ninjaShow.accesories.partes.push(item);
       this.calculateFinalBonus();
     }
+    this.hijoComponent.setTabTo(2);
   }
 
   deleteAccesoriesSetItem(item:ParteAccesorio){
@@ -356,6 +390,7 @@ export class CreateOwnNinjaComponent {
     
     this.ninjaShow.accesories.partes = resultado;
     this.calculateFinalBonus();
+    this.hijoComponent.setTabTo(2);
   }
 
   equipmentUserBonusList:ListaBonus [] = [];
@@ -368,6 +403,7 @@ export class CreateOwnNinjaComponent {
     
       this.ninjaShow.ninja = ninja;
       this.calculateFinalBonus();
+      this.hijoComponent.setTabTo(0);
   }
 
   calculateFinalBonus(){
@@ -416,7 +452,7 @@ export class CreateOwnNinjaComponent {
   }
 
   update(element:SaveElement){
-
+    
     if(element.type === 'ninja'){
       this.ninjaName = element.name;
       this.updateNinja();

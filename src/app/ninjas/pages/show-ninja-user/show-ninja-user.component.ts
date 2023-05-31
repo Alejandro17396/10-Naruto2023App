@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Ninja, NinjaUserFormationDTO, Skill } from '../../interfaces/Ninja.interfaces';
+import { ChakraNature, Ninja, NinjaUserFormationDTO, Skill } from '../../interfaces/Ninja.interfaces';
 import { Parte as ParteSet } from 'src/app/sets/interfaces/set.interfaces';
 import { Parte as ParteAccesorio} from 'src/app/accesories/interfaces/accesories.interfaces';
 import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
@@ -31,6 +31,15 @@ export class ShowNinjaUserComponent implements OnInit{
   @Input() setName:string  = "";
   @Input() ninjaName:string  = "";
 
+  chakraNatures:ChakraNature [] = Object.values(ChakraNature);
+  selectedChakraNature!:ChakraNature ;
+
+  selectedTab:number = 0;
+
+  public setTabTo(num:number){
+    console.log("select3ed tab es "+num)
+    this.selectedTab = num;
+  }
 
   showDialog(skill:Skill){
     this.titulo = skill.nombre+" ("+skill.type+")";
@@ -64,8 +73,13 @@ export class ShowNinjaUserComponent implements OnInit{
   }
 
   updateSet(cadena:string){
-    //this.ninjaShow.accesories.partes[0].nombre ="aaaaaaaaaaaaaaaaaaaauuuuuuuuuuuuu";
-   // this.updateNinja.emit(cadena);
+  
+    if(this.selectedChakraNature){
+      this.ninjaShow.chakraNature = this.selectedChakraNature;
+    }else{
+      this.ninjaShow.chakraNature = ChakraNature.Unactivated;
+    }
+
     if(cadena === 'ninja'){
       this.updateNinja.emit({type:cadena,name:this.ninjaName});
     }
@@ -80,6 +94,12 @@ export class ShowNinjaUserComponent implements OnInit{
   }
 
   createSet(cadena:string){
+
+    if(this.selectedChakraNature){
+      this.ninjaShow.chakraNature = this.selectedChakraNature;
+    }else{
+      this.ninjaShow.chakraNature = ChakraNature.Unactivated;
+    }
 
     if(cadena === 'ninja'){
       console.log(this.ninjaName);

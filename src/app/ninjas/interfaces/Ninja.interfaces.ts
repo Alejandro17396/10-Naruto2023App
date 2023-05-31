@@ -38,6 +38,7 @@ export enum SkillType {
 export enum ChakraNature {
     Earth = "EARTH",
     Water = "WATER",
+    Unactivated = "UNACTIVATED",
 }
 
 export enum Formation {
@@ -49,6 +50,27 @@ export enum Formation {
 export enum Sex {
     Female = "FEMALE",
     Male = "MALE",
+}
+
+export enum Action {
+    Apply = "apply",
+    Attack = "attack",
+    Decrease = "decrease",
+    Increase = "increase",
+    Inmune = "inmune",
+    Obtain = "obtain",
+    Recover = "recover",
+    Reduce = "reduce",
+}
+
+export enum Condition {
+    AfterDeath = "after death",
+    AliveInBattle = "alive in battle",
+    ConditionWhenAttacked = "When attacked",
+    Every10LossInHealth = "Every 10% loss in health",
+    NinjaAttack = "ninja attack",
+    NinjaIsAlive = "ninja is alive",
+    WhenAttacked = "when attacked",
 }
 
 export interface Skill {
@@ -66,8 +88,8 @@ export class Attribute {
     impact:        string;
     value:         number;
     condition:     string;
-    time:          string;
-    color:        string;
+    time?:          string;
+    color?:        string;
 
     constructor(){
         this.attributeName= "";
@@ -121,30 +143,51 @@ export enum NinjaType {
     formationBonuses:   StatsFinalResult |null;
     totallyBonus:       StatsFinalResult |null;
 }*/
-export interface NinjaUserFormationDTO {
-    id:                 number;
+export class NinjaUserFormationDTO {
+    id?:                 number;
     nombre:             string;
-    accesories:         UserAccesorieSetDTO;
-    equipment:          UserSetDTOResponse;
+    accesories:         UserAccesorieSetDTO ;
+    equipment:          UserSetDTOResponse ;
     ninja:              Ninja ;
-    skill:              string;
-    formation:          string;
-    chakraNature:       string;
-    sex:                string;
-    username:           string;
+    skill?:              string;
+    formation?:          string;
+    chakraNature?:       string;
+    sex?:                string;
+    username?:           string;
     selfBonusWithItems: BonusWithItems[];
-    formationBonuses:   null;
-    totallyBonus:       null;
+    formationBonuses?:   null;
+    totallyBonus?:       null;
+
+    constructor(){
+        this.nombre = "auxiliar";
+        this.accesories ={
+            nombre :"auxiliar accs",
+            partes:[],
+            bonuses:[]
+        }
+        this.equipment = {
+            nombre :"auxiliar accs",
+            partes:[],
+            bonuses:[]
+        }
+        this.ninja = Ninja.createNinja();
+        this.selfBonusWithItems = [];
+    }
+}
+
+export interface DeleteNinjaUserDTO {
+    code:       number;
+    message:   string;
 }
 
 export interface ICreateUserNinja{
     id?:            number;
     name:           string;
-    ninja:          string;
+    ninja:          string | undefined;
     skilltype?:     SkillType;
     chakraNature?:  string;
-    accesories:     ICreateUserAccesorieSet;
-    set:            ICreateUserSet;
+    accesories?:     ICreateUserAccesorieSet |undefined;
+    set?:            ICreateUserSet |undefined;
 }
 
 
@@ -190,6 +233,58 @@ export interface Ninja {
     awakenings:   Awakening[];
     formation:    Formation;
 }
+
+export interface WrapEnumsDropdown{
+    value:string;
+}
+
+export enum Target {
+    AllEnemies = 'all enemies',
+    AllAllies = 'all allies',
+    EnemyLightningChakraNature = 'enemy lightning chakra nature',
+    EnemyUnactivatedChakraNature = 'enemy unactivated chakra nature',
+    EnemyWaterChakraNature = 'enemy water chakra nature',
+    AllyLightningChakraNature = 'ally lightning chakra nature',
+    AllAlliesExceptSelf = 'all allies (except self)',
+    AllyWaterChakraNature = 'ally water chakra nature',
+    EnemyFireChakraNature = 'enemy fire chakra nature',
+    AllyFireChakraNature = 'ally fire chakra nature',
+    EnemiesEarthChakraNature = 'enemies earth chakra nature',
+    EnemiesFireChakraNature = 'enemies fire chakra nature',
+    EnemiesWaterChakraNature = 'enemies water chakra nature',
+    AllyAssaulters = 'ally Assaulters',
+    AllyVanguard = 'ally Vanguard',
+    Self = 'self',
+    EnemyEarthChakraNature = 'enemy earth chakra nature',
+    AllyEarthChakraNature = 'ally earth chakra nature',
+    AllyWindChakraNature = 'ally wind chakra nature',
+    EnemyWindChakraNature = 'enemy wind chakra nature',
+    EnemySupport = 'enemy Support',
+    EnemyVanguard = 'enemy vanguard',
+    EnemyAssaulters = 'enemy assaulters',
+    RandomEnemy = '1 random enemy',
+    RandomEnemyDuplicate = '1 random enemy',
+    EnemySupports = 'enemy Supports',
+    TwoRandomEnemies = '2 random enemies',
+    ThreeRandomAllies = '3 random allies',
+    AllySupports = 'ally Supports',
+    EnemieAssaulters = 'enemie Assaulters',
+    EnemieSupports = 'enemie Supports',
+    EnemieVanguard = 'enemie Vanguard',
+    Attacker = 'attacker',
+    HighestEnemyHP = 'highes enemy HP',
+    AllAlliesExceptSelfDuplicate = 'all allies (except self)',
+    ThreeRandomEnemies = '3 random enemies',
+    EnemyUnactivedChakraNature = 'enemy unactived chakra nature',
+    OneRandomEnemy = '1 random enemies',
+    EnemysFireChakraNature = 'enemys fire chakra nature',
+    EnemyMale = 'enemy male',
+    EnemyLowestHP = 'enemy lowest HP',
+    TwoRandomAllies = '2 random allies',
+    AllEnemiesWithUnactivatedChakraNature = 'all enemies who have unactivated chakra nature',
+    EnemiesSupports = 'enemies Supports'
+  }
+  
 
 export class Ninja implements Ninja {
     constructor(

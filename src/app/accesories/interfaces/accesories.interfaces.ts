@@ -258,9 +258,9 @@ export interface GenerateAccesorieSetsResponse {
 
 
 export interface UserAccesorieSetDTO {
-    id:       number;
+    id?:       number;
     nombre:   string;
-    username: string;
+    username?: string;
     partes:   Parte[];
     bonuses:  ContentBonus[];
 }
@@ -283,7 +283,7 @@ export enum TypeAccesorieItemSet{
 
 export interface ICreateUserAccesorieSet{
     id?:        number;
-    accesorieSetName:   string;
+    accesorieSetName:   string ;
     accesories: string[];
 }
 /*export interface Set {

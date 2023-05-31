@@ -7,6 +7,7 @@ import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,'
 import { Ninja, SkillType } from '../../interfaces/Ninja.interfaces';
 import { FilterSetPanelComponent } from 'src/app/sets/pages/filter-set-panel/filter-set-panel.component';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
+import { FilterNinjaPanelComponent } from '../filter-ninja-panel-component/filter-ninja-panel-component.component';
 
 @Component({
   selector: 'show-ninja',
@@ -93,12 +94,12 @@ export class ShowNinjaComponent implements OnInit{
 
 
   showFilterPanel(){
-    /*const data = {
+    const data = {
       attributesFilterList: this.attributesFilterList,
       filters: this.filter,
       setFilter :this.setFilter
     };
-    this.ref = this.dialogService.open(FilterSetPanelComponent, {
+    this.ref = this.dialogService.open(FilterNinjaPanelComponent, {
       header: 'Set filter conditions',
       width: '80%',
       height:'80%',
@@ -106,7 +107,7 @@ export class ShowNinjaComponent implements OnInit{
       baseZIndex: 10000,
       maximizable: true,
       data: data
-    });*/
+    });
   }
 
   compareSets(){
@@ -115,6 +116,8 @@ export class ShowNinjaComponent implements OnInit{
   }
 
   generateComboSets(){
+    console.log(this.attributesFilterList);
+    console.log(this.filter);
    /* if(this.attributesFilterList.length === 0){
       this.showError();
     }else{

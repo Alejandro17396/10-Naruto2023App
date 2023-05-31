@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
-import { ICreateUserNinja, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
+import { DeleteNinjaUserDTO, ICreateUserNinja, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
 import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
@@ -26,6 +26,15 @@ export class NinjasService {
     return this.http.get<NinjaUserFormationDTO[]>(url, {
         headers
     });
+  }
+
+  deleteNinjaUser(name:string):Observable<DeleteNinjaUserDTO>{
+    const url = `${this.baseUrl}/ninjas/deleteByName/${name}`
+    const headers = new HttpHeaders().set('Authorization', 
+    'Bearer ' + localStorage.getItem('token'));
+    return this.http.delete<DeleteNinjaUserDTO>(url, {
+        headers
+      });
   }
 
   calculateNinjaUserFinalBonuses(ninja:ICreateUserNinja):

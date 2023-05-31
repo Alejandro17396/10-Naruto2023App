@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowNinjaComponent } from './pages/show-ninja/show-ninja.component';
 import { ViewNinjaDifferencesComponent } from './pages/view-ninja-differences/view-ninja-differences.component';
 import { ShowNinjaUserComponent } from './pages/show-ninja-user/show-ninja-user.component';
+import { FilterNinjaPanelComponent } from './pages/filter-ninja-panel-component/filter-ninja-panel-component.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ShowNinjaUserComponent } from './pages/show-ninja-user/show-ninja-user.
     ViewOwnNinjasComponent,
     ShowNinjaComponent,
     ViewNinjaDifferencesComponent,
-    ShowNinjaUserComponent
+    ShowNinjaUserComponent,
+    FilterNinjaPanelComponent
   ],
   exports:[
     LayoutNinjasComponent,
