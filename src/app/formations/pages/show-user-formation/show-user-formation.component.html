@@ -1,0 +1,60 @@
+<div class="grid col-12" *ngIf="showFormation">
+    <div class="grid col-12 justify-content-center mt-2 m-1 border-1 surface-border border-round" *ngIf="showFormation">
+        <h1>{{showFormation.name}}</h1>
+    </div>
+    <div class="grid col-12 justify-content-center text-center mt-2 m-1 border-1 surface-border border-round " *ngIf="showFormation">
+        <p-button  styleClass="p-button-primary" class="col-4" (click)="modify()">modify</p-button>
+        <p-button  styleClass="p-button-danger" class="col-4" (click)="delete()">delete</p-button>
+    </div>
+    <div class="grid col-6 justify-content-center mt-2 m-1 border-1 surface-border border-round" >
+        <div class="grid col-12 justify-content-center">
+            <div class="col-4 justify-content-center text-center" 
+            *ngFor="let ninja of showFormation.supports" >
+            <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+                alt="" style="height:60px; width: 60px;"></p-button>
+            </div>
+        </div>
+        <div class="grid col-12 justify-content-center">
+            <div class="col-4 justify-content-center text-center" 
+            *ngFor="let ninja of showFormation.assaulters" >
+            <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+                alt="" style="height:60px; width: 60px;"></p-button>
+            </div>
+            <div class="col-4 justify-content-center text-center" >
+                <p-button styleClass="p-button-secondary"><img src="assets/images/ninjas/images/main.jpg" 
+                    alt="" style="height:60px; width:60px;"></p-button>
+            </div>
+        </div>
+        <div class="grid col-12 justify-content-center">
+            <div class="col-4 justify-content-center text-center" 
+            *ngFor="let ninja of showFormation.vanguards">
+            <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+                alt="" style="height:60px; width:60px;"></p-button>
+            </div>
+        </div>
+        <!-- <div class="grid col-12 justify-content-center text-center" >
+            <div class="grid col-12 justify-content-center text-center">
+                <p-button class="col-4" (click)="generateCombos()">Search formations</p-button>
+                <p-button class="col-4" (click)="showFilterPanel()">Show Filter</p-button>
+            </div>
+            <div class="grid col-12 justify-content-center text-center">
+                <p-button class="col-4" (click)="viewCompareList()">View Compare list</p-button>
+                <p-button class="col-4" >Save formation</p-button>
+            </div>
+        </div> -->
+    </div>
+     <div class="grid col-5 justify-content-center m-2 border-1 surface-border border-round" > 
+        <img class="col-12" src="assets/images/ninjas/info/{{ninja.name}}.jpg" alt=""  style="height:300px; width: 311px;" >
+        <!-- <p-image class="col-12" src="assets/images/ninjas/info/{{ninja.name}}.jpg" alt=""
+          [preview]="true" style="height:300px; width: 311px;"></p-image> -->
+        <div class="col-12 mt-2 grid border-1 surface-border border-round" >
+            <p-tabView class="col-12 border-1 surface-border border-round">
+                <p-tabPanel *ngFor="let skill of ninja.skills" [header]="skill.type" >
+                    <div class="overflow-auto custom-tab-panel ">
+                        {{ skill.skillText }}
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>

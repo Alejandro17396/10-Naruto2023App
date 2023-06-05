@@ -1,0 +1,4 @@
+.p-dropdown-disabled {
+    pointer-events: none;
+    opacity: 0.6; /* Puedes ajustar la opacidad a tu preferencia */
+  }

@@ -34,7 +34,9 @@
             <show-ninja 
             [showNinja]="showNinja"
             [listaBonus]="listaBonus"
-            [attributesFilterList]="attributesFilterList" 
+            [attributesFilterList]="attributesFilterList"
+            [ninjas]="ninjas"
+            (changeNinjas)="changeNinjas($event)" 
             >
             <!-- 
             (setsChanged)="handleDataFromChild($event)"

@@ -72,6 +72,27 @@ export class MenuComponent  implements OnInit {
           }
         ]
       },
+      { 
+        label: 'Formations',
+        items: [
+          {
+            label: 'Generate formations',
+            routerLink:'/formations/generateFormations'
+          },
+          {
+            label: 'Compare ninjas',
+            routerLink:'/formations/FormationsComparator'
+          },
+          {
+            label:'View own formations',
+            routerLink:'/formations/viewOwnFormations'
+          },
+          {
+            label:'Create own formations',
+            routerLink:'/formations/createOwnFormations'
+          }
+        ]
+      },
       {
         label: 'Pipes personalizados',
         routerLink: '/auth/login'

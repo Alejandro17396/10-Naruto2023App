@@ -40,15 +40,9 @@ export class FilterNinjaPanelComponent implements OnInit{
         this.attributes = response;
       }
     );
-
+   
+    this.attributesFilterList = this.config.data.attributesFilterList;
     /*this.attributesFilterList.push(
-      { attributeName:"attack",
-        action:"increase",
-        impact:"all allies",
-        condition:"ninja is alive",
-        value:30 }
-    );
-    this.attributesFilterList.push(
       { attributeName:"avoid injury rate",
         action:"decrease",
         impact:"all enemies",
@@ -70,9 +64,12 @@ export class FilterNinjaPanelComponent implements OnInit{
         value:30 }
     );*/
     
-    this.attributesFilterList = this.config.data.attributesFilterList;
+    
     this.filter = this.config.data.filters;
     this.rechargeNinjasList = false;
+    this.ninjas = this.config.data.ninjas;
+    this.ninjaFilter = this.config.data.ninja;
+    //console.log(this.ninjas)
     setTimeout(() => {
     this.rechargeNinjasList = true;
     }, 0);
@@ -93,6 +90,9 @@ export class FilterNinjaPanelComponent implements OnInit{
   selectedAttributeFilter:NinjaAttribute [] = [];
   filterNinjas:boolean = false;
   filter!:Filters;
+  ninjas:Ninja[] = [];
+  ninjaFilter!:Ninja;
+  selectedNinja!:Ninja;
   @ViewChild('order', { static: false }) orderCheckbox!: Checkbox;
   @ViewChild('filter', { static: false }) filterCheckbox!: Checkbox;
 
@@ -104,7 +104,7 @@ export class FilterNinjaPanelComponent implements OnInit{
     selectedAction: ['', [ Validators.required]],
     selectedCondition: ['', []],
     selectedAttribute: ['', [ Validators.required]],
-    attributeValue: ['', [Validators.required]],
+    attributeValue: ['', ],
   });
 
   onSubmit(){
@@ -149,7 +149,7 @@ export class FilterNinjaPanelComponent implements OnInit{
       if(value){
         ninjaAttribute.attributeName = value.nombre;
       }
-    value = this.myForm.controls['attributeValue'].value; 
+    value = this.myForm.controls['attributeValue'].value | 0; 
       if(value){
         ninjaAttribute.value = value;
       }
@@ -177,6 +177,10 @@ export class FilterNinjaPanelComponent implements OnInit{
   }
 
   saveFilters(){
+    if(this.selectedNinja){
+      this.ninjaFilter = this.selectedNinja;
+    }
+
     this.filter.filter = this.filterCheckbox?.checked();
     this.filter.order = this.orderCheckbox?.checked();
     this.ref.close();
@@ -188,6 +192,6 @@ export class FilterNinjaPanelComponent implements OnInit{
     private cd: ChangeDetectorRef,
     private setService:SetsService,
     private fb:FormBuilder,
-    private validatorsService: ValidatorsService,) {}
+    private validatorsService: ValidatorsService) {}
 
 }

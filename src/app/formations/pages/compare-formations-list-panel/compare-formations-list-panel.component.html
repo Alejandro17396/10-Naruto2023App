@@ -1,0 +1,40 @@
+<div class="grid" >
+    <div class="col-4 m-2 border-1 surface-border border-round" >
+        <p-table #formationsTable [value]="formations" selectionMode="single" [(selection)]="selectedFormation"  
+        [rows]="14" [paginator]="true" stateStorage="session" stateKey="stat edemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="formationNinjas" >Formations list</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="filter($event,formationsTable)" placeholder="Search by Formation name" 
+                    class="w-full">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-formation let-rowIndex="rowIndex">
+            <tr >
+                <td class="btn-cell">
+                    <p-button label="Show " styleClass="p-button-primary" (click)="ChangeShowFormation(formation)" ></p-button>
+                    <a class="setName">{{formation.formationNinjas}}</a>
+                    <p-button label="Delete" styleClass="p-button-danger" (click)="deleteFormationFromList(formation,rowIndex)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No formations found.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div >
+    <div class="grid col-7 m-2 border-1 surface-border border-round" *ngIf="showFormation">
+        <show-formation class="grid col-12"
+        [showFormation]="showFormation"
+        [interact]="false"></show-formation>
+    </div>
+    <div class="grid col-12 justify-content-center text-center" *ngIf="showFormation">
+        <p-button (click)="compareFormations()">Compare Formations</p-button>
+    </div>
+</div>

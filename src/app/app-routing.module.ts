@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./ninjas/ninja.module').then(m => m.NinjaModule)
   },
   {
+    path:'formations',
+    loadChildren: () => import('./formations/formations.module').then(m => m.FormationsModule)
+  },
+  {
     path:'**',
     redirectTo:'auth'
   }

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
-import { DeleteNinjaUserDTO, ICreateUserNinja, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
+import { DeleteNinjaUserDTO, ICreateUserNinja, NinjaFilter, NinjaResponsePageable, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
 import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
@@ -70,6 +70,33 @@ export class NinjasService {
     return this.http.put<NinjaUserFormationDTO>(url, body, {
       headers,
       observe: 'response'
+    });
+  }
+
+
+  getNinjasFilterAnd(filter:NinjaFilter,sorted:boolean,filtred:boolean):
+  Observable<NinjaResponsePageable>{
+    const url = 
+    `${this.baseUrl}/ninjas/filter/and?sorted=${sorted}&filtred=${filtred}`;
+    const body: NinjaFilter = filter;
+    console.log("voy a hacer llamada" +sorted+" "+filtred)
+    console.log(filter)
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.post<NinjaResponsePageable>(url, body, {
+      headers
+    });
+  }
+
+  getNinjasFilterOr(filter:NinjaFilter,sorted:boolean,filtred:boolean):
+  Observable<NinjaResponsePageable>{
+    const url = 
+    `${this.baseUrl}/ninjas/filter/or?sorted=${sorted}&filtred=${filtred}`;
+    const body: NinjaFilter = filter;
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.post<NinjaResponsePageable>(url, body, {
+      headers
     });
   }
 

@@ -4,7 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NinjasService } from '../../services/ninjas-service.service';
 import { Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
-import { Ninja, SkillType } from '../../interfaces/Ninja.interfaces';
+import { Attribute, Ninja, NinjaFilter, SkillType } from '../../interfaces/Ninja.interfaces';
 import { FilterSetPanelComponent } from 'src/app/sets/pages/filter-set-panel/filter-set-panel.component';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 import { FilterNinjaPanelComponent } from '../filter-ninja-panel-component/filter-ninja-panel-component.component';
@@ -19,6 +19,11 @@ export class ShowNinjaComponent implements OnInit{
 
   ngOnInit(): void {
     this.setShowNinja(this.showNinja);
+    /*this.ninjasService.getNinjas().subscribe(
+      response =>{
+        this.ninjas = response.ninjas;
+      }
+    );*/
    
   }
 
@@ -73,11 +78,13 @@ export class ShowNinjaComponent implements OnInit{
   @Input() showNinja:Ninja = Ninja.createNinja();
   
   @Input() listaBonus!: ListaBonus[];
-  @Input() attributesFilterList!:BonusAttribute[];
+  @Input() attributesFilterList!:Attribute[];
   @Input() showButtons:boolean = true;
   @Output() ninjasChanged: EventEmitter<Ninja[]>= new EventEmitter<Ninja[]>() ;
   @Output() showCompareView: EventEmitter<string>= new EventEmitter<string>() ;
-            ninjas:Ninja[]=[];
+  @Output() changeNinjas: EventEmitter<Ninja[]>= new EventEmitter<Ninja[]>();
+  @Input()  ninjas:Ninja[]=[];
+            ninjaFilter!:Ninja;
             mapaBonuses : Map<string,ListaBonus[]> = new Map<string,ListaBonus[]>();
             loading : boolean = true;
             showStats: boolean = true;
@@ -97,7 +104,9 @@ export class ShowNinjaComponent implements OnInit{
     const data = {
       attributesFilterList: this.attributesFilterList,
       filters: this.filter,
-      setFilter :this.setFilter
+      setFilter :this.setFilter,
+      ninjas : this.ninjas,
+      ninja :this.ninjaFilter
     };
     this.ref = this.dialogService.open(FilterNinjaPanelComponent, {
       header: 'Set filter conditions',
@@ -108,6 +117,9 @@ export class ShowNinjaComponent implements OnInit{
       maximizable: true,
       data: data
     });
+    this.ref.onClose.subscribe(()=>{
+      this.onClsoeDialogEjemplo();
+    })
   }
 
   compareSets(){
@@ -115,8 +127,26 @@ export class ShowNinjaComponent implements OnInit{
 
   }
 
-  generateComboSets(){
+
+  onClsoeDialogEjemplo(){
     console.log(this.attributesFilterList);
+  }
+  generateComboSets(){
+    //console.log(this.attributesFilterList);
+    let finalFilter : NinjaFilter = new NinjaFilter();
+    this.attributesFilterList.forEach(
+      response =>{
+        finalFilter.filters.push(ListaBonusUtils.AttributeToFilter(response));
+      }
+    );
+    console.log(finalFilter)
+    this.ninjasService.getNinjasFilterAnd(finalFilter,this.filter.order,this.filter.filter).subscribe(
+      response =>{
+        console.log(response)
+        this.ninjas =response.content;
+        this.changeNinjas.emit(this.ninjas);
+      }
+    );
     console.log(this.filter);
    /* if(this.attributesFilterList.length === 0){
       this.showError();

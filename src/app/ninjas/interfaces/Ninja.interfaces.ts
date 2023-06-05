@@ -8,6 +8,35 @@ export interface NinjasResponsePaginated {
     ninjas: Ninja[];
 }
 
+export interface NinjaResponsePageable {
+    content:          Ninja[];
+    pageable:         Pageable;
+    totalElements:    number;
+    last:             boolean;
+    totalPages:       number;
+    sort:             Sort;
+    numberOfElements: number;
+    first:            boolean;
+    size:             number;
+    number:           number;
+    empty:            boolean;
+}
+
+export interface Pageable {
+    sort:       Sort;
+    pageSize:   number;
+    pageNumber: number;
+    offset:     number;
+    unpaged:    boolean;
+    paged:      boolean;
+}
+
+export interface Sort {
+    sorted:   boolean;
+    unsorted: boolean;
+    empty:    boolean;
+}
+
 export interface Awakening {
     name:      string;
     type:      SkillType;
@@ -150,7 +179,7 @@ export class NinjaUserFormationDTO {
     equipment:          UserSetDTOResponse ;
     ninja:              Ninja ;
     skill?:              string;
-    formation?:          string;
+    formation?:          Formation;
     chakraNature?:       string;
     sex?:                string;
     username?:           string;
@@ -190,14 +219,36 @@ export interface ICreateUserNinja{
     set?:            ICreateUserSet |undefined;
 }
 
+export class NinjaFilter {
+    filters:            Filter[];
+    attributeFilters:   Filter[];
+    order:              any[];
+    ninjas:             any[];
+    all:                boolean;
+    formationNumNinjas: number;
+    constructor(){
+        this.filters = [];
+        this.attributeFilters = [];
+        this.order = [];
+        this.ninjas = [];
+        this.all=false;
+        this.formationNumNinjas = 2;
+    }
+}
 
-/*private Long id;
-	private String name;
-	private String ninja;
-	private SkillType skilltype;
-	private	ChakraNature chakraNature;
-	private CreateSetDTO set;
-	private CreateAccesorieSetDTO accesories;*/
+export interface Filter {
+    type:          string;
+    action:        string;
+    impact:        string;
+    attributeName: string;
+    value:         number | undefined;
+    time?:         string |null;
+    self:          boolean;
+    condition:     string | undefined;
+    mandatory:     boolean;
+}
+
+
 export interface BonusWithItems {
     nombre:     string;
     listaBonus: Attribute2[];

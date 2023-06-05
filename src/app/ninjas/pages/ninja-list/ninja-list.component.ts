@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
-import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
-import { Ninja } from '../../interfaces/Ninja.interfaces';
+import { Attribute, BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
+import { Ninja ,Attribute as NinjaAttribute } from '../../interfaces/Ninja.interfaces';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Router } from '@angular/router';
@@ -22,7 +22,8 @@ export class NinjaListComponent implements OnInit{
     private ninjasDataSharedService: NinjasSharedDataService,
     private router:Router,
     public dialogService: DialogService,
-    private messageService: MessageService){}
+    private messageService: MessageService,
+    private cdr: ChangeDetectorRef){}
 
   ngOnInit(): void {
     this.ninjasService.getNinjas().subscribe(
@@ -31,6 +32,11 @@ export class NinjaListComponent implements OnInit{
         console.log(this.ninjas); 
       }
     )
+  }
+  changeNinjas(ninjas:Ninja[]){
+    this.ninjas = ninjas;
+    this.showNinja = ninjas[0];
+    this.cdr.detectChanges();
   }
 
   filter(elemento:any,elemento2:any){
@@ -46,7 +52,7 @@ export class NinjaListComponent implements OnInit{
   selectedCompareNinja!:Ninja;
   showNinja:Ninja = Ninja.createNinja();
   listaBonus: ListaBonus[] = [];
-  attributesFilterList:BonusAttribute[]=[];
+  attributesFilterList:NinjaAttribute[]=[];
   @ViewChild(ShowNinjaComponent)
   hijoComponent!: ShowNinjaComponent;
 

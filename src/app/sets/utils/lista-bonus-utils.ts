@@ -1,6 +1,6 @@
 import { AccesorieSet, Tipo } from 'src/app/accesories/interfaces/accesories.interfaces';
 import { ListaBonus } from '../interfaces/set.interfaces';
-import { Attribute, AwakeningStat } from 'src/app/ninjas/interfaces/Ninja.interfaces';
+import { Attribute, AwakeningStat, Filter, SkillType } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 
 
 export class ListaBonusUtils {
@@ -17,6 +17,20 @@ export class ListaBonusUtils {
             color:"white"
         }
         return response;
+    }
+
+    static AttributeToFilter(attribute:Attribute):Filter{
+        let response:Filter = {
+            type:SkillType.Talent.toString(),
+            action:attribute.action,
+            impact:attribute.impact,
+            attributeName:attribute.attributeName,
+            value:attribute.value,
+            self:true,
+            mandatory:true,
+            condition:attribute.condition
+        }
+    return response;
     }
 
 

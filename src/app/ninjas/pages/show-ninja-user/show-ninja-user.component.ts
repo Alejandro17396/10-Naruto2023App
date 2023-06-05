@@ -37,7 +37,7 @@ export class ShowNinjaUserComponent implements OnInit{
   selectedTab:number = 0;
 
   public setTabTo(num:number){
-    console.log("select3ed tab es "+num)
+    console.log("selected tab es "+num)
     this.selectedTab = num;
   }
 
