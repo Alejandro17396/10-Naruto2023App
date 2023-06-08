@@ -1,17 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ChakraNature, Ninja, NinjaUserFormationDTO, Skill } from '../../interfaces/Ninja.interfaces';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChakraNature, Ninja, NinjaUserFormationDTO, Skill } from 'src/app/ninjas/interfaces/Ninja.interfaces';
+import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
+import { ActionToDo } from '../../interfaces/formations.interface';
 import { Parte as ParteSet } from 'src/app/sets/interfaces/set.interfaces';
 import { Parte as ParteAccesorio} from 'src/app/accesories/interfaces/accesories.interfaces';
-import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
-import { ActionToDo } from 'src/app/formations/interfaces/formations.interface';
-//import { Parte as ParteEquipment} from 'src/app/sets/set.interfaces';
 @Component({
-  selector: 'show-ninja-user',
-  templateUrl: './show-ninja-user.component.html',
-  styleUrls: ['./show-ninja-user.component.css']
+  selector: 'app-save-modify-ninja-user-show',
+  templateUrl: './save-modify-ninja-user-show.component.html',
+  styleUrls: ['./save-modify-ninja-user-show.component.css']
 })
-export class ShowNinjaUserComponent implements OnInit{
-
+export class SaveModifyNinjaUserShowComponent {
   @Input() ninjaShow!:NinjaUserFormationDTO;
   @Input() canModify:boolean =false;
   @Input() formationView:boolean = false;
@@ -84,12 +82,6 @@ export class ShowNinjaUserComponent implements OnInit{
     }
 
     if(cadena === 'ninja'){
-      if(this.ninjaShow.equipment.partes.length>0){
-        this.ninjaShow.equipment.nombre = this.setName;
-      }
-      if(this.ninjaShow.accesories.partes.length>0){
-        this.ninjaShow.accesories.nombre = this.accesorieSetName;
-      }
       this.updateNinja.emit({type:cadena,name:this.ninjaName});
     }
 
@@ -111,14 +103,7 @@ export class ShowNinjaUserComponent implements OnInit{
     }
 
     if(cadena === 'ninja'){
-      console.log("vamos a crear")
       console.log(this.ninjaName);
-      if(this.ninjaShow.equipment.partes.length>0){
-        this.ninjaShow.equipment.nombre = this.setName;
-      }
-      if(this.ninjaShow.accesories.partes.length>0){
-        this.ninjaShow.accesories.nombre = this.accesorieSetName;
-      }
       this.createNinja.emit({type:cadena,name:this.ninjaName});
     }
 

@@ -28,15 +28,6 @@ export class NinjasService {
     });
   }
 
-  deleteNinjaUser(name:string):Observable<DeleteNinjaUserDTO>{
-    const url = `${this.baseUrl}/ninjas/deleteByName/${name}`
-    const headers = new HttpHeaders().set('Authorization', 
-    'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete<DeleteNinjaUserDTO>(url, {
-        headers
-      });
-  }
-
   calculateNinjaUserFinalBonuses(ninja:ICreateUserNinja):
   Observable<NinjaUserFormationDTO>{
     const url = `${this.baseUrl}/ninjas/calculateNinjaBonuses`;
@@ -47,6 +38,15 @@ export class NinjasService {
     return this.http.post<NinjaUserFormationDTO>(url, body, {
       headers
     });
+  }
+
+  deleteNinjaUser(name:string):Observable<DeleteNinjaUserDTO>{
+    const url = `${this.baseUrl}/ninjas/deleteByName/${name}`
+    const headers = new HttpHeaders().set('Authorization', 
+    'Bearer ' + localStorage.getItem('token'));
+    return this.http.delete<DeleteNinjaUserDTO>(url, {
+        headers
+      });
   }
 
   createNinjaUser(ninja: ICreateUserNinja): 

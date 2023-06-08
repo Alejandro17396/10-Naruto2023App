@@ -1,8 +1,25 @@
-import { Attribute, Ninja, NinjaUserFormationDTO } from "src/app/ninjas/interfaces/Ninja.interfaces";
+import { Attribute, ICreateUserNinja, Ninja, NinjaUserFormationDTO } from "src/app/ninjas/interfaces/Ninja.interfaces";
 
 export interface FormationResponsePaginated {
     numFormations: number;
     formations:    FormationElement[];
+}
+
+export interface ActionToDo{
+
+    save:boolean;
+    update:boolean;
+    exit:boolean;
+}
+
+export interface DeleteUserFormationDTO {
+    code:       number;
+    message:   string;
+}
+
+export interface ICreateFormation {
+    name:   string;
+    ninjas: ICreateUserNinja[];
 }
 
 export interface UserFormationDTO {
@@ -13,6 +30,8 @@ export interface UserFormationDTO {
     supports?:NinjaUserFormationDTO[];
     assaulters?:NinjaUserFormationDTO[];
     vanguards?:NinjaUserFormationDTO[];
+    mergedTalentAttributes?: Attribute[];
+    finalSkillsAttributes?:  FinalSkillsAttribute[];
 }
 
 export interface FinalSkillsAttribute {

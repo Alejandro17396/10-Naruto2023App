@@ -1,7 +1,7 @@
-<div class="card-container indigo-container">
-
-    <div class="grid" style="border: 1px solid #ffffff;">
-        <div class="col-4" style="border: 1px solid #ffffff;">
+<div class="card-container indigo-container ">
+    <!-- style="border: 1px solid #ffffff;" -->
+    <div class="grid " >
+        <div class="col-4 border-1 surface-border border-round m-3" >
             <p-table #formationsTable [value]="formations" selectionMode="single" [(selection)]="selectedFormation"  
             [rows]="14" [paginator]="true" stateStorage="session" stateKey="stat edemo-session">
             <ng-template pTemplate="header">
@@ -31,12 +31,13 @@
             </ng-template>
             </p-table>
         </div >
-        <div class="grid col-8" style="border: 1px solid #ffffff;">
+        <div class="grid col-7 border-1 surface-border border-round m-3" >
             <show-user-formation class="grid col-12"
             [showFormation]="showFormation"
             [assaulters]="assaulters"
             [vanguards]="vanguards"
-            [supports]="supports"></show-user-formation>
+            [supports]="supports"
+            [canModify]="false"></show-user-formation>
         </div> 
     </div>
    

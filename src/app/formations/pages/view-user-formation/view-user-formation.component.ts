@@ -31,8 +31,30 @@ export class ViewUserFormationComponent implements OnInit{
             }
           }
         );
+        this.calculateFormationTalent();
       }
     ); 
+
+
+  }
+
+  calculateFormationTalent(){
+    if(!this.showFormation){
+      return;
+    }
+    const body: Map<string,string> = new Map<string,string>();
+    this.showFormation.ninjas.forEach(
+      ninja =>{
+        body.set(ninja.ninja.name,"SKILL");
+      }
+    );
+    this.formationsService.createFormationByNinjas(body).subscribe(
+      response =>{
+        this.showFormation.mergedTalentAttributes = response.mergedTalentAttributes;
+        this.showFormation.finalSkillsAttributes = response.finalSkillsAttributes;
+      }
+    );
+
   }
 
   filter(elemento:any,elemento2:any){
@@ -72,5 +94,6 @@ export class ViewUserFormationComponent implements OnInit{
         }
       }
     );
+    this.calculateFormationTalent();
   }
 }

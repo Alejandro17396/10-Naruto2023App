@@ -32,27 +32,22 @@
         <div class="col-5 p-2 m-2 overflow-hidden" >
             <div class="col-12 p-2 m-2 overflow-hidden">
                 <span class="p-float-label">
-                    <input pInputText placeholder="Ninja Name" id="setName" [(ngModel)]="ninjaName" />
+                    <input pInputText placeholder="Set Name" id="setName" [(ngModel)]="ninjaName" />
                 </span> 
             </div>
         </div>
         <div class="grid col-6 p-2 m-2 overflow-hidden" >
-            <div class="col-6 p-2 m-2 overflow-hidden" >
+            <div class="col-4 p-2 m-2 overflow-hidden" >
                 <p-button label="Update" styleClass="p-button-success setName" (click)="updateSet('ninja')">
                     <i class="pi pi-save" style="font-size: 1rem"></i>
                 </p-button> 
             </div>
-            <div class="col-5 p-2 m-2 overflow-hidden" >
+            <div class="col-3 p-2 m-2 overflow-hidden" >
                 <p-toast></p-toast>
                 <p-button label="Save" styleClass="p-button-primary setName" (click)="createSet('ninja')">
                     <i class="pi pi-save" style="font-size: 1rem"></i>
                 </p-button> 
-            </div> 
-            <!-- <div class="col-3 p-2 m-2 overflow-hidden" *ngIf="formationView">
-                <p-toast></p-toast>
-                <p-button label="Exit" styleClass="p-button-danger setName">
-                </p-button> 
-            </div>  -->
+            </div>
         </div> 
     </div>
     <p-tabView [(activeIndex)]="selectedTab" class="grid m-3 overflow-hidden border-1 surface-border border-round">

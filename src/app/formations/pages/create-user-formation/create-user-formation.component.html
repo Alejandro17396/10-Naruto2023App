@@ -1,1 +1,115 @@
-<p>create-user-formation works!</p>
+<div class="card-container indigo-container ">
+    <!-- style="border: 1px solid #ffffff;" -->
+    <div class="grid " >
+        <div class="col-4 border-1 surface-border border-round m-3" >
+            <p-tabView [scrollable]="true">
+                <p-tabPanel header="formations" *ngIf="formations.length>0">
+                    <p-table #formationsTable [value]="formations" selectionMode="single" [(selection)]="selectedFormation"  
+                        [rows]="14" [paginator]="true" stateStorage="session" stateKey="stat edemo-session">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="name" >Formations list</th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input pInputText type="text" (input)="filter2($event,formationsTable)" placeholder="Search by Formation name" 
+                                    class="w-full">
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-formation let-rowIndex="rowIndex">
+                            <tr >
+                                <td class="btn-cell">
+                                    <p-button label="Compare" styleClass="p-button-primary" ></p-button>
+                                    <a class="setName">{{formation.name}}</a>
+                                    <p-button label="Show" styleClass="p-button-secondary" (click)="changeShowFormation(formation,rowIndex)"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4">No formations found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+                 <!-- NINJAS  -->
+                <p-tabPanel header="ninjas" *ngIf="ninjas.length>0" > 
+                    <p-table #ninjasTable [value]="ninjas" selectionMode="single" [(selection)]="selectedNinja"  
+                    [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="name" >Ninjas list</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" (input)="filter($event,ninjasTable,'name')" placeholder="Search by Name" class="w-full">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-ninja let-rowIndex="rowIndex">
+                        <tr >
+                            <td class="btn-cell">
+                                <img src="assets/images/ninjas/images/{{ninja.name}}.jpg" alt="" style="height:50px; width:50px;">
+                                <a class="setName">{{ninja.name}}</a>
+                                <p-button label="Add" styleClass="p-button-primary" (click)="addNinja(ninja)" ></p-button>
+                            </td>
+                            <p-toast></p-toast>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">No sets found.</td>
+                        </tr>
+                    </ng-template>
+                    </p-table>
+                </p-tabPanel>
+                <!-- User Ninjas  -->
+                <p-tabPanel header="ninjasUser" *ngIf="ninjasUser.length>0">
+                    <p-table #ninjaUserTable [value]="ninjasUser" selectionMode="single" [(selection)]="selectedNinjaUser"  
+                    [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="nombre" >Sets list</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input pInputText type="text" (input)="filter($event,ninjaUserTable,'nombre')" placeholder="Search by Name" class="w-full">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-ninja let-rowIndex="rowIndex">
+                        <tr >
+                            <td class="btn-cell">
+                                <img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" alt="" style="height:50px; width:50px;">
+                                <a class="setName">{{ninja.nombre}}</a>
+                                <p-button label="Add" styleClass="p-button-primary" (click)="addNinjaUser(ninja)"></p-button>
+                            </td>
+                            <p-toast></p-toast>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="4">No sets found.</td>
+                        </tr>
+                    </ng-template>
+                    </p-table>
+                </p-tabPanel>
+
+            </p-tabView>
+            
+        </div >
+        <div class="grid col-7 border-1 surface-border border-round m-3" >
+            <show-user-formation class="grid col-12"
+            [showFormation]="showFormation"
+            [assaulters]="assaulters"
+            [vanguards]="vanguards"
+            [supports]="supports"
+            [canModify]="true"
+            (formationChanged)="rechargeFormations($event)"
+            #childComponent></show-user-formation>
+        </div>  
+    </div>
+   
+
+</div>

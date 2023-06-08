@@ -188,14 +188,14 @@ export class NinjaUserFormationDTO {
     totallyBonus?:       null;
 
     constructor(){
-        this.nombre = "auxiliar";
+        this.nombre = "";
         this.accesories ={
-            nombre :"auxiliar accs",
+            nombre :"",
             partes:[],
             bonuses:[]
         }
         this.equipment = {
-            nombre :"auxiliar accs",
+            nombre :"",
             partes:[],
             bonuses:[]
         }
