@@ -112,9 +112,9 @@ export class ShowSetComponent {
     };
 
     this.ref = this.dialogService.open(ConfirmDialogSetComponent, {
-      header: 'Set filter conditions',
-      width: '20%',
-      height:'20%',
+      header: 'You are gona save ' + this.showSet.nombre,
+      width: '30%',
+      height:'30%',
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
       maximizable: true,

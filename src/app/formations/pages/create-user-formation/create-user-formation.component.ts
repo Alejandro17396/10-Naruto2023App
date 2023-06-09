@@ -18,6 +18,7 @@ import { SaveElement } from 'src/app/shared/interfaces/attributes.interface,';
 import { concatMap } from 'rxjs';
 import { NinjasSharedDataService } from 'src/app/ninjas/services/ninjas-shared-data.service';
 import { ShowUserFormationComponent } from '../show-user-formation/show-user-formation.component';
+import { FormationsSharedDataService } from '../../services/formations-shared-data.service';
 
 @Component({
   selector: 'app-create-user-formation',
@@ -41,23 +42,48 @@ export class CreateUserFormationComponent implements OnInit{
     this.formationsService.getUserFormations().subscribe(
       response =>{
         this.formations = response;
-        this.showFormation = response[0];
-        this.showFormation.ninjas.forEach(
-          ninja =>{
-            if(ninja.formation && ninja.formation == Formation.Support){
-              this.supports.push(ninja);
+        if(!this.showFormation){
+          this.showFormation = JSON.parse(JSON.stringify(response[0]));
+          this.formationName = this.showFormation.name;
+          this.showFormation.ninjas.forEach(
+            ninja =>{
+              if(ninja.formation && ninja.formation == Formation.Support){
+                this.supports.push(ninja);
+              }
+              if(ninja.formation && ninja.formation == Formation.Assaulter){
+                this.assaulters.push(ninja);
+              }
+              if(ninja.formation && ninja.formation == Formation.Vanguard){
+                this.vanguards.push(ninja);
+              }
             }
-            if(ninja.formation && ninja.formation == Formation.Assaulter){
-              this.assaulters.push(ninja);
-            }
-            if(ninja.formation && ninja.formation == Formation.Vanguard){
-              this.vanguards.push(ninja);
-            }
-          }
-        );
-        this.calculateFormationTalent();
+          );
+          this.calculateFormationTalent();
+        }
       }
-    ); 
+    );
+    this.formationsSharedDataService._userFormationToModify.subscribe(
+      response =>{
+        if(response){
+          this.showFormation = JSON.parse(JSON.stringify(response));
+          this.formationName = this.showFormation.name;
+          this.showFormation.ninjas.forEach(
+            ninja =>{
+              if(ninja.formation && ninja.formation == Formation.Support){
+                this.supports.push(ninja);
+              }
+              if(ninja.formation && ninja.formation == Formation.Assaulter){
+                this.assaulters.push(ninja);
+              }
+              if(ninja.formation && ninja.formation == Formation.Vanguard){
+                this.vanguards.push(ninja);
+              }
+            }
+          );
+          this.calculateFormationTalent();
+        }
+      }
+    );
 
   }
 
@@ -104,9 +130,10 @@ export class CreateUserFormationComponent implements OnInit{
     private setsService:SetsService,
     private setItemsService:SetItemsService,
     private accesorieSetItemsService:AccesorieSetItemsService,
-    private ninjasDataSharedService:NinjasSharedDataService){}
+    private ninjasDataSharedService:NinjasSharedDataService,
+    private formationsSharedDataService:FormationsSharedDataService){}
 
-
+  formationName:string = "";
   formations:UserFormationDTO[] = [];
   selectedFormation!:UserFormationDTO;
   showFormation!:UserFormationDTO;
@@ -172,7 +199,8 @@ export class CreateUserFormationComponent implements OnInit{
 
   changeShowFormation(formation:UserFormationDTO,rowIndex:number){
     console.log(formation)
-    this.showFormation= formation;
+    console.log(this.ninjasUser)
+    this.showFormation= JSON.parse(JSON.stringify(formation));
     this.supports = [];
     this.assaulters = [];
     this.vanguards = [];
@@ -252,7 +280,7 @@ export class CreateUserFormationComponent implements OnInit{
      let ninja = ninjaUserAux.ninja;
      ninjaUserAux.ninja = ninja;
      let exists:boolean = false;
-     console.log("hoal");
+     console.log("hola");
      console.log(this.showFormation);
      if(this.showFormation.ninjas.length >= 4){
       this.showError("There is already 5 ninjas in formation");

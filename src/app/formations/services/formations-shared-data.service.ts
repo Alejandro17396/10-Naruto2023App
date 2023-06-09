@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormationElement } from '../interfaces/formations.interface';
+import { FormationElement, UserFormationDTO } from '../interfaces/formations.interface';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -14,17 +14,17 @@ export class FormationsSharedDataService {
   _formationLeft:BehaviorSubject<FormationElement> = new BehaviorSubject<FormationElement>(FormationElement.createFormation());
   _showFormationRight:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   _showFormationLeft:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  /*_userNinjaToModify:BehaviorSubject<NinjaUserFormationDTO|undefined> = 
-  new BehaviorSubject<NinjaUserFormationDTO|undefined>(undefined);*/
+  _userFormationToModify:BehaviorSubject<UserFormationDTO|undefined> = 
+  new BehaviorSubject<UserFormationDTO|undefined>(undefined);
 
 
- /*get getUserNinjaToModify(){
-    return this._userNinjaToModify.asObservable();
+  get getUserFormationToModify(){
+    return this._userFormationToModify.asObservable();
   }
   
-  set setUserNinjaToModify(ninja:NinjaUserFormationDTO){
-    this._userNinjaToModify.next(ninja);
-  }*/
+  set setUserFormationToModify(ninja:UserFormationDTO){
+    this._userFormationToModify.next(ninja);
+  }
 
   get formationsToCompareList(){
     return this._formationsToCompareList;

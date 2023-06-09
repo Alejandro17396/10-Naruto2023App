@@ -19,6 +19,7 @@ import { ShowNinjaUserFormationPanelComponent } from './pages/show-ninja-user-fo
 import { ShowUserFormationCreateComponent } from './pages/show-user-formation-create/show-user-formation-create.component';
 import { SaveModifyNinjaUserComponent } from './pages/save-modify-ninja-user/save-modify-ninja-user.component';
 import { SaveModifyNinjaUserShowComponent } from './pages/save-modify-ninja-user-show/save-modify-ninja-user-show.component';
+import { ConfirmDialogAddFormationComponent } from './pages/confirm-dialog-add-formation/confirm-dialog-add-formation.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { SaveModifyNinjaUserShowComponent } from './pages/save-modify-ninja-user
     ShowNinjaUserFormationPanelComponent,
     ShowUserFormationCreateComponent,
     SaveModifyNinjaUserComponent,
-    SaveModifyNinjaUserShowComponent
+    SaveModifyNinjaUserShowComponent,
+    ConfirmDialogAddFormationComponent
   ],
   imports: [
     CommonModule,

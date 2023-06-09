@@ -96,4 +96,15 @@ export class ViewUserFormationComponent implements OnInit{
     );
     this.calculateFormationTalent();
   }
+
+  rechargeFormations(cadena:string){
+    this.formationsService.getUserFormations().subscribe(
+      response =>{
+        this.formations = response;
+        if(response.length > 0){
+          this.changeShowFormation(response[0],1);
+        }
+      }
+    );
+  }
 }

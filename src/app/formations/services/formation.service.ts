@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NinjaFilter, NinjaUserFormationDTO } from 'src/app/ninjas/interfaces/Ninja.interfaces';
-import { CompareFormations, FormationElement, FormationResponsePaginated, ICreateFormation, UserFormationDTO } from '../interfaces/formations.interface';
+import { CompareFormations, DeleteUserFormationDTO, FormationElement, FormationResponsePaginated, ICreateFormation, UserFormationDTO } from '../interfaces/formations.interface';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
 
@@ -61,18 +61,18 @@ export class FormationService {
     });
   }
 
-  /*deleteNinjaUser(name:string):Observable<DeleteNinjaUserDTO>{
-    const url = `${this.baseUrl}/ninjas/deleteByName/${name}`
+  deleteUserFormation(name:string):Observable<DeleteUserFormationDTO>{
+    const url = `${this.baseUrl}/formation/deleteByName/${name}`
     const headers = new HttpHeaders().set('Authorization', 
     'Bearer ' + localStorage.getItem('token'));
-    return this.http.delete<DeleteNinjaUserDTO>(url, {
+    return this.http.delete<DeleteUserFormationDTO>(url, {
         headers
       });
-  }*/
+  }
 
   createUserFormation(formation: ICreateFormation): 
   Observable<HttpResponse<UserFormationDTO>> {
-    const url = `${this.baseUrl}/ninjas/create`;
+    const url = `${this.baseUrl}/formation/create`;
     const body: ICreateFormation = formation;
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
   
@@ -84,7 +84,7 @@ export class FormationService {
 
   updateUserFormation(formation: ICreateFormation): 
   Observable<HttpResponse<UserFormationDTO>> {
-    const url = `${this.baseUrl}/ninjas/update`;
+    const url = `${this.baseUrl}/formation/update`;
     const body: ICreateFormation = formation;
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
   

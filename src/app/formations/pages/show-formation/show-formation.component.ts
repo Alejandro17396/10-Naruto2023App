@@ -9,6 +9,7 @@ import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 import { FormationService } from '../../services/formation.service';
 import { NinjasService } from '../../../ninjas/services/ninjas-service.service';
 import { CompareFormationsListPanelComponent } from '../compare-formations-list-panel/compare-formations-list-panel.component';
+import { ConfirmDialogAddFormationComponent } from '../confirm-dialog-add-formation/confirm-dialog-add-formation.component';
 
 @Component({
   selector: 'show-formation',
@@ -119,6 +120,22 @@ export class ShowFormationComponent implements OnInit{
           this.changeFormations.emit(response.formations);
         }
     );  
+  }
+
+  saveFormation(){
+    const data = {
+      formation:this.showFormation
+    };
+
+    this.ref = this.dialogService.open(ConfirmDialogAddFormationComponent, {
+      header: 'Set filter conditions',
+      width: '70%',
+      height:'70%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
   }
   
   showSuccess() {

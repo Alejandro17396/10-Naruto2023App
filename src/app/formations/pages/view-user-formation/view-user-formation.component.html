@@ -37,6 +37,7 @@
             [assaulters]="assaulters"
             [vanguards]="vanguards"
             [supports]="supports"
+            (formationChanged)="rechargeFormations($event)"
             [canModify]="false"></show-user-formation>
         </div> 
     </div>

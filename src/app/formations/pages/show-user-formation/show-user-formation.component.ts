@@ -11,6 +11,8 @@ import { NinjasSharedDataService } from '../../../ninjas/services/ninjas-shared-
 import { SaveModifyNinjaUserComponent } from '../save-modify-ninja-user/save-modify-ninja-user.component';
 import { NinjaUtils } from 'src/app/ninjas/utils/NinjaUtils';
 import { HttpResponse } from '@angular/common/http';
+import { FormationsSharedDataService } from '../../services/formations-shared-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'show-user-formation',
@@ -29,7 +31,9 @@ export class ShowUserFormationComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private cdr: ChangeDetectorRef,
-    private ninjasSharedDataService:NinjasSharedDataService){}
+    private route: Router,
+    private ninjasSharedDataService:NinjasSharedDataService,
+    private formationsSharedDataService:FormationsSharedDataService){}
 
   @Input() showFormation!:UserFormationDTO;
   @Input() supports:NinjaUserFormationDTO[] = [];
@@ -37,7 +41,7 @@ export class ShowUserFormationComponent implements OnInit {
   @Input() vanguards:NinjaUserFormationDTO[] = [];
   @Input() canModify:boolean=false;
   @Output() formationChanged: EventEmitter<string>= new EventEmitter<string>();
-  formationName:string = "";
+  @Input() formationName:string = "";
   ninja:Ninja = Ninja.createNinja();
   ref!: DynamicDialogRef;
 
@@ -54,7 +58,8 @@ export class ShowUserFormationComponent implements OnInit {
       const data = {
         ninjaShow: ninja,
         canModify:true,
-        formationView:true
+        formationView:true,
+        formationPosition:ninja.ninja.formation
       };
       this.ninjasSharedDataService.setUserNinjaToModify = ninja;
       //console.log("voy a enviar mod")
@@ -164,7 +169,6 @@ export class ShowUserFormationComponent implements OnInit {
             return true;
           }
         );
-
         this.calculateFormationTalent();
       }
   }
@@ -190,14 +194,37 @@ export class ShowUserFormationComponent implements OnInit {
             return true;
           }
         );
-
         this.calculateFormationTalent();
       }
   }
 
+  validateBody(body:ICreateUserNinja){
+  
+    console.log(body);
+    if(body.accesories && body.accesories.accesorieSetName.length <5 
+      && body.accesories.accesories.length > 0){
+      this.showError("Ninja "+ body.ninja + " accesories set name must have 5 or more characters");
+      return false;
+    }
+    if(body.set && body.set.setName.length < 5  && body.set.equipment.length > 0){
+      this.showError("Ninja "+ body.ninja + " equipment set name must have 5 or more characters");
+      return false;
+    }
+
+    if(body.accesories && body.accesories.accesorieSetName.length >0 
+      && body.accesories.accesories.length == 0){
+      body.accesories = undefined;
+    }
+
+    if(body.set && body.set.setName.length >0 && body.set.equipment.length == 0){
+      body.set = undefined;
+    }
+    return true;
+  }
+
   updateFormation(){
 
-    if(this.showFormation.ninjas.length > 1 ){
+    if(this.showFormation.ninjas.length < 1 ){
       this.showError("You must add at least one ninja to the formation.");
       return;
     }
@@ -214,25 +241,39 @@ export class ShowUserFormationComponent implements OnInit {
       accept: () => {
         this.showFormation.name = this.formationName;
         let ninjasBody:ICreateUserNinja [] = [];
+        let notSave:boolean=false;
         this.showFormation.ninjas.forEach(
           ninjaF =>{
-            ninjasBody.push(NinjaUtils.NinjaUserDTOToICreateNinjaUser(ninjaF));
-          }
-        );
+            let aux :ICreateUserNinja = NinjaUtils.NinjaUserDTOToICreateNinjaUser(ninjaF);
+            if(!this.validateBody(aux)){
+              notSave = true;
+              return;
+            }
+            if(ninjaF.nombre.length <5){
+              notSave = true;
+              this.showError("Ninja "+ ninjaF.ninja.name +" name must had at least 5 characters")
+              return;
+            }
+          ninjasBody.push(aux);
+        });
+
+        if(notSave){
+          return;
+        }
         let body:ICreateFormation = {
             name:this.formationName,
             ninjas:ninjasBody
         };
-        
+
         this.formationsService.updateUserFormation(body).subscribe(
           (response:HttpResponse<UserFormationDTO>) =>{
             this.showSuccess("Formation " + body.name + "updated succesfully");
             console.log(response.body);
+            this.formationChanged.emit('reload');
           },
-          (error:DeleteUserFormationDTO) =>{
-            this.showError(error.message);
+          (error) =>{
+            this.showError(error.error.message);
           }
-         
       );
       },
       reject: (type: any) => {
@@ -249,7 +290,7 @@ export class ShowUserFormationComponent implements OnInit {
   }
 
   saveFormation(){
-    if(this.showFormation.ninjas.length > 1 ){
+    if(this.showFormation.ninjas.length < 1 ){
       this.showError("You must add at least one ninja to the formation.");
       return;
     }
@@ -266,11 +307,25 @@ export class ShowUserFormationComponent implements OnInit {
       accept: () => {
         this.showFormation.name = this.formationName;
         let ninjasBody:ICreateUserNinja [] = [];
+        let notSave:boolean=false;
         this.showFormation.ninjas.forEach(
           ninjaF =>{
-            ninjasBody.push(NinjaUtils.NinjaUserDTOToICreateNinjaUser(ninjaF));
+            let aux :ICreateUserNinja = NinjaUtils.NinjaUserDTOToICreateNinjaUser(ninjaF);
+            if(!this.validateBody(aux)){
+              notSave=true;
+              return;
+            }
+            if(ninjaF.nombre.length <5){
+              notSave=true;
+              this.showError("Ninja "+ ninjaF.ninja.name +" name must had at least 5 characters")
+              return;
+            }
+          ninjasBody.push(aux);
           }
         );
+        if(notSave){
+          return;
+        }
         let body:ICreateFormation = {
             name:this.formationName,
             ninjas:ninjasBody
@@ -280,9 +335,10 @@ export class ShowUserFormationComponent implements OnInit {
           (response:HttpResponse<UserFormationDTO>) =>{
             this.showSuccess("Formation " + body.name + "saved succesfully");
             console.log(response.body);
+            this.formationChanged.emit('reload');
           },
-          (error:DeleteUserFormationDTO) =>{
-            this.showError(error.message);
+          (error) =>{
+            this.showError(error.error.message);
           }
          
         );
@@ -308,11 +364,40 @@ export class ShowUserFormationComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: text });
   }
  
-  modify(){
-
+  ModifyFormation(){
+    this.formationsSharedDataService.setUserFormationToModify = this.showFormation;
+    this.route.navigate(['/formations/createOwnFormations']);
   }
 
-  delete(){
-
+  deleteFormation(){
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to save formation ' +this.showFormation.name +'?' +'\n'
+      +'Ensured to set all data correctly',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        
+        this.formationsService.deleteUserFormation(this.showFormation.name).subscribe(
+          (response:DeleteUserFormationDTO) =>{
+            this.showSuccess("Formation " + response.message + "deleted succesfully");
+            this.formationChanged.emit('reload');
+          },
+          (error:DeleteUserFormationDTO) =>{
+            this.showError(error.message);
+          }
+         
+        );
+      },
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+              break;
+          case ConfirmEventType.CANCEL:
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+              break;
+        }
+      }
+    });
   }
 }

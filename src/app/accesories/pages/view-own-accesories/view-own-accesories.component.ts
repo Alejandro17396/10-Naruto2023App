@@ -84,9 +84,6 @@ export class ViewOwnAccesoriesComponent {
           (error:DeleteUserAccesorieSetDTO) =>{
             this.showError(error.message);
           }
-          /*(error:ErrorResponse) =>{
-            this.showError(error.message);
-          }*/
       );
       },
       reject: (type: any) => {

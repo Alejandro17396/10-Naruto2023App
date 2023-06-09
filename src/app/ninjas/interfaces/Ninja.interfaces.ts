@@ -283,6 +283,7 @@ export interface Ninja {
     skills:       Skill[];
     awakenings:   Awakening[];
     formation:    Formation;
+    nameAux?:      string;
 }
 
 export interface WrapEnumsDropdown{

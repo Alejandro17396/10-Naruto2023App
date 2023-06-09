@@ -244,7 +244,6 @@ export class CreateOwnAccesoriesSetComponent implements OnInit{
             this.showSuccess("Set "+ this.setName +" updated succesfully");
           },
           (error) =>{
-            console.log(error.error);
             this.showError(error.error.message);
           }
         );

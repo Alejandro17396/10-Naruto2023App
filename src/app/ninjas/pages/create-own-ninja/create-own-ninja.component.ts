@@ -49,7 +49,11 @@ export class CreateOwnNinjaComponent {
   ngOnInit(): void {
     this.ninjasService.getNinjas().subscribe(
       response =>{
-        this.ninjas = response.ninjas;
+        if(this.config && this.config.data && this.config.data.formationPosition){
+          this.ninjas = response.ninjas.filter(ninja => ninja.formation === this.config.data.formationPosition);
+        }else{
+          this.ninjas = response.ninjas;
+        }
       }
     );
     this.setsService.getSets().pipe(
@@ -139,8 +143,6 @@ export class CreateOwnNinjaComponent {
           this.addNinja(this.ninjaShow.ninja);
         }
 
-        /*this.setAccesoriesItemUsed(this.ninjaShow.accesories.partes);
-        this.addNinja(this.ninjaShow.ninja);*/
       }else{
         this.ninjaShow = new NinjaUserFormationDTO();
       }
@@ -159,10 +161,8 @@ export class CreateOwnNinjaComponent {
       }
     );
 
-    console.log("datos");
     if(this.config && this.config.data && this.config.data.formationView){
       this.formationView = this.config.data.formationView;
-      console.log("lo pones a " +this.config.data.formationView)
       let response = this.config.data.ninjaShow;
       if(response){
         this.ninjaShow = response;
@@ -185,7 +185,6 @@ export class CreateOwnNinjaComponent {
           this.addNinja(this.ninjaShow.ninja);
         }
       }
-      console.log("voy a crear ninjas de formaciones");
     }
     
 
