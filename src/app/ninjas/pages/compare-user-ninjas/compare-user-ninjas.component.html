@@ -1,0 +1,38 @@
+<div class="card-container indigo-container" >
+    <p-carousel [value]="ninjas" [numVisible]="8" [numScroll]="8" [circular]="true" [responsiveOptions]="responsiveOptions">
+        <ng-template let-ninja pTemplate="item">
+            <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+                <div class="mb-3">
+                    <img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" style="height:50px; width:50px;"
+                    [alt]="ninja.name"
+                    class="m-1"/>
+                </div>
+                <div>
+                    <h4 class="mb-1">{{ ninja.nombre }}</h4>
+                    <div class="car-buttons mt-5">
+                        <p-button type="button" label="Add" 
+                        styleClass="p-button p-button-rounded mr-2" 
+                        icon="pi pi-arrow-down-left"
+                        (click)="changeNinjaLeft(ninja)"></p-button>
+                        <p-button type="button" label="Add" 
+                        styleClass="p-button-success p-button-rounded mr-2" 
+                        icon="pi pi-arrow-down-right" iconPos="right"
+                        (click)="changeNinjaRight(ninja)"></p-button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
+<div class="card-container indigo-container"  >
+    <div class="grid overflow-hidden">
+        <div class="col-6 justify-content-center text-center">
+            <view-ninja-user-differences [ninjaPosition]="1">
+            </view-ninja-user-differences>
+        </div> 
+        <div class="col-6 justify-content-center text-center">
+            <view-ninja-user-differences [ninjaPosition]="2">
+            </view-ninja-user-differences>
+        </div>
+    </div>
+</div>

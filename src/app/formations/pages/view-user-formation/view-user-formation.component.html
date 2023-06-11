@@ -16,9 +16,9 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-formation let-rowIndex="rowIndex">
-                <tr >
+                <tr ><p-toast></p-toast>
                     <td class="btn-cell">
-                        <p-button label="Compare" styleClass="p-button-primary" ></p-button>
+                        <p-button label="Add To Compare" styleClass="p-button-primary" (click)="addToCompare(formation)"></p-button>
                         <a class="setName">{{formation.name}}</a>
                         <p-button label="Show" styleClass="p-button-secondary" (click)="changeShowFormation(formation,rowIndex)"></p-button>
                     </td>
@@ -29,7 +29,7 @@
                     <td colspan="4">No formations found.</td>
                 </tr>
             </ng-template>
-            </p-table>
+            </p-table>   
         </div >
         <div class="grid col-7 border-1 surface-border border-round m-3" >
             <show-user-formation class="grid col-12"
@@ -37,6 +37,7 @@
             [assaulters]="assaulters"
             [vanguards]="vanguards"
             [supports]="supports"
+            [formationsToCompare]="formationsToCompare"
             (formationChanged)="rechargeFormations($event)"
             [canModify]="false"></show-user-formation>
         </div> 

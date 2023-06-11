@@ -5,6 +5,7 @@ import { LayoutNinjasComponent } from './pages/layout-ninjas/layout-ninjas.compo
 import { NinjaCompareComponent } from './pages/ninja-compare/ninja-compare.component';
 import { CreateOwnNinjaComponent } from './pages/create-own-ninja/create-own-ninja.component';
 import { ViewOwnNinjasComponent } from './pages/view-own-ninjas/view-own-ninjas.component';
+import { CompareUserNinjasComponent } from './pages/compare-user-ninjas/compare-user-ninjas.component';
 
 const routes: Routes = [
   {
@@ -12,9 +13,10 @@ const routes: Routes = [
     component: LayoutNinjasComponent,
     children:[
       { path:'list',component:NinjaListComponent },
-      { path:'NinjasComparator', component:NinjaCompareComponent},
+      { path:'ninjasComparator', component:NinjaCompareComponent},
       { path:'createOwnNinjas',component:CreateOwnNinjaComponent},
       { path:'viewOwnNinjas',component:ViewOwnNinjasComponent},
+      { path:'userNinjasComparator',component:CompareUserNinjasComponent},
       { path:'**', redirectTo:'list'}
     ]
   }

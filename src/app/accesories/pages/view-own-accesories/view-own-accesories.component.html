@@ -16,7 +16,7 @@
 <ng-template pTemplate="body" let-set let-rowIndex="rowIndex">
     <tr >
         <td class="btn-cell">
-             <!-- <img src="assets/images/sets/amegakure armor.jpg" alt="" style="height:50px; width:50px;">  -->
+            <p-button label="Add to compare list" styleClass="p-button-primary" (click)="addToCompare(set)"></p-button>
             <a class="setName">{{set.nombre}}</a>
             <p-button label="Show" styleClass="p-button-secondary" (click)="showSetItem(set,rowIndex)" ></p-button>
         </td>
@@ -46,14 +46,17 @@
             </div>
         </div>
         <div class="grid overflow-hidden border-1 surface-border border-round m-3" *ngIf="set.partes.length>0">
-            <div class="col-5 p-2 m-2 overflow-hidden" >
+            <div class="col-3 p-2 m-2 overflow-hidden" >
                 <p-button label="Modify" styleClass="p-button-primary setName" 
-                
                 (click)="modifySet()">
                     <i class="pi pi-save" style="font-size: 1rem"></i>
                 </p-button>  
             </div>
             <div class="col-5 p-2 m-2 overflow-hidden" >
+                <p-toast></p-toast>
+                <p-button styleClass="p-button-success" class="col-4" (click)="viewCompareList()">View Compare list</p-button>
+            </div>
+            <div class="col-3 p-2 m-2 overflow-hidden" >
                 <p-toast></p-toast>
                 <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
                 <p-button label="Delete" styleClass="p-button-danger setName" 

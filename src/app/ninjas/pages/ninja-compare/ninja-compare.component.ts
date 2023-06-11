@@ -17,7 +17,6 @@ export class NinjaCompareComponent {
     private ninjasSharedDataService:NinjasSharedDataService) {}
 
     ngOnInit(): void {
-    //this.ninjas = this.accesoriesSharedDataService._accesoriesToCompareList;
     if(this.ninjas.length === 0){
     this.ninjasService.getNinjas().subscribe(
     response =>{
@@ -61,23 +60,23 @@ export class NinjaCompareComponent {
     ninjaCompareRight!:Ninja;
 
     changeNinjaLeft(ninja:Ninja){
-    if(this.ninjaCompareRight){
-    console.log("si hay set der para comparar")
-    this.ninjaCompareLeft = this.calculateDifferences(JSON.parse(JSON.stringify(ninja)),
-    JSON.parse(JSON.stringify(this.ninjaRight)));
-    this.ninjaCompareRight = this.calculateDifferences(JSON.parse(JSON.stringify(this.ninjaRight)),
-    JSON.parse(JSON.stringify(ninja)));
-    this.ninjasSharedDataService.setNinjaLeft = this.ninjaCompareLeft;
-    this.ninjaLeft = JSON.parse(JSON.stringify(ninja));
-    this.ninjasSharedDataService.setNinjaRight = this.ninjaCompareRight;
-    this.ninjasSharedDataService.setShowNinjaLeft= true;
-    }else{
-    console.log("no hay set der para comparar")
-    this.ninjaCompareLeft = JSON.parse(JSON.stringify(ninja));
-    this.ninjaLeft = JSON.parse(JSON.stringify(ninja));
-    this.ninjasSharedDataService.setNinjaLeft = this.ninjaCompareLeft;
-    this.ninjasSharedDataService.setShowNinjaLeft= true;
-    }
+      if(this.ninjaCompareRight){
+      console.log("si hay set der para comparar")
+      this.ninjaCompareLeft = this.calculateDifferences(JSON.parse(JSON.stringify(ninja)),
+      JSON.parse(JSON.stringify(this.ninjaRight)));
+      this.ninjaCompareRight = this.calculateDifferences(JSON.parse(JSON.stringify(this.ninjaRight)),
+      JSON.parse(JSON.stringify(ninja)));
+      this.ninjasSharedDataService.setNinjaLeft = this.ninjaCompareLeft;
+      this.ninjaLeft = JSON.parse(JSON.stringify(ninja));
+      this.ninjasSharedDataService.setNinjaRight = this.ninjaCompareRight;
+      this.ninjasSharedDataService.setShowNinjaLeft= true;
+      }else{
+      console.log("no hay set der para comparar")
+      this.ninjaCompareLeft = JSON.parse(JSON.stringify(ninja));
+      this.ninjaLeft = JSON.parse(JSON.stringify(ninja));
+      this.ninjasSharedDataService.setNinjaLeft = this.ninjaCompareLeft;
+      this.ninjasSharedDataService.setShowNinjaLeft= true;
+      }
 
     }
 

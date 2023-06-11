@@ -1,0 +1,59 @@
+<div class="grid" >
+    <div class="col-4 m-3 border-1 surface-border border-round "  *ngIf="rechargeCompareSetList">
+        <p-table #setsTableToCompare2 [value]="setsToCompare" selectionMode="single" [(selection)]="selectedCompareSet"  
+        [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" >Sets to compare list</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="filter($event,setsTableToCompare2)" placeholder="Search by Name" class="w-full">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-set  let-rowIndex="rowIndex">
+            <tr >
+                <td class="btn-cell">
+                    <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
+                    <a class="setName">{{set.nombre}}</a>
+                    <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showSetStats(rowIndex,'setCompareList')"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No sets to compare.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div>
+    <div class="grid col-7 m-3 border-1 surface-border justify-content-center border-round text-center" 
+    *ngIf="showSet && showSet.partes && showSet.partes.length > 0">
+        <div class="col-12 m-3 border-1 border-round surface-border text-center justify-content-center p-fluid">
+            {{showSet.nombre}}
+        </div>
+        <div class="col-3 m-2 border-1 surface-border justify-content-center border-round text-center p-fluid" *ngFor="let item of showSet.partes">
+            <!-- <img src="assets/images/sets/{{item.nombre}}.jpg" alt="" 
+            style="height:50px; width:50px;">
+            <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a> -->
+            <div class="col-6 overflow-hidden">
+                <img src="assets/images/sets/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+            </div>
+            <div class="col-6 overflow-hidden">
+                <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a>
+            </div>
+        </div>
+        <div class="col-12 m-2 border-1 surface-border justify-content-center border-round text-center p-fluid" *ngIf="showSet && showSet.partes && showSet.partes.length > 0" >
+            <p-button label="Compare Sets" styleClass="p-button-secondary setName"  (click)="compareSets()">
+            </p-button>
+        </div>
+        <div class="col-12 m-2 border-1 surface-border justify-content-center border-round text-center p-fluid" >
+            <div class="grid overflow-hidden" >
+                <div class="col-3 p-2 m-2 overflow-hidden" *ngFor="let bonusAtributo of listaBonus">
+                    {{ bonusAtributo.nombreAtributo }}: {{ bonusAtributo.valor }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

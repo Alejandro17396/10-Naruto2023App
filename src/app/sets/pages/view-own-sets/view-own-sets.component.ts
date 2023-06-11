@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SetsService } from '../../services/sets.service';
 import { Bonus, ListaBonus, Parte,Set,EffectEnum, TypeItemSet, ICreateUserSet, UserSetDTOResponse, ErrorResponse, DeleteUserSetDTOResponse } from '../../interfaces/set.interfaces';
 import { ListaBonusUtils } from '../../utils/lista-bonus-utils';
 import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { SetSharedDataService } from 'src/app/shared/services/set-shared-data.service';
+import { HttpResponse } from '@angular/common/http';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { CompareSetsDialogComponent } from '../compare-sets-dialog/compare-sets-dialog.component';
 @Component({
   selector: 'app-view-own-sets',
   templateUrl: './view-own-sets.component.html',
   styleUrls: ['./view-own-sets.component.css'],
-  providers: [MessageService,ConfirmationService]
+  providers: [DialogService,MessageService,ConfirmationService]
 })
 export class ViewOwnSetsComponent implements OnInit{
 
@@ -17,7 +20,8 @@ export class ViewOwnSetsComponent implements OnInit{
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private route: Router,
-    private setdataSharedService:SetSharedDataService){}
+    private setdataSharedService:SetSharedDataService,
+    public dialogService: DialogService){}
 
   ngOnInit(): void {
     this.setService.getUserSets().subscribe(
@@ -39,6 +43,8 @@ export class ViewOwnSetsComponent implements OnInit{
   setUser!:UserSetDTOResponse;
   listaBonus:ListaBonus[] = [];
   indexSelectedSet:number = 0;
+  setsToCompare:Set[] = [];
+  ref!: DynamicDialogRef;
 
   filter(elemento:any,elemento2:any){
     if(elemento.target.value){
@@ -61,6 +67,22 @@ export class ViewOwnSetsComponent implements OnInit{
       }
     )
     this.listaBonus = ListaBonusUtils.mergeListBonus(listaBonusL);
+  }
+
+  viewCompareList(){
+    console.log(this.setsToCompare);
+    const data = {
+      sets: this.setsToCompare
+    };
+    this.ref = this.dialogService.open(CompareSetsDialogComponent, {
+      header: 'Sets to compare',
+      width: '80%',
+      height:'80%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
   }
 
   deleteSet(){
@@ -96,6 +118,36 @@ export class ViewOwnSetsComponent implements OnInit{
       }
   });
    
+  }
+
+  addToCompare(equipment:UserSetDTOResponse){
+    console.log(equipment)
+    let itemsName:string [] = [];
+    /*this.equipment.partes.forEach( item => itemsName.push(item.nombre));*/
+    equipment.partes.forEach(item => itemsName.push(item.nombre));
+    let body : ICreateUserSet = {
+      setName:equipment.nombre,
+      equipment:itemsName
+    }
+    this.setService.transformUserSetToSet(body).subscribe(
+      (response: HttpResponse<Set>) => {
+        if(response.body){
+          const exists = this.setsToCompare.
+          some(set => set.nombre === response.body?.nombre);
+
+          if(!exists){
+            this.setsToCompare.push(response.body);
+            this.showSuccess("Set " + response.body.nombre + " add to compare list");
+          }else{
+            this.showError("Set " + response.body.nombre + " is already in list");
+          }
+        }
+      },
+      (error) =>{
+        console.log(error.error);
+        this.showError(error.error.message);
+      }
+    );
   }
 
   modifySet(){

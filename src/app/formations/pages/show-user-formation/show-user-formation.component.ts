@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActionToDo, DeleteUserFormationDTO, ICreateFormation, UserFormationDTO } from '../../interfaces/formations.interface';
+import { ActionToDo, DeleteUserFormationDTO, FormationElement, ICreateFormation, UserFormationDTO } from '../../interfaces/formations.interface';
 import { Formation, ICreateUserNinja, Ninja, NinjaUserFormationDTO } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 import { FormationService } from '../../services/formation.service';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -13,6 +13,7 @@ import { NinjaUtils } from 'src/app/ninjas/utils/NinjaUtils';
 import { HttpResponse } from '@angular/common/http';
 import { FormationsSharedDataService } from '../../services/formations-shared-data.service';
 import { Router } from '@angular/router';
+import { CompareFormationsListPanelComponent } from '../compare-formations-list-panel/compare-formations-list-panel.component';
 
 @Component({
   selector: 'show-user-formation',
@@ -42,11 +43,25 @@ export class ShowUserFormationComponent implements OnInit {
   @Input() canModify:boolean=false;
   @Output() formationChanged: EventEmitter<string>= new EventEmitter<string>();
   @Input() formationName:string = "";
+  @Input() formationsToCompare:FormationElement [] = [];
   ninja:Ninja = Ninja.createNinja();
   ref!: DynamicDialogRef;
 
-  pene(){
-    console.log("penme")
+
+  viewCompareList(){
+    console.log(this.formationsToCompare)
+    const data = {
+     formations:this.formationsToCompare
+    };
+    this.ref = this.dialogService.open(CompareFormationsListPanelComponent, {
+      header: 'Set filter conditions',
+      width: '80%',
+      height:'80%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
   }
 
   changeNinjaSkills(ninja:NinjaUserFormationDTO){

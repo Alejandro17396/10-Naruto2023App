@@ -16,6 +16,14 @@ export class NinjasSharedDataService {
   _showNinjaLeft:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   _userNinjaToModify:BehaviorSubject<NinjaUserFormationDTO|undefined> = 
   new BehaviorSubject<NinjaUserFormationDTO|undefined>(undefined);
+  _ninjaUserRight:BehaviorSubject<NinjaUserFormationDTO|undefined> =
+  new BehaviorSubject<NinjaUserFormationDTO|undefined>(undefined);
+  _ninjaUserLeft:BehaviorSubject<NinjaUserFormationDTO|undefined> = 
+  new BehaviorSubject<NinjaUserFormationDTO|undefined>(undefined);
+  _showNinjaUserRight:BehaviorSubject<boolean> = 
+  new BehaviorSubject<boolean>(false);
+  _showNinjaUserLeft:BehaviorSubject<boolean> = 
+  new BehaviorSubject<boolean>(false);
 
 
   get getUserNinjaToModify(){
@@ -68,5 +76,37 @@ export class NinjasSharedDataService {
 
   set setShowNinjaRight(value:boolean){
     this._showNinjaRight.next(value);
+  }
+
+  get getNinjaUserLeft(){
+    return this._ninjaUserLeft.asObservable();
+  }
+  get getNinjaUserRight(){
+    return this._ninjaUserRight.asObservable();
+  }
+
+  set setNinjaUserRight(ninja:NinjaUserFormationDTO|undefined){
+    this._ninjaUserRight.next(ninja);
+  }
+
+  set setNinjaUserLeft(ninja:NinjaUserFormationDTO|undefined){
+    console.log(ninja);
+    this._ninjaUserLeft.next(ninja);
+  }
+
+  get getShowNinjaUserLeft(){
+    return this._showNinjaUserLeft.asObservable();
+  }
+
+  set setShowNinjaUserLeft(value:boolean){
+    this._showNinjaUserLeft.next(value);
+  }
+
+  get getShowNinjaUserRight(){
+    return this._showNinjaUserRight.asObservable();
+  }
+
+  set setShowNinjaUserRight(value:boolean){
+    this._showNinjaUserRight.next(value);
   }
 }

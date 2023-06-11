@@ -43,7 +43,15 @@ export class FormationsCompareComponent implements OnInit{
           condition:"ninja is alive",
           value:30 }
       );
-      this.createFormationExample();
+      this.formationsSharedDataService.getFormationsToCompareList.subscribe(
+        response =>{
+          if(response.length > 0){
+            this.formations = response;
+          }else{
+            this.createFormationExample();
+          }
+        }
+      )
   }
 
   createFormationExample(){

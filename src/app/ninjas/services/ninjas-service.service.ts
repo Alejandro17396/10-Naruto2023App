@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
-import { DeleteNinjaUserDTO, ICreateUserNinja, NinjaFilter, NinjaResponsePageable, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
+import { CompareNinjasUserDTO, DeleteNinjaUserDTO, ICreateUserNinja, NinjaFilter, NinjaResponsePageable, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
 import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
@@ -100,4 +100,14 @@ export class NinjasService {
     });
   }
 
+  compareNinjasUser(filter:CompareNinjasUserDTO):
+  Observable<CompareNinjasUserDTO>{
+    const url = 
+    `${this.baseUrl}/ninjas/compareNinjas`;
+    const body: CompareNinjasUserDTO = filter;
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.post<CompareNinjasUserDTO>(url, body, {
+      headers
+    });
+  }
 }

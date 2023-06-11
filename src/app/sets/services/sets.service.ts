@@ -50,6 +50,18 @@ export class SetsService {
     });
   }
 
+  transformUserSetToSet(set: ICreateUserSet): 
+  Observable<HttpResponse<Set>> {
+    const url = `${this.baseUrl}/sets/transform`;
+    const body: ICreateUserSet = set;
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.post<Set>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
   updateUserSet(set: ICreateUserSet): 
   Observable<HttpResponse<UserSetDTOResponse>> {
     const url = `${this.baseUrl}/sets/update`;

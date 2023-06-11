@@ -219,6 +219,11 @@ export interface ICreateUserNinja{
     set?:            ICreateUserSet |undefined;
 }
 
+export interface CompareNinjasUserDTO{
+    ninjaLeft:NinjaUserFormationDTO|undefined;
+    ninjaRight:NinjaUserFormationDTO|undefined;
+}
+
 export class NinjaFilter {
     filters:            Filter[];
     attributeFilters:   Filter[];

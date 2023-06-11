@@ -15,6 +15,7 @@ import { ViewOwnSetsComponent } from './pages/view-own-sets/view-own-sets.compon
 import { CreateOwnSetsComponent } from './pages/create-own-sets/create-own-sets.component';
 import { UpdateOwnSetsComponent } from './pages/update-own-sets/update-own-sets.component';
 import { ConfirmDialogSetComponent } from './pages/confirm-dialog-set/confirm-dialog-set.component';
+import { CompareSetsDialogComponent } from './pages/compare-sets-dialog/compare-sets-dialog.component';
 
 
 
@@ -30,7 +31,8 @@ import { ConfirmDialogSetComponent } from './pages/confirm-dialog-set/confirm-di
     ViewOwnSetsComponent,
     CreateOwnSetsComponent,
     UpdateOwnSetsComponent,
-    ConfirmDialogSetComponent
+    ConfirmDialogSetComponent,
+    CompareSetsDialogComponent
   ],
   exports:[
     SearchSetsComponent,

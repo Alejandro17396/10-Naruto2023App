@@ -60,7 +60,7 @@ export class MenuComponent  implements OnInit {
           },
           {
             label: 'Compare ninjas',
-            routerLink:'/ninjas/NinjasComparator'
+            routerLink:'/ninjas/ninjasComparator'
           },
           {
             label:'View own ninja combo',
@@ -69,6 +69,10 @@ export class MenuComponent  implements OnInit {
           {
             label:'Create own ninja combo',
             routerLink:'/ninjas/createOwnNinjas'
+          },
+          {
+            label:'Comapre your ninjas',
+            routerLink:'/ninjas/userNinjasComparator'
           }
         ]
       },

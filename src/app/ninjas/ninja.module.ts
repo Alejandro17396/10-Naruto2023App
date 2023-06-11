@@ -14,6 +14,8 @@ import { ShowNinjaComponent } from './pages/show-ninja/show-ninja.component';
 import { ViewNinjaDifferencesComponent } from './pages/view-ninja-differences/view-ninja-differences.component';
 import { ShowNinjaUserComponent } from './pages/show-ninja-user/show-ninja-user.component';
 import { FilterNinjaPanelComponent } from './pages/filter-ninja-panel-component/filter-ninja-panel-component.component';
+import { CompareUserNinjasComponent } from './pages/compare-user-ninjas/compare-user-ninjas.component';
+import { ViewNinjaUserDifferencesComponent } from './pages/view-ninja-user-differences/view-ninja-user-differences.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { FilterNinjaPanelComponent } from './pages/filter-ninja-panel-component/
     ShowNinjaComponent,
     ViewNinjaDifferencesComponent,
     ShowNinjaUserComponent,
-    FilterNinjaPanelComponent
+    FilterNinjaPanelComponent,
+    CompareUserNinjasComponent,
+    ViewNinjaUserDifferencesComponent
   ],
   exports:[
     LayoutNinjasComponent,

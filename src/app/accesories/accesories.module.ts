@@ -14,6 +14,7 @@ import { ShowAccesoriesComponent } from './pages/show-accesories/show-accesories
 import { ViewAccesorieSetDifferencesComponent } from './pages/view-accesorie-set-differences/view-accesorie-set-differences.component';
 import { CreateOwnAccesoriesSetComponent } from './pages/create-own-accesories-set/create-own-accesories-set.component';
 import { ConfirmDialogAccesorieSetComponent } from './pages/confirm-dialog-accesorie-set/confirm-dialog-accesorie-set.component';
+import { CompareAcesorieSetDialogComponent } from './pages/compare-acesorie-set-dialog/compare-acesorie-set-dialog.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ConfirmDialogAccesorieSetComponent } from './pages/confirm-dialog-acces
     ShowAccesoriesComponent,
     ViewAccesorieSetDifferencesComponent,
     CreateOwnAccesoriesSetComponent,
-    ConfirmDialogAccesorieSetComponent
+    ConfirmDialogAccesorieSetComponent,
+    CompareAcesorieSetDialogComponent
   ],
   imports: [
     CommonModule,

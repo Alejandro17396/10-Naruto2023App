@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormationElement, UserFormationDTO } from '../interfaces/formations.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +9,27 @@ export class FormationsSharedDataService {
 
   constructor() { }
 
-  _formationsToCompareList:FormationElement[]=[];
-  _formationRight:BehaviorSubject<FormationElement> = new BehaviorSubject<FormationElement>(FormationElement.createFormation());
-  _formationLeft:BehaviorSubject<FormationElement> = new BehaviorSubject<FormationElement>(FormationElement.createFormation());
+  private _formationsToCompareList: BehaviorSubject<FormationElement[]> = new BehaviorSubject<FormationElement[]>([]);
+
+  get getFormationsToCompareList(): Observable<FormationElement[] > {
+    return this._formationsToCompareList.asObservable();
+  }
+  
+  set setFormationsToCompareList(formations: FormationElement[] ) {
+    this._formationsToCompareList.next(formations);
+  }
+  
+  
+
+  _formationRight:BehaviorSubject<FormationElement> = 
+  new BehaviorSubject<FormationElement>(FormationElement.createFormation());
+
+  _formationLeft:BehaviorSubject<FormationElement> = 
+  new BehaviorSubject<FormationElement>(FormationElement.createFormation());
+
   _showFormationRight:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   _showFormationLeft:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   _userFormationToModify:BehaviorSubject<UserFormationDTO|undefined> = 
   new BehaviorSubject<UserFormationDTO|undefined>(undefined);
 
@@ -26,17 +42,9 @@ export class FormationsSharedDataService {
     this._userFormationToModify.next(ninja);
   }
 
-  get formationsToCompareList(){
-    return this._formationsToCompareList;
-  }
-
-  set formationsToCompareList(formations:FormationElement[]){
-    this._formationsToCompareList = formations;
-  }
-
-  get formationsToCompareListCopy(){
+  /*get formationsToCompareListCopy(){
     return [...this._formationsToCompareList];
-  }
+  }*/
 
   get getFormationLeft(){
     return this._formationLeft.asObservable();

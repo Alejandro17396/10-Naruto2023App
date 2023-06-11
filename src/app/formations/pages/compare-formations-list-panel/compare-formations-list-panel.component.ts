@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormationElement } from '../../interfaces/formations.interface';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Router } from '@angular/router';
+import { FormationsSharedDataService } from '../../services/formations-shared-data.service';
 
 @Component({
   selector: 'app-compare-formations-list-panel',
@@ -20,7 +21,8 @@ export class CompareFormationsListPanelComponent implements OnInit{
   constructor(public config: DynamicDialogConfig,
     public ref: DynamicDialogRef,
     private cd: ChangeDetectorRef,
-    private router:Router) {}
+    private router:Router,
+    private formationsSharedDataService:FormationsSharedDataService) {}
 
   showFormation!:FormationElement; //= FormationElement.createFormation();
   formations:FormationElement [] = [];
@@ -48,6 +50,7 @@ export class CompareFormationsListPanelComponent implements OnInit{
      // this.setdataSharedService.SetsToCompareList=this.setsToCompare;
      // this.setdataSharedService.setShowSetLeft = false; // Establecer en false antes de navegar
      // this.setdataSharedService.setShowSetRight = false; // Establecer en false antes de navegar
+     this.formationsSharedDataService.setFormationsToCompareList = this.formations;
       this.router.navigate(['/formations/FormationsComparator']);
       this.ref.close()
     }else{

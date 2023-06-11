@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { enviroments } from 'src/enviroments/enviroments';
 import { Observable, catchError, of } from 'rxjs';
-import { AccesoriesResponsePaginated, DeleteUserAccesorieSetDTO, GenerateAccesorieSetsResponse, ICreateUserAccesorieSet, UserAccesorieSetDTO } from '../interfaces/accesories.interfaces';
+import { AccesorieSet, AccesoriesResponsePaginated, DeleteUserAccesorieSetDTO, GenerateAccesorieSetsResponse, ICreateUserAccesorieSet, UserAccesorieSetDTO } from '../interfaces/accesories.interfaces';
 import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
@@ -95,6 +95,18 @@ export class AccesoriesService {
     return this.http.delete<string>(url, {
         headers
       });
+  }
+
+  transformUserAccesorieSetToAccesorieSet(set: ICreateUserAccesorieSet): 
+  Observable<HttpResponse<AccesorieSet>> {
+    const url = `${this.baseUrl}/accesories/transform`;
+    const body: ICreateUserAccesorieSet = set;
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.post<AccesorieSet>(url, body, {
+      headers,
+      observe: 'response'
+    });
   }
 
 
