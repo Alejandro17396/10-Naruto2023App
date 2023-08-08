@@ -1,3 +1,3 @@
 export const enviroments = {
-    baseUrl: 'http://localhost:8888'
+    baseUrl: 'https://naruto-ninja-classic.up.railway.app'
 }
