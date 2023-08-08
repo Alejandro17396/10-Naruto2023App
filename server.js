@@ -1,6 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
+
 const app = express();
+
+// Usa CORS para todos los endpoints. 
+// Puedes ajustar las opciones para restringir los orígenes permitidos si lo deseas.
+app.use(cors());
 
 const DIST_FOLDER = path.join(process.cwd(), 'dist/naruto2023-app');
 
