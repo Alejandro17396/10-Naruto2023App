@@ -231,8 +231,14 @@ export enum Tipo {
 export interface Parte {
     nombre: string;
     valor:  number;
+    atributo: Atributo;
     tipo:   Tipo;
+    image:   File|undefined;
     setName?: string;
+}
+
+export interface Atributo {
+    nombre: string;
 }
 
 export interface Pageable {
@@ -285,6 +291,11 @@ export interface ICreateUserAccesorieSet{
     id?:        number;
     accesorieSetName:   string ;
     accesories: string[];
+}
+
+export interface SaveAccesorieSet{
+    set: AccesorieSet;
+    attributes: string [];
 }
 /*export interface Set {
     nombre:  string;

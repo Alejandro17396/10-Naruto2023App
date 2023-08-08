@@ -38,7 +38,8 @@
             style="height:50px; width:50px;">
             <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a> -->
             <div class="col-6 overflow-hidden">
-                <img src="assets/images/accesorios/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                <img [src]="item.image | imageUrl: item.nombre: 'accesories' " 
+                alt="" style="height:50px; width:50px;">
             </div>
             <div class="col-6 overflow-hidden">
                 <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a>

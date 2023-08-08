@@ -8,6 +8,13 @@ import { ButtonModule } from 'primeng/button';
 import { PrimeNgModule } from './prime-ng/prime-ng.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { SetsModule } from './sets/sets.module';
+import { AdminModule } from './admin/admin.module';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
@@ -20,8 +27,12 @@ import { SharedModule } from './shared/shared.module';
     PrimeNgModule,
     SharedModule,
     BrowserAnimationsModule,
-    HttpClientModule
-    
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

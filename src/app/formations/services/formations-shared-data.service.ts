@@ -21,11 +21,11 @@ export class FormationsSharedDataService {
   
   
 
-  _formationRight:BehaviorSubject<FormationElement> = 
-  new BehaviorSubject<FormationElement>(FormationElement.createFormation());
+  _formationRight:BehaviorSubject<FormationElement|undefined> = 
+  new BehaviorSubject<FormationElement|undefined>(undefined);
 
-  _formationLeft:BehaviorSubject<FormationElement> = 
-  new BehaviorSubject<FormationElement>(FormationElement.createFormation());
+  _formationLeft:BehaviorSubject<FormationElement|undefined> = 
+  new BehaviorSubject<FormationElement|undefined>(undefined); //FormationElement.createFormation()
 
   _showFormationRight:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   _showFormationLeft:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

@@ -19,7 +19,16 @@ export class SetSharedDataService implements OnInit{
   _showSetLeft:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   _userSetToModify:BehaviorSubject<UserSetDTOResponse|undefined> = 
   new BehaviorSubject<UserSetDTOResponse|undefined>(undefined);
+  _setToModify:BehaviorSubject<Set|undefined> = 
+  new BehaviorSubject<Set|undefined>(undefined);
 
+  get getSetToModify(){
+    return this._setToModify.asObservable();
+  }
+
+  set setSetToModify(set:Set){
+    this._setToModify.next(set);
+  }
 
   get getUserSetToModify(){
     return this._userSetToModify.asObservable();

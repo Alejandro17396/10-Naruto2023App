@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AccesorieSet, BonusBonus } from '../../interfaces/accesories.interfaces';
-import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
+import { Atributo, Filters, ListaBonus, SearchSetsByFilter } from 'src/app/sets/interfaces/set.interfaces';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { SetsService } from 'src/app/sets/services/sets.service';
@@ -29,13 +29,15 @@ export class ShowAccesoriesComponent implements OnInit{
   @Input() listaBonus!: ListaBonus[];
   @Input() attributesFilterList!:BonusAttribute[];
   @Input() showButtons:boolean = true;
-  @Output() setsChanged: EventEmitter<AccesorieSet[]>= new EventEmitter<AccesorieSet[]>() ;
+  @Output() setsChanged: EventEmitter<SearchSetsByFilter>= new EventEmitter<SearchSetsByFilter>() ;
   @Output() showCompareView: EventEmitter<string>= new EventEmitter<string>() ;
             accesories:AccesorieSet[]=[];
 
   filter:Filters = {
     order:false,
     filter:false,
+    awakening:false,
+    or:false,
     set:"All sets"
   };
   setFilter:AccesorieSet = new AccesorieSet("",[],[]);
@@ -80,14 +82,22 @@ export class ShowAccesoriesComponent implements OnInit{
         attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value,action:"",impact:"",condition:"",time:""});
       });
 
-      this.accesoriesService.getAccesoriesComboSets(
+      let filtro :SearchSetsByFilter ={
+        attributes : attributes,
+        order : order,
+        attributesFilter : attributesFilter,
+        filters:this.filter,
+        type:"combo"
+      }
+      this.setsChanged.emit(filtro);
+      /*this.accesoriesService.getAccesoriesComboSets(
         attributes,order,attributesFilter,
         this.filter
       ).subscribe( response =>{
         console.log(response.sets);
         this.accesories = response.sets;
         this.setsChanged.emit(this.accesories);
-      } );
+      } );*/
       this.showSuccess();
     }
   }

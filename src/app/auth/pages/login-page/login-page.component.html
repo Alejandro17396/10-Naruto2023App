@@ -17,8 +17,8 @@
 
             <label htmlFor="username" class="mt-3">Password</label>
             <p-password class="form-control"
-                        formControlName="password">
-                <ng-template pTemplate="header">
+                        formControlName="password" [feedback]="false">
+                <!-- <ng-template pTemplate="header">
                     <h6>Pick a password</h6>
                 </ng-template>
                 <ng-template pTemplate="footer">
@@ -30,7 +30,7 @@
                         <li>At least one numeric</li>
                         <li>Minimum 8 characters</li>
                     </ul>
-                </ng-template>
+                </ng-template> -->
             </p-password>
             <span *ngIf="isValidField('password')"  class="form-text text-danger" style="color:red">
                 Password can`t be empty

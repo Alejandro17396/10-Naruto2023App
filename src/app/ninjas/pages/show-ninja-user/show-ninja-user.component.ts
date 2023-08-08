@@ -87,7 +87,7 @@ export class ShowNinjaUserComponent implements OnInit{
       if(this.ninjaShow.equipment.partes.length>0){
         this.ninjaShow.equipment.nombre = this.setName;
       }
-      if(this.ninjaShow.accesories.partes.length>0){
+      if(this.ninjaShow.accesories && this.ninjaShow.accesories.partes && this.ninjaShow.accesories.partes.length>0){
         this.ninjaShow.accesories.nombre = this.accesorieSetName;
       }
       this.updateNinja.emit({type:cadena,name:this.ninjaName});

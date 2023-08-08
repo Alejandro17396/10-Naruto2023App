@@ -2,8 +2,13 @@
     <!-- style="border: 1px solid #ffffff;" -->
     <div class="grid" >
         <div class="col-4 m-3 border-1 surface-border border-round" >
-            <p-table #formationsTable [value]="formations" selectionMode="single" [(selection)]="selectedFormation"  
-            [rows]="14" [paginator]="true" stateStorage="session" stateKey="stat edemo-session">
+            <p-table #formationsTable [value]="formations" 
+            selectionMode="single" [(selection)]="selectedFormation"  
+            [rows]="8" [paginator]="true" stateStorage="session"
+            stateKey="statedemo-session"
+            (onLazyLoad)="loadSetsLazy($event)"
+            [lazy]="true" [totalRecords]="totalRecords"
+            [loading]="loading">
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="formationNinjas" >Formations list</th>
@@ -39,6 +44,4 @@
             [interact]="true"></show-formation>
         </div>
     </div>
-   
-
 </div>

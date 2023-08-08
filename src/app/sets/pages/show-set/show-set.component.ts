@@ -1,10 +1,10 @@
 import { Component,EventEmitter,Input, Output } from '@angular/core';
-import { SetsResponsePaginated, Set, ListaBonus, Filters, Atributo } from '../../interfaces/set.interfaces';
+import { SetsResponsePaginated, Set, ListaBonus, Filters, Atributo, SearchSetsByFilter } from '../../interfaces/set.interfaces';
 import { FilterSetPanelComponent } from '../filter-set-panel/filter-set-panel.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
 import { SetsService } from '../../services/sets.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogSetComponent } from '../confirm-dialog-set/confirm-dialog-set.component';
 
 
@@ -20,7 +20,8 @@ export class ShowSetComponent {
   @Input() listaBonus!: ListaBonus[];
   @Input() attributesFilterList!:BonusAttribute[];
   @Input() showButtons:boolean = true;
-  @Output() setsChanged: EventEmitter<Set[]>= new EventEmitter<Set[]>() ;
+  //@Output() setsChanged: EventEmitter<Set[]>= new EventEmitter<Set[]>() ;SearchSetsByFilter
+  @Output() setsChanged: EventEmitter<SearchSetsByFilter>= new EventEmitter<SearchSetsByFilter>() ;
   @Output() showCompareView: EventEmitter<string>= new EventEmitter<string>() ;
             sets:Set[]=[];
   
@@ -28,6 +29,8 @@ export class ShowSetComponent {
   filter:Filters = {
           order:false,
           filter:false,
+          awakening:false,
+          or:true,
           set:"All sets"
   };
   setFilter:Set = new Set();
@@ -76,6 +79,28 @@ export class ShowSetComponent {
       });
   }
 
+  generateComboSets2(){
+
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete set ' +"this.set.nombre" +'?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        console.log("dssf");
+      },
+      reject: (type: any) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+              break;
+          case ConfirmEventType.CANCEL:
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You 223have cancelled' });
+              break;
+      }
+      }
+  });
+  }
+
   generateComboSets(){
 
     if(this.attributesFilterList.length === 0){
@@ -90,14 +115,22 @@ export class ShowSetComponent {
         attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value,action:"",impact:"",condition:"",time:""});
       });
 
-      this.setService.getComboSets(
+      /*this.setService.getComboSets(
         attributes,order,attributesFilter,
         this.filter
       ).subscribe( response =>{
         console.log(response.sets);
         this.sets = response.sets;
         this.setsChanged.emit(this.sets);
-      } );
+      } );*/
+      let filtro :SearchSetsByFilter ={
+        attributes : attributes,
+        order : order,
+        attributesFilter : attributesFilter,
+        filters:this.filter,
+        type:"combo"
+      }
+      this.setsChanged.emit(filtro);
       this.showSuccess();
     }
   }

@@ -1,0 +1,10 @@
+.btn-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .text-large-bold {
+    font-size: 20px; /* Ajusta este valor a lo que necesites */
+    font-weight: bold;
+  }

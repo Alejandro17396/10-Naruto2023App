@@ -13,6 +13,11 @@ export interface SetsResponsePaginated {
     empty:            boolean;
 }
 
+export interface SaveEquipment{
+    set: Set;
+    attributes: string [];
+}
+
 export class Set {
     nombre:  string;
     partes:  Parte[];
@@ -214,7 +219,6 @@ export enum TypeItemSet{
 
 export class ListaBonus {
     
-    
     nombreAtributo: string;
     valor:          number;
     action:         string;
@@ -236,6 +240,7 @@ export interface Parte {
     nombre:   string;
     atributo: Atributo;
     valor:    number;
+    image:   File|undefined;
     setName:  string;
 }
 
@@ -262,6 +267,8 @@ export interface Sort {
 export interface Filters {
     order:boolean;
     filter:boolean;
+    awakening:boolean;
+    or:boolean;
     set:string;
 }
 
@@ -293,4 +300,17 @@ export interface DeleteUserSetDTOResponse {
 export interface ErrorResponse {
     code:    string;
     message: string;
+}
+
+export interface SearchSetsByFilter{
+    attributes : Atributo [];
+    order : Atributo [];
+    attributesFilter : ListaBonus [];
+    filters:Filters;
+    type:string;
+}
+
+export interface Pageable_{
+    page : number;
+    size : number;
 }

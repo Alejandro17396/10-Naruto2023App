@@ -8,6 +8,7 @@ import { Attribute, Ninja, NinjaFilter, SkillType } from '../../interfaces/Ninja
 import { FilterSetPanelComponent } from 'src/app/sets/pages/filter-set-panel/filter-set-panel.component';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 import { FilterNinjaPanelComponent } from '../filter-ninja-panel-component/filter-ninja-panel-component.component';
+import { SearchFormationFilter } from 'src/app/formations/interfaces/formations.interface';
 
 @Component({
   selector: 'show-ninja',
@@ -82,7 +83,7 @@ export class ShowNinjaComponent implements OnInit{
   @Input() showButtons:boolean = true;
   @Output() ninjasChanged: EventEmitter<Ninja[]>= new EventEmitter<Ninja[]>() ;
   @Output() showCompareView: EventEmitter<string>= new EventEmitter<string>() ;
-  @Output() changeNinjas: EventEmitter<Ninja[]>= new EventEmitter<Ninja[]>();
+  @Output() changeNinjas: EventEmitter<SearchFormationFilter>= new EventEmitter<SearchFormationFilter>();
   @Input()  ninjas:Ninja[]=[];
             ninjaFilter!:Ninja;
             mapaBonuses : Map<string,ListaBonus[]> = new Map<string,ListaBonus[]>();
@@ -91,9 +92,10 @@ export class ShowNinjaComponent implements OnInit{
   filter:Filters = {
     order:false,
     filter:false,
+    awakening:false,
+    or:true,
     set:"All sets"
   };
-  var:string ="wwk";
   setFilter!:Ninja;// = new AccesorieSet("",[],[]);
   displayConfirmDialog:boolean = false;
     
@@ -140,13 +142,21 @@ export class ShowNinjaComponent implements OnInit{
       }
     );
     console.log(finalFilter)
-    this.ninjasService.getNinjasFilterAnd(finalFilter,this.filter.order,this.filter.filter).subscribe(
+    let filter:SearchFormationFilter = {
+      filter:finalFilter,
+      sorted:this.filter.order,
+      filtred:this.filter.filter,
+      awakening:this.filter.awakening,
+      or:this.filter.or
+    }
+    this.changeNinjas.emit(filter);
+    /*this.ninjasService.getNinjasFilterAnd(finalFilter,this.filter.order,this.filter.filter).subscribe(
       response =>{
         console.log(response)
         this.ninjas =response.content;
         this.changeNinjas.emit(this.ninjas);
       }
-    );
+    );*/
     console.log(this.filter);
    /* if(this.attributesFilterList.length === 0){
       this.showError();

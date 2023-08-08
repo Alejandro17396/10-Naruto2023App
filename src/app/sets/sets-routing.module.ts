@@ -5,7 +5,7 @@ import { LayoutSetsComponent } from './pages/layout-sets/layout-sets.component';
 import { CompareSetsComponent } from './pages/compare-sets/compare-sets.component';
 import { ViewOwnSetsComponent } from './pages/view-own-sets/view-own-sets.component';
 import { CreateOwnSetsComponent } from './pages/create-own-sets/create-own-sets.component';
-import { UpdateOwnSetsComponent } from './pages/update-own-sets/update-own-sets.component';
+
 
 const routes: Routes = [
   {
@@ -18,7 +18,11 @@ const routes: Routes = [
       { path:'viewOwnSets',component:ViewOwnSetsComponent},
       { path:'**', redirectTo:'search'}
     ]
-  }
+  }/*,
+  {
+    path: 'admin',
+    loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule)
+  }*/
 ];
 
 @NgModule({

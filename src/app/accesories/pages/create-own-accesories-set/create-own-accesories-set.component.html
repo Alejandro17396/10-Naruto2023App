@@ -16,7 +16,7 @@
 <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
     <tr >
         <td class="btn-cell">
-            <img src="assets/images/accesorios/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+            <img [src]="item.image | imageUrl: item.nombre: 'accesories' "  alt="" style="height:50px; width:50px;">
             <a class="setName">{{item.nombre}}</a>
             <p-button label="Add" styleClass="p-button-secondary" (click)="addSetItem(item)"></p-button>
         </td>
@@ -71,7 +71,7 @@
         <div class="grid m-3 overflow-hidden justify-content-center text-center border-1 surface-border border-round" *ngIf="accesorieSet.partes.length>0">
             <div class="col-3 m-2 grid border-1 surface-border border-round"  *ngFor="let item of accesorieSet.partes" >
                 <div class="col-4 overflow-hidden">
-                    <img src="assets/images/accesorios/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="item.image | imageUrl: item.nombre: 'accesories' "  alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-5 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a>

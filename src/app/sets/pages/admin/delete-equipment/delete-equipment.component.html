@@ -1,0 +1,19 @@
+<div class="grid  p-2 m-2 overflow-hidden">
+    <div class="col-12 p-2 m-2 overflow-hidden text-center" >
+        <h1>
+            <i class='pi pi-exclamation-triangle' style="font-size: 2rem"></i>
+            {{message}}
+        </h1>
+    </div>
+    <div class="col-12 p-2 m-2 overflow-hidden" >
+        <div class="text-center">
+            <p-button class="m-2" label="Yes" styleClass="p-button-primary setName" 
+            (click)="accept()">
+            </p-button>  
+            <p-button class="m-2" label="No" styleClass="p-button-primary setName" 
+            (click)="reject()">
+            </p-button> 
+        </div>
+    </div>
+    
+</div>

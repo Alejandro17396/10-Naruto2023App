@@ -16,7 +16,7 @@
 <ng-template pTemplate="body" let-ninja let-rowIndex="rowIndex">
     <tr >
         <td class="btn-cell">
-            <img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" alt="" style="height:50px; width:50px;">
+            <img [src]="ninja.ninja.ninjaImage | imageUrl: ninja.ninja.name: 'ninjaFace' " alt="" style="height:50px; width:50px;">
             <a class="setName">{{ninja.nombre}}</a>
             <p-button label="Show" styleClass="p-button-secondary" (click)="showNinja(ninja,rowIndex)" ></p-button>
         </td>

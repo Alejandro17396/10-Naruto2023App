@@ -2,8 +2,13 @@
     <!-- style="border: 1px solid #ffffff;" -->
     <div class="grid overflow-hidden">
         <div class="col-3 border-1 surface-border border-round m-3" *ngIf="rechargeNinjasList" >
-        <p-table #ninjasTable [value]="ninjas" selectionMode="single" [(selection)]="selectedNinja"  
-        [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <p-table #ninjasTable [value]="ninjas" 
+        selectionMode="single" [(selection)]="selectedNinja"  
+        [rows]="8" [paginator]="true" stateStorage="session" 
+        stateKey="statedemo-session" 
+        (onLazyLoad)="loadSetsLazy($event)"
+        [lazy]="true" [totalRecords]="totalRecords"
+        [loading]="loading">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="name" >Accesories list</th>
@@ -43,35 +48,6 @@
             (showCompareView)="compareSets($event)"> -->
             </show-ninja> 
         </div> 
-</div>
-<!-- <div class="border-1 surface-border border-round item mt-3 card" *ngIf="rechargeCompareNinjasList">
-    <p-table #ninjasTableToCompare [value]="ninjasToCompare" selectionMode="single" [(selection)]="selectedCompareNinja"  
-    [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="name" >Sets to compare list</th>
-        </tr>
-        <tr>
-            <th>
-                <input pInputText type="text" (input)="filter($event,ninjasTableToCompare)" placeholder="Search by Name" class="w-full">
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-ninja  let-rowIndex="rowIndex">
-        <tr >
-            <td class="btn-cell">
-                <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteNinjaFromCompare(rowIndex)"></p-button>
-                <a class="setName">{{ninja.nombre}}</a>
-                <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showNinjaStats(rowIndex,'setCompareList')"></p-button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="4">No sets to compare.</td>
-        </tr>
-    </ng-template>
-    </p-table>
-</div>  -->
+    </div>
 </div>
 <p-toast></p-toast>

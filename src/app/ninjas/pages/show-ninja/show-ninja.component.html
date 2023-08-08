@@ -2,7 +2,8 @@
     <div class="grid overflow-hidden justify-content-center" >
         <div class="col-5 m-2 mt-3 grid justify-content-center" >
             <div class="overflow-hidden">
-                <img src="assets/images/ninjas/info/{{showNinja.name}}.jpg" alt="" style="height:300px; width: 311px;">
+                <!-- <img src="assets/images/ninjas/info/{{showNinja.name}}.jpg" alt="" style="height:300px; width: 311px;"> -->
+                <img [src]="showNinja.ninjaStatImage | imageUrl: showNinja.name: 'ninjaStats'" alt="" style="height:300px; width: 311px;">
             </div>
         </div>
         <div class="col-6 m-2 mt-3 grid border-1 surface-border border-round" >

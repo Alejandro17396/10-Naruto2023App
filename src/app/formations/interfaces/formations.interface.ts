@@ -1,4 +1,4 @@
-import { Attribute, ICreateUserNinja, Ninja, NinjaUserFormationDTO } from "src/app/ninjas/interfaces/Ninja.interfaces";
+import { Attribute, ICreateUserNinja, Ninja, NinjaFilter, NinjaUserFormationDTO } from "src/app/ninjas/interfaces/Ninja.interfaces";
 
 export interface FormationResponsePaginated {
     numFormations: number;
@@ -43,6 +43,14 @@ export interface FinalSkillsAttribute {
 export interface CompareFormations{
     formationLeft:FormationElement|undefined;
     formationRight:FormationElement|undefined;
+}
+
+export interface SearchFormationFilter{
+    filter:NinjaFilter,
+    sorted:boolean,
+    filtred:boolean,
+    awakening:boolean,
+    or:boolean
 }
 
 export class FormationElement {

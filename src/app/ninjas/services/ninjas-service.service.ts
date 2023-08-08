@@ -2,8 +2,8 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
-import { CompareNinjasUserDTO, DeleteNinjaUserDTO, ICreateUserNinja, NinjaFilter, NinjaResponsePageable, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
-import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
+import { CompareNinjasUserDTO, DeleteNinjaUserDTO, ICreateUserNinja, Ninja, NinjaFilter, NinjaResponsePageable, NinjaUserFormationDTO, NinjasResponsePaginated } from '../interfaces/Ninja.interfaces';
+import { Atributo, DeleteUserSetDTOResponse, Filters, ListaBonus, Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class NinjasService {
 
   getNinjas():Observable<NinjasResponsePaginated>{
     return this.http.get<NinjasResponsePaginated>(`${this.baseUrl}/ninjas`);
+  }
+  getNinjasPagination(page:Pageable_):Observable<NinjasResponsePaginated>{
+    return this.http.get<NinjasResponsePaginated>
+    (`${this.baseUrl}/ninjas?page=${page.page}&size=${page.size}`);
   }
 
   getUserNinjas():Observable<NinjaUserFormationDTO[]>
@@ -74,10 +78,11 @@ export class NinjasService {
   }
 
 
-  getNinjasFilterAnd(filter:NinjaFilter,sorted:boolean,filtred:boolean):
+  getNinjasFilterAnd(filter:NinjaFilter,sorted:boolean,filtred:boolean,page:Pageable_,
+    awakening:boolean,or:boolean):
   Observable<NinjaResponsePageable>{
     const url = 
-    `${this.baseUrl}/ninjas/filter/and?sorted=${sorted}&filtred=${filtred}`;
+    `${this.baseUrl}/ninjas/filter/and?sorted=${sorted}&filtred=${filtred}&or=${or}&awakenings=${awakening}`;
     const body: NinjaFilter = filter;
     console.log("voy a hacer llamada" +sorted+" "+filtred)
     console.log(filter)
@@ -88,7 +93,8 @@ export class NinjasService {
     });
   }
 
-  getNinjasFilterOr(filter:NinjaFilter,sorted:boolean,filtred:boolean):
+  getNinjasFilterOr(filter:NinjaFilter,sorted:boolean,filtred:boolean,page:Pageable_,
+    awakening:boolean):
   Observable<NinjaResponsePageable>{
     const url = 
     `${this.baseUrl}/ninjas/filter/or?sorted=${sorted}&filtred=${filtred}`;
@@ -110,4 +116,40 @@ export class NinjasService {
       headers
     });
   }
+
+  saveNinja(body:FormData):Observable<HttpResponse<Ninja>>{
+    const url = `${this.baseUrl}/ninjas/ninja/create`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+  
+    return this.http.post<Ninja>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  updateNinja(body:FormData):Observable<HttpResponse<Ninja>>{
+    const url = `${this.baseUrl}/ninjas/ninja/update`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+  
+    return this.http.put<Ninja>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  deleteNinja(name:String):Observable<HttpResponse<DeleteUserSetDTOResponse>>{
+    const url = `${this.baseUrl}/ninjas/ninja/delete/${name}`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.delete<DeleteUserSetDTOResponse>(url,  {
+      headers,
+      observe: 'response'
+    });
+  }
+
 }

@@ -3,13 +3,13 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ninja, NinjaFilter,Attribute as NinjaAttribute, Skill } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 import { enviroments } from 'src/enviroments/enviroments';
-import { FormationElement, FormationResponsePaginated } from '../../interfaces/formations.interface';
+import { FormationElement, FormationResponsePaginated, SearchFormationFilter } from '../../interfaces/formations.interface';
 import { FormationService } from '../../services/formation.service';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { FilterFormationsPanelComponent } from '../filter-formations-panel/filter-formations-panel.component';
-import { Filters } from 'src/app/sets/interfaces/set.interfaces';
+import { Filters, Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 import { FilterNinjaPanelComponent } from 'src/app/ninjas/pages/filter-ninja-panel-component/filter-ninja-panel-component.component';
 
 @Component({
@@ -30,13 +30,13 @@ export class FormationsListComponent implements OnInit{
         condition:"ninja is alive",
         value:30 }
     );
-    this.attributesFilterList.push(
+    /*this.attributesFilterList.push(
       { attributeName:"attack",
         action:"decrease",
         impact:"all enemies",
         condition:"ninja is alive",
         value:30 }
-    );
+    );*/
     this.inicio();
   }
 
@@ -59,15 +59,69 @@ export class FormationsListComponent implements OnInit{
       }
     );
     finalFilter.formationNumNinjas = 4;
-    this.formationsService.createFormation(finalFilter,true,true).subscribe(
+    let page:Pageable_ = {page:0,size:8};
+    this.filtro={
+      filter:finalFilter,
+      sorted:true,
+      filtred:true,
+      awakening:true,
+      or:true
+    }
+    this.formationsService.createFormation(finalFilter,true,true,page,true,true).subscribe(
       response=>{
+        this.loading=true;
         this.formations = response.formations;
         this.showFormation = response.formations[0];
+        this.totalRecords = response.numFormations;
+        console.log(this.totalRecords);
+        this.loading = false;
       }
     );
     this.skillsShow = this.showFormation.supports[0].skills;
   }
   
+  loadSetsLazy(event: LazyLoadEvent) {
+    this.loading = true;
+    // La página actual se calcula a partir del primer registro que se necesita 
+    if(event.first && event.rows){
+      console.log("combo no principio");
+      let page:Pageable_ ={page:0,size:0};
+      page.page = Math.floor(event.first / event.rows) +1;
+      page.size = event.rows
+      this.formationsService.createFormation(this.filtro.filter,this.filtro.sorted,
+        this.filtro.filtred,page,this.filtro.awakening,this.filtro.or).subscribe(
+        response=>{
+          this.loading=true;
+          this.formations = response.formations;
+          this.showFormation = response.formations[0];
+          this.totalRecords = response.numFormations;
+          console.log(this.totalRecords);
+          this.loading = false;
+        },
+          error => {
+              // Manejar el error aquí...
+          }
+      );
+      }else{
+        console.log("combo si principio");
+        let page:Pageable_ ={page:0,size:8}; 
+        this.formationsService.createFormation(this.filtro.filter,this.filtro.sorted,
+          this.filtro.filtred,page,this.filtro.awakening,this.filtro.or).subscribe(
+          response=>{
+            this.loading=true;
+            this.formations = response.formations;
+            this.showFormation = response.formations[0];
+            this.totalRecords = response.numFormations;
+            console.log(this.totalRecords);
+            this.loading = false;
+          },
+          error => {
+              // Manejar el error aquí...
+          }
+        );
+      }
+      this.loading = false;
+  }
 
   filter(elemento:any,elemento2:any){
     elemento2.filter(elemento.target.value,'name', 'contains');
@@ -79,8 +133,23 @@ export class FormationsListComponent implements OnInit{
     this.skillsShow = this.showFormation.supports[0].skills;
   }
 
-  changeFormations(formations:FormationElement[]){
-    this.formations = formations;
+  filtro!:SearchFormationFilter;
+  tablaElements:string = "base";
+  changeFormations(filtro:SearchFormationFilter){
+    this.filtro = filtro;
+    this.tablaElements = "filtro.type";
+    let page:Pageable_ ={page:1,size:8};
+    this.formationsService.createFormation(filtro.filter,filtro.sorted,filtro.filtred
+      ,page,filtro.awakening,filtro.or).subscribe(
+      response=>{
+        this.loading=true;
+        this.formations = response.formations;
+        this.showFormation = response.formations[0];
+        this.totalRecords = response.numFormations;
+        console.log(this.totalRecords);
+        this.loading = false;
+      }
+    );
   }
 
   addToComapreList(formation:FormationElement){
@@ -96,7 +165,8 @@ export class FormationsListComponent implements OnInit{
   }
 
   formations:FormationElement[]=[];
-
+  loading:boolean = false;
+  totalRecords:number =0;
   selectedFormation!:FormationElement;
   showFormation:FormationElement = FormationElement.createFormation();
   skillsShow:Skill []=[];

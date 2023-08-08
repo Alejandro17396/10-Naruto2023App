@@ -4,6 +4,7 @@ import { Ninja, NinjaFilter,Attribute as NinjaAttribute, Skill } from 'src/app/n
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
 import { FormationService } from '../../services/formation.service';
 import { FormationsSharedDataService } from '../../services/formations-shared-data.service';
+import { Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 
 @Component({
   selector: 'app-formations-compare',
@@ -62,7 +63,8 @@ export class FormationsCompareComponent implements OnInit{
         }
       );
       finalFilter.formationNumNinjas = 4;
-      this.formationsService.createFormation(finalFilter,true,true).subscribe(
+      let page:Pageable_ = {page:0,size:8};
+      this.formationsService.createFormation(finalFilter,true,true,page,true,false).subscribe(
         response=>{
           this.formations = response.formations;
         }

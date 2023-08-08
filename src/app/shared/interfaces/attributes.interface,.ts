@@ -6,6 +6,11 @@ export class Attribute {
     }
 }
 
+export interface DialogConfirmation{
+    message:string;
+    opcion:string;
+}
+
 export interface SaveElement{
     type:string;
     name:string;

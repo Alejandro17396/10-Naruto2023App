@@ -59,7 +59,7 @@
 <div class="card-container indigo-container" > 
     <div class="grid  justify-content-center text-center">
         <div class="col-3 p-2 m-2 overflow-hidden "  >
-            <p-checkbox #order value="Filter sets by attributes" label="Filter sets by attributes" class="w-3 m-2"></p-checkbox>
+            <p-checkbox #order value="Filter sets by attributes value" label="Filter sets by attributes" class="w-3 m-2"></p-checkbox>
         </div>
         <div class="col-3 p-2 m-2 overflow-hidden "  >
             <p-checkbox #filter value="Order sets by attributes value" label="Order sets by attributes value" class="w-3 m-2"></p-checkbox>
@@ -83,10 +83,6 @@
                 </div>
             </ng-template>
         </p-dropdown> 
-        <!-- <p-dropdown [options]="sets" [(ngModel)]="selectedSet" optionLabel="nombre"
-        [filter]="true">
-
-        </p-dropdown> -->
         </div>
         <div class="col-3 p-2 m-2 overflow-hidden "  >
             <p-button label="Save filter" styleClass="p-button-outlined" class="w-3 m-2" 
@@ -94,35 +90,4 @@
         </div>
     </div>
 </div>    
-
-<!-- <div class="flex align-items-flex justify-content-center p-2 ">
-    <div class="flex w-12 align-items-flex justify-content-center text-center ">
-        <p-checkbox #order value="Filter sets by attributes" label="Filter sets by attributes" class="w-3 m-2"></p-checkbox>
-        <p-checkbox #filter value="Order sets by attributes value" label="Order sets by attributes value" class="w-3 m-2"></p-checkbox>
-    </div>
-    <div class="flex w-12 align-items-flex justify-content-center text-center " >
-        <div class="w-6" >
-            <p-button label="Delete attribute" styleClass="p-button-outlined p-button-danger" class="w-3 m-2" (click)="deleteAttribute()"></p-button>
-        </div>
-        <div class="w-6" >
-            <p-button label="Save filter" styleClass="p-button-outlined" class="w-3 m-2" (click)="saveFilters()"></p-button>
-        </div>
-    </div>
-    <div class="flex w-7 h-4rem text-white font-bold p-2 mr-3" >
-        <p-dropdown [options]="sets" [(ngModel)]="selectedSet" optionLabel="nombre" 
-        [filter]="true" filterBy="nombre" [showClear]="true" placeholder="Select a set" 
-        class="p-fluid h-6rem">
-            <ng-template pTemplate="selectedItem">
-                <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedSet">
-                    <div>{{ selectedSet.nombre  }}</div>
-                </div>
-            </ng-template>
-            <ng-template let-set pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                    <div>{{ set.nombre  }}</div>
-                </div>
-            </ng-template>
-        </p-dropdown>
-    </div>
-</div>  -->
 

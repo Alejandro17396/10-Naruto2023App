@@ -1,8 +1,13 @@
 <div class="container" style="background: #2a323d;">
     <!-- style="border: 1px solid #ffffff;" -->
 <div class="border-1 surface-border border-round item mt-3" *ngIf="rechargeAccesoriesSetList">
-<p-table #accesoriesTable [value]="accesories" selectionMode="single" [(selection)]="selectedAccesorie"  
-[rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+<p-table #accesoriesTable [value]="accesories" 
+selectionMode="single" [(selection)]="selectedAccesorie"  
+[rows]="8" [paginator]="true" 
+stateStorage="session" stateKey="statedemo-session"
+(onLazyLoad)="loadSetsLazy($event)"
+[lazy]="true" [totalRecords]="totalRecords"
+[loading]="loading">
 <ng-template pTemplate="header">
     <tr>
         <th pSortableColumn="name" >Accesories list</th>
@@ -18,7 +23,7 @@
         <td class="btn-cell">
             <p-button label="Compare" styleClass="p-button-primary" (click)="addAccesorieSetToCompare(rowIndex)" ></p-button>
             <a class="setName">{{accesorieSet.nombre}}</a>
-            <p-button label="Show" styleClass="p-button-secondary" (click)="showAccesorieSetStats(rowIndex,'sets')"></p-button>
+            <p-button label="Show" styleClass="p-button-secondary" (click)="showAccesorieSetStats(rowIndex,'sets',accesorieSet)"></p-button>
         </td>
     </tr>
 </ng-template>
@@ -56,7 +61,7 @@
             <td class="btn-cell">
                 <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
                 <a class="setName">{{set.nombre}}</a>
-                <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showAccesorieSetStats(rowIndex,'setCompareList')"></p-button>
+                <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showAccesorieSetStats(rowIndex,'setCompareList',set)"></p-button>
             </td>
         </tr>
     </ng-template>

@@ -16,7 +16,7 @@
 <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
     <tr >
         <td class="btn-cell">
-            <img src="assets/images/sets/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+            <img [src]="item.image | imageUrl: item.nombre: 'equipment' " alt="" style="height:50px; width:50px;">
             <a class="setName">{{item.nombre}}</a>
             <p-button label="Add" styleClass="p-button-secondary" (click)="addSetItem(item)"></p-button>
         </td>

@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormationElement } from '../../interfaces/formations.interface';
+import { FormationElement, SearchFormationFilter } from '../../interfaces/formations.interface';
 import { Ninja, Skill,Attribute as NinjaAttribute, NinjaFilter } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Filters } from 'src/app/sets/interfaces/set.interfaces';
+import { Filters, Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { FilterNinjaPanelComponent } from 'src/app/ninjas/pages/filter-ninja-panel-component/filter-ninja-panel-component.component';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
@@ -47,7 +47,7 @@ export class ShowFormationComponent implements OnInit{
   @Input() skillsShow:Skill []=[];
   @Input() formationsToCompare:FormationElement[] = [];
   @Input() ninja:Ninja = Ninja.createNinja();
-  @Output() changeFormations: EventEmitter<FormationElement[]>= new EventEmitter<FormationElement[]>();
+  @Output() changeFormations: EventEmitter<SearchFormationFilter>= new EventEmitter<SearchFormationFilter>();
   @Input() interact!:boolean;
   changeNinjaSkills(ninja:Ninja){
     this.ninja = ninja;
@@ -74,6 +74,8 @@ export class ShowFormationComponent implements OnInit{
   filters:Filters = {
     order:false,
     filter:false,
+    awakening:false,
+    or:true,
     set:"All sets"
   };
   ref!: DynamicDialogRef;
@@ -110,16 +112,24 @@ export class ShowFormationComponent implements OnInit{
           finalFilter.filters.push(ListaBonusUtils.AttributeToFilter(response));
         }
       );
-      console.log("el filtro es ")
-      console.log(finalFilter);
-      console.log(this.filters)
+      
       finalFilter.formationNumNinjas = 4;
-      this.formationsService.createFormation(finalFilter,this.filters.order,this.filters.filter).subscribe(
+      let page:Pageable_ = {page:0,size:8};
+      let filter:SearchFormationFilter = {
+        filter:finalFilter,
+        sorted:this.filters.order,
+        filtred:this.filters.filter,
+        awakening:this.filters.awakening,
+        or:this.filters.or
+    }
+
+    this.changeFormations.emit(filter);
+      /*this.formationsService.createFormation(finalFilter,this.filters.order,this.filters.filter,page,true,false).subscribe(
         response=>{
           this.showFormation = response.formations[0];
           this.changeFormations.emit(response.formations);
         }
-    );  
+    );  */
   }
 
   saveFormation(){

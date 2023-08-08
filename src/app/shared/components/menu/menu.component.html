@@ -1,1 +1,8 @@
-<p-menubar [model]="items"></p-menubar>
+<p-menubar [model]="items">
+    <ng-template pTemplate="end">
+        <p-button label="logout" 
+        icon ="pi pi-sign-out"
+        styleClass="p-button-outlined p-button-danger"
+        (click)="logout()"></p-button>
+    </ng-template>
+</p-menubar>

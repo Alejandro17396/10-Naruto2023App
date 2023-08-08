@@ -47,7 +47,7 @@
         <div class="grid col-12 justify-content-center">
             <div class="col-4 justify-content-center text-center" style="height: 150px;"
             *ngFor="let ninja of showFormation.supports" >
-                <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+                <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img [src]="ninja.ninja.ninjaImage | imageUrl: ninja.ninja.name: 'ninjaFace' " 
                     alt="" style="height:60px; width: 60px;"></p-button>
                 <p-button styleClass="p-button-danger" (click)="removeSupportFromFormation(ninja)" 
                 *ngIf="canModify">
@@ -58,7 +58,7 @@
         <div class="grid col-12 justify-content-center">
             <div class="col-4 justify-content-center text-center" style="height: 150px;"
             *ngFor="let ninja of showFormation.assaulters" >
-                <p-button class="col-12" styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+                <p-button class="col-12" styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img [src]="ninja.ninja.ninjaImage | imageUrl: ninja.ninja.name: 'ninjaFace' " 
                     alt="" style="height:60px; width: 60px;"></p-button>
                 <p-button class="col-12" styleClass="p-button-danger" (click)="removeAssaulterFromFormation(ninja)" 
                 *ngIf="canModify">
@@ -73,7 +73,7 @@
         <div class="grid col-12 justify-content-center">
             <div class="col-4 justify-content-center text-center " style="height: 150px;"
             *ngFor="let ninja of showFormation.vanguards">
-            <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+            <p-button styleClass="p-button-secondary" (click)="changeNinjaSkills(ninja)"><img [src]="ninja.ninja.ninjaImage | imageUrl: ninja.ninja.name: 'ninjaFace' "  
             alt="" style="height:60px; width:60px;"></p-button>
             <p-button styleClass="p-button-danger" (click)="removeVanguardFromFormation(ninja)"  
                 *ngIf="canModify">

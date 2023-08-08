@@ -13,7 +13,7 @@ export class AccesorieSetItemsService {
   constructor(private http:HttpClient) { }
 
   getSetItems():Observable<Parte[]>{
-    return this.http.get<Parte[]>(`${this.baseUrl}/accesoriesSetItems`);
+    return this.http.get<Parte[]>(`${this.baseUrl}/items/accesories`);
   }
 
   

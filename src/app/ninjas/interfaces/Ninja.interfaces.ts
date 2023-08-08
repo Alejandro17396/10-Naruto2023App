@@ -117,8 +117,9 @@ export class Attribute {
     impact:        string;
     value:         number;
     condition:     string;
-    time?:          string;
+    time?:         string;
     color?:        string;
+    level?:        string;
 
     constructor(){
         this.attributeName= "";
@@ -156,6 +157,47 @@ export enum NinjaType {
     Genjutsu = "GENJUTSU",
     Taijutsu = "TAIJUTSU",
 }
+
+export class NinjaTypeUtils {
+    static getValueFromString(typeString: string): NinjaType {
+      switch (typeString.toUpperCase()) {
+        case "GENJUTSU":
+          return NinjaType.Genjutsu;
+        case "TAIJUTSU":
+          return NinjaType.Taijutsu;
+        default:
+          return NinjaType.Taijutsu;
+      }
+    }
+  }
+
+  export class NinjaFormationUtils {
+    static getValueFromString(typeString: string): Formation {
+      switch (typeString.toUpperCase()) {
+        case "GENJUTSU":
+          return Formation.Assaulter;
+        case "TAIJUTSU":
+          return Formation.Support;
+        case "VANGUARD" :
+            return Formation.Vanguard;
+        default:
+          return Formation.Support;
+      }
+    }
+  }
+
+  export class NinjaSexUtils {
+    static getValueFromString(typeString: string): Sex {
+      switch (typeString.toUpperCase()) {
+        case "MALE":
+          return Sex.Male;
+        case "FEMALE":
+          return Sex.Female;
+        default:
+          return Sex.Male;
+      }
+    }
+  }
 
 /*export interface NinjaUserFormationDTO {
     id:                 number;
@@ -288,12 +330,33 @@ export interface Ninja {
     skills:       Skill[];
     awakenings:   Awakening[];
     formation:    Formation;
-    nameAux?:      string;
+    nameAux?:     string;
+    ninjaImage?:   File|undefined;
+    ninjaStatImage?:   File|undefined;
+}
+
+export interface SaveNinja{
+    ninja: Ninja;
+    attributes: string [];
 }
 
 export interface WrapEnumsDropdown{
     value:string;
 }
+
+export enum BattleActions {
+    ATTACK_ENDS = 'attack ends',
+    BATTLE_ENDS = 'battle ends',
+    FOR_2_ROUNDS = 'for 2 rounds',
+    FOR_3_ROUNDS = 'for 3 rounds',
+    ONCE_PER_BATTLE = 'once per battle',
+    HEALTH_LOSS = 'health is still lost',
+    MEANWHILE_ATTACK = 'meanwhile attack',
+    FOR_4_ROUNDS = 'for 4 rounds',
+    FOR_2_ROUNDS_AGAIN = 'for 2 rounds',
+    BATTLE = 'battle',
+    FOR_1_ROUND = 'for 1 round'
+  }
 
 export enum Target {
     AllEnemies = 'all enemies',

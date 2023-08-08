@@ -4,7 +4,7 @@
         <p-tabView>
             <p-tabPanel [header]='"ninja"'>
                 <div class="mb-3">
-                    <img src="assets/images/ninjas/images/{{ninja.ninja.name}}.jpg" 
+                    <img [src]="ninja.ninja.ninjaImage | imageUrl: ninja.ninja.name: 'ninjaFace' " 
                     style="height:50px; width:50px;"
                                 [alt]="ninja.ninja.name"
                                 class="m-1"/>
@@ -24,64 +24,86 @@
                     </p-dialog>
                 </div>
             </p-tabPanel>
-            <p-tabPanel [header]='"set"'>
-                <div class="mb-3">
-                    <img src="assets/images/sets/{{ninja.equipment.partes[5].nombre}}.jpg" 
+            <p-tabPanel [header]='"set"' *ngIf="ninja.equipment  && ninja.equipment.partes 
+                                                                    && ninja.equipment.partes.length>0">
+                <!-- <div class="mb-3">
+                    <img [src]="ninja.equipment.partes[5].image | imageUrl: ninja.equipment.partes[5].nombre: 'equipment' "
                     style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/sets/{{ninja.equipment.partes[4].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.equipment.partes[4].image | imageUrl: ninja.equipment.partes[4].nombre: 'equipment' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/sets/{{ninja.equipment.partes[3].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.equipment.partes[3].image | imageUrl: ninja.equipment.partes[3].nombre: 'equipment' " style="height:50px; width:50px;"
                     
                     class="m-1"/> 
                 </div>
                 <div class="mb-3" >
-                    <img src="assets/images/sets/{{ninja.equipment.partes[2].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.equipment.partes[2].image | imageUrl: ninja.equipment.partes[2].nombre: 'equipment' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/sets/{{ninja.equipment.partes[1].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.equipment.partes[1].image | imageUrl: ninja.equipment.partes[1].nombre: 'equipment' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/sets/{{ninja.equipment.partes[0].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.equipment.partes[0].image | imageUrl: ninja.equipment.partes[0].nombre: 'equipment' " style="height:50px; width:50px;"
                     
                     class="m-1"/> 
-                </div>
+                </div> -->
+                <div class="mb-3">
+                    <ng-container *ngFor="let parte of ninja.equipment.partes.slice(0, 3)">
+                      <img [src]="parte?.image | imageUrl: parte.nombre: 'equipment'" style="height:50px; width:50px;" class="m-1" />
+                    </ng-container>
+                  </div>
+                  <div class="mb-3" *ngIf="ninja.equipment.partes.length > 3">
+                    <ng-container *ngFor="let parte of ninja.equipment.partes.slice(3)">
+                      <img [src]="parte?.image | imageUrl: parte.nombre: 'equipment'" style="height:50px; width:50px;" class="m-1" />
+                    </ng-container>
+                  </div>
                 <div class="mb-3" >
                     {{ninja.equipment.nombre}}
                     <!-- <p-button (click)="ver()">boton</p-button> -->
                 </div>
             </p-tabPanel>
-            <p-tabPanel [header]='"accesories"'>
-                <div class="mb-3">
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[7].nombre}}.jpg" style="height:50px; width:50px;"
+            <p-tabPanel [header]='"accesories"' *ngIf="ninja.accesories  && ninja.accesories.partes 
+                                                        && ninja.accesories.partes.length>0">
+                <!-- <div class="mb-3">
+                    <img  [src]="ninja.accesories.partes[7].image | imageUrl: ninja.accesories.partes[7].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[6].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[6].image | imageUrl: ninja.accesories.partes[6].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[5].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[5].image | imageUrl: ninja.accesories.partes[5].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/> 
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[4].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[4].image | imageUrl: ninja.accesories.partes[4].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/> 
                 </div>
                 <div class="mb-3" >
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[3].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[3].image | imageUrl: ninja.accesories.partes[3].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[2].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[2].image | imageUrl: ninja.accesories.partes[2].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[1].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[1].image | imageUrl: ninja.accesories.partes[1].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{ninja.accesories.partes[0].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="ninja.accesories.partes[0].image | imageUrl: ninja.accesories.partes[0].nombre: 'accesories' " style="height:50px; width:50px;"
                     
                     class="m-1"/> 
-                </div>
+                </div> -->
+                <div class="mb-3">
+                    <ng-container *ngFor="let parte of ninja.accesories.partes.slice(0, 4)">
+                      <img [src]="parte?.image | imageUrl: parte.nombre: 'accesories'" style="height:50px; width:50px;" class="m-1" />
+                    </ng-container>
+                  </div>
+                  <div class="mb-3" *ngIf="ninja.accesories.partes.length > 4">
+                    <ng-container *ngFor="let parte of ninja.accesories.partes.slice(4)">
+                      <img [src]="parte?.image | imageUrl: parte.nombre: 'accesories'" style="height:50px; width:50px;" class="m-1" />
+                    </ng-container>
+                  </div>
                 <div class="mb-3" >
                     {{ninja.accesories.nombre}}
                     <!-- <p-button (click)="ver()">boton</p-button> -->

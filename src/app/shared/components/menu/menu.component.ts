@@ -1,12 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/auth/services/auth-service.service';
+
 
 @Component({
   selector: 'shared-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent  implements OnInit {
+export class MenuComponent implements OnInit {
+
+  constructor(public authService:AuthService,
+              public router: Router){}
   ngOnInit(): void {
     this.items = [
       {
@@ -27,7 +33,7 @@ export class MenuComponent  implements OnInit {
           {
             label:'Create own sets',
             routerLink:'/sets/createOwnSets'
-          }
+          },
         ]
       },
       { 
@@ -96,13 +102,77 @@ export class MenuComponent  implements OnInit {
             routerLink:'/formations/createOwnFormations'
           }
         ]
-      },
+      }
+  ];
+  this.isAdmin();
+ // this.logout();
+
+
+}
+
+  logout1(){
+    this.items.push(
       {
         label: 'Pipes personalizados',
         routerLink: '/auth/login'
-      }
-  ];
-}
+      });
+  }
 
-items!:MenuItem[];
+  isAdmin(){
+    //const authService = inject(AuthService);
+    //console.log(authService.isAdmin());
+    if(this.authService.isAdmin()){
+      this.items.push({
+        label:'Admin',
+        items:[
+            {
+              label: 'Equipment',
+              items: [
+                  {
+                    label: 'Add new Equipment',
+                    routerLink:'/admin/sets/newEquipment'
+                  },
+                  {
+                    label: 'Update Equipment',
+                    routerLink:'/admin/sets/updateEquipment'
+                  },
+              ]
+            },
+            {
+              label: 'Accesories',
+              items: [
+                  {
+                    label: 'Add new accesories',
+                    routerLink:'/admin/accesories/newAccesorieSet'
+                  },
+                  {
+                    label: 'Update accesories',
+                    routerLink:'/admin/accesories/updateAccesorieSet'
+                  },
+              ]
+            },
+            {
+              label: 'Ninjas',
+              items: [
+                  {
+                    label: 'Add new Ninja',
+                    routerLink:'/admin/ninjas/newNinja'
+                  },
+                  {
+                    label: 'Update Ninja',
+                    routerLink:'/admin/ninjas/updateNinja'
+                  },
+              ]
+            },
+        ]
+      });
+    }
+  }
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
+  items!:MenuItem[];
 }

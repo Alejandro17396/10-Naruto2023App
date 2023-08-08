@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { enviroments } from 'src/enviroments/enviroments';
 import { Observable, catchError, of } from 'rxjs';
 import { AccesorieSet, AccesoriesResponsePaginated, DeleteUserAccesorieSetDTO, GenerateAccesorieSetsResponse, ICreateUserAccesorieSet, UserAccesorieSetDTO } from '../interfaces/accesories.interfaces';
-import { Atributo, Filters, ListaBonus } from 'src/app/sets/interfaces/set.interfaces';
+import { Atributo, DeleteUserSetDTOResponse, Filters, ListaBonus, Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +17,26 @@ export class AccesoriesService {
     return this.http.get<AccesoriesResponsePaginated>(`${this.baseUrl}/accesories`);
   }
 
+  getAccesoriesPagination(pageable:Pageable_):Observable<AccesoriesResponsePaginated>{
+    return this.http.get<AccesoriesResponsePaginated>
+    (`${this.baseUrl}/accesories?page=${pageable.page}&size=${pageable.size}`);
+  }
+
+  getAccesoriesList():Observable<AccesorieSet[]>{
+    return this.http.get<AccesorieSet[]>(`${this.baseUrl}/accesories/list`);
+  }
+
   getAccesoriesComboSets(attributes : Atributo [],
     order : Atributo [],
     attributesFilter : ListaBonus [],
-    
+    page:Pageable_,
     filters:Filters):
     Observable<GenerateAccesorieSetsResponse>{
      let headers = new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token'));
      let setFilter:string = filters?.set? filters.set : "";
      let body = { attributes, order, attributesFilter, setFilter };
      return this.http.post<GenerateAccesorieSetsResponse>
-     (`${this.baseUrl}/accesories/CombinacionesBonusTotal?sorted=${filters.order}&filtred=${filters.filter}`
+     (`${this.baseUrl}/accesories/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}`
      ,body,{ headers });
    }
 
@@ -109,5 +118,39 @@ export class AccesoriesService {
     });
   }
 
+  saveSet(body:FormData):Observable<HttpResponse<AccesorieSet>>{
+    const url = `${this.baseUrl}/accesories/accesorieSet/create`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+  
+    return this.http.post<AccesorieSet>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  updateSet(body:FormData):Observable<HttpResponse<AccesorieSet>>{
+    const url = `${this.baseUrl}/accesories/accesorieSet/update`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+  
+    return this.http.put<AccesorieSet>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  deleteAccesorieSet(name:String):Observable<HttpResponse<DeleteUserSetDTOResponse>>{
+    const url = `${this.baseUrl}/accesories/accesorieSet/delete/${name}`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.delete<DeleteUserSetDTOResponse>(url,  {
+      headers,
+      observe: 'response'
+    });
+  }
 
 }

@@ -61,7 +61,7 @@
 
                 <div class="col-5 m-2 mt-3 grid justify-content-center" >
                     <div class="overflow-hidden">
-                        <img src="assets/images/ninjas/info/{{ninjaShow.ninja.name}}.jpg" alt="" style="height:300px; width: 311px;">
+                        <img [src]="ninjaShow.ninja.ninjaImage | imageUrl: ninjaShow.ninja.name: 'ninjaFace' " alt="" style="height:300px; width: 311px;">
                     </div>
                 </div>
                 <div class="col-6 m-2 mt-3 grid border-1 surface-border border-round" >
@@ -107,7 +107,7 @@
             </div>
                 <div class="col-3 m-2 grid border-1 surface-border border-round" *ngFor="let item of ninjaShow.equipment.partes">
                     <div class="col-4 overflow-hidden">
-                        <img src="assets/images/sets/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                        <img [src]="item.image | imageUrl: item.nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                     </div>
                     <div class="col-5 overflow-hidden">
                         <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a>
@@ -146,7 +146,7 @@
             </div>
                 <div class="col-3 m-2 grid border-1 surface-border border-round" *ngFor="let item of ninjaShow.accesories.partes">
                     <div class="col-4 overflow-hidden">
-                        <img src="assets/images/accesorios/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                        <img [src]="item.image | imageUrl: item.nombre: 'accesories' " alt="" style="height:50px; width:50px;">
                     </div>
                     <div class="col-5 overflow-hidden">
                         <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a>

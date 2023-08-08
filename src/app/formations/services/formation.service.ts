@@ -4,6 +4,7 @@ import { NinjaFilter, NinjaUserFormationDTO } from 'src/app/ninjas/interfaces/Ni
 import { CompareFormations, DeleteUserFormationDTO, FormationElement, FormationResponsePaginated, ICreateFormation, UserFormationDTO } from '../interfaces/formations.interface';
 import { Observable } from 'rxjs';
 import { enviroments } from 'src/enviroments/enviroments';
+import { Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,14 @@ export class FormationService {
   
     return this.http.get<UserFormationDTO[]>(url, {
         headers
-    });
+    }); 
   }
 
-  createFormation(filter:NinjaFilter,sorted:boolean,filtred:boolean):
+  createFormation(filter:NinjaFilter,sorted:boolean,filtred:boolean,
+    page:Pageable_,awakening:boolean,or:boolean):
   Observable<FormationResponsePaginated>{
     const url = 
-    `${this.baseUrl}/ninjas/createComboFormations?sorted=${sorted}&filtred=${filtred}`;
+    `${this.baseUrl}/ninjas/createComboFormations?sorted=${sorted}&filtred=${filtred}&awakening=${awakening}&or=${or}&page=${page.page}&size=${page.size}`;
     const body: NinjaFilter = filter;
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + localStorage.getItem('token'));
   

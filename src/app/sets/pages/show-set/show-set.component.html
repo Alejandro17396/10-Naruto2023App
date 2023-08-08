@@ -3,7 +3,7 @@
         <div class="col-4 mt-2 grid" >
             <div class="col-12 m-1 overflow-hidden grid" >
                 <div class="col-6 overflow-hidden">
-                    <img src="assets/images/sets/{{showSet.partes[0].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="showSet.partes[0].image | imageUrl: showSet.partes[0].nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-6 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{showSet.partes[0].nombre}} ({{showSet.partes[0].valor}})</a>
@@ -13,7 +13,7 @@
         <div class="col-4 mt-2 m-1 grid" >
             <div class="col-12 m-1 grid overflow-hidden" >
                 <div class="col-6 overflow-hidden">
-                    <img src="assets/images/sets/{{showSet.partes[1].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="showSet.partes[1].image | imageUrl: showSet.partes[1].nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-6 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{showSet.partes[1].nombre}} ({{showSet.partes[1].valor}})</a>
@@ -23,7 +23,7 @@
         <div class="col-4 mt-2 grid" >
             <div class="col-12 m-1 grid overflow-hidden" >
                 <div class="col-6 overflow-hidden">
-                    <img src="assets/images/sets/{{showSet.partes[2].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="showSet.partes[2].image | imageUrl: showSet.partes[2].nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-6 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{showSet.partes[2].nombre}} ({{showSet.partes[2].valor}})</a>
@@ -35,7 +35,7 @@
         <div class="col-4 mt-2 grid" >
             <div class="col-12 m-1 overflow-hidden grid" >
                 <div class="col-6 overflow-hidden">
-                    <img src="assets/images/sets/{{showSet.partes[3].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="showSet.partes[3].image | imageUrl: showSet.partes[3].nombre: 'equipment' " alt="image" style="height:50px; width:50px;">
                 </div>
                 <div class="col-6 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{showSet.partes[3].nombre}} ({{showSet.partes[3].valor}})</a>
@@ -45,7 +45,7 @@
         <div class="col-4 mt-2 m-1 grid" >
             <div class="col-12 m-1 grid overflow-hidden" >
                 <div class="col-6 overflow-hidden">
-                    <img src="assets/images/sets/{{showSet.partes[4].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="showSet.partes[4].image | imageUrl: showSet.partes[4].nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-6 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{showSet.partes[4].nombre}} ({{showSet.partes[4].valor}})</a>
@@ -55,7 +55,7 @@
         <div class="col-4 mt-2 grid" >
             <div class="col-12 m-1 grid overflow-hidden" >
                 <div class="col-6 overflow-hidden">
-                    <img src="assets/images/sets/{{showSet.partes[5].nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="showSet.partes[5].image | imageUrl: showSet.partes[5].nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-6 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{showSet.partes[5].nombre}} ({{showSet.partes[5].valor}})</a>
@@ -101,8 +101,16 @@
             <p-button label="Show Filters" 
             styleClass="p-button-primary"
             (click)="showFilterPanel()">
-        </p-button>
+            </p-button>
         </div>
+        <!-- <div class="w-6 p-2 mb-3 overflow-hidden ">
+            <p-toast></p-toast>
+            <p-confirmDialog key="custom" [style]="{width: '50vw'}"></p-confirmDialog>
+            <p-button label="Generate Comboqwww Sets" 
+            styleClass="p-button-primary" 
+            (click)="generateComboSets2()">
+        </p-button>
+        </div> -->
     </div>
 </div>
 

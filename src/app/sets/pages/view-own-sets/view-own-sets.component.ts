@@ -112,7 +112,7 @@ export class ViewOwnSetsComponent implements OnInit{
               this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
               break;
           case ConfirmEventType.CANCEL:
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You 223have cancelled' });
               break;
       }
       }

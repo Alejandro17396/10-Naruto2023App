@@ -68,7 +68,7 @@
         <div class="grid m-3 overflow-hidden justify-content-center text-center border-1 surface-border border-round" *ngIf="set.partes.length>0">
             <div class="col-3 m-2 grid border-1 surface-border border-round"  *ngFor="let item of set.partes" >
                 <div class="col-4 overflow-hidden">
-                    <img src="assets/images/sets/{{item.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                    <img [src]="item.image | imageUrl: item.nombre: 'equipment' " alt="" style="height:50px; width:50px;">
                 </div>
                 <div class="col-5 overflow-hidden">
                     <a style="font-size:smaller;color:white">{{item.nombre}} ({{item.valor}})</a>

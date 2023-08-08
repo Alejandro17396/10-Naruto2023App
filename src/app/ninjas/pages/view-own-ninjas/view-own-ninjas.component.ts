@@ -26,6 +26,8 @@ export class ViewOwnNinjasComponent implements OnInit{
   ngOnInit(): void {
     this.ninjasService.getUserNinjas().subscribe(
       response =>{
+        console.log("debug")
+        console.log(response);
         this.ninjas = response;
         if(response.length > 0){
           this.ninjaShow = response[0];

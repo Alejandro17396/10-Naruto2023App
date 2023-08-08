@@ -1,99 +1,4 @@
 <div class="card-container indigo-container" >
-    <!-- style="border: 1px solid #ffffff;" -->
-    
-    <!--<div class="grid col-12 justify-content-center text-center" >
-                <div class="col-4">
-                    Target
-                </div>
-                <div class="col-4">
-                    Action
-                </div>
-                <div class="col-4">
-                    Condition
-                </div>
-            </div>        
-            <div class="grid col-12" >
-                <div class="col-4">
-                    <p-dropdown [options]="targetsOptions" [(ngModel)]="selectedTarget" optionLabel="value"
-                    [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a Target" class="p-fluid">
-                        <ng-template pTemplate="selectedTargetI">
-                            <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedTarget">
-                                <div>{{ selectedTarget.value  }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template let-element pTemplate="item">
-                            <div class="flex align-items-center gap-2">
-                                <div>{{ element.value }}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown> 
-                </div>
-                <div class="col-4">
-                    <p-dropdown [options]="actionsOptions" [(ngModel)]="selectedAction" optionLabel="value"
-                    [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a action" class="p-fluid">
-                        <ng-template pTemplate="selectedActionI">
-                            <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedTarget">
-                                <div>{{ selectedAction.value  }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template let-element pTemplate="item">
-                            <div class="flex align-items-center gap-2">
-                                <div>{{ element.value }}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown> 
-                </div>
-                <div class="col-4">
-                    <p-dropdown [options]="conditionOptions" [(ngModel)]="selectedCondition" optionLabel="value"
-                    [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a condition" class="p-fluid">
-                        <ng-template pTemplate="selectedConditionI">
-                            <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedTarget">
-                                <div>{{ selectedCondition.value  }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template let-element pTemplate="item">
-                            <div class="flex align-items-center gap-2">
-                                <div>{{ element.value }}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown> 
-                </div>
-            </div>
-     <div class="grid col-12 justify-content-center text-center" >
-        <div class="col-4">
-            Attribute
-        </div>
-        <div class="col-4">
-            Value
-        </div>
-        <div class="col-4">
-            
-        </div>
-    </div>         -->
-    
-        <!-- <p-dropdown [options]="attributes" [(ngModel)]="selectedAttribute" optionLabel="value"
-        [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a Attribute" 
-        class="p-fluid col-4" >
-            <ng-template pTemplate="selectedTargetI">
-                <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedTarget">
-                    <div>{{ selectedAttribute.nombre  }}</div>
-                </div>
-            </ng-template>
-            <ng-template let-attribute pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                    <div>{{ attribute.nombre }}</div>
-                </div>
-            </ng-template>
-        </p-dropdown> 
-        <p-inputNumber [(ngModel)]="attributeValue" [showButtons]="true" buttonLayout="horizontal" 
-                inputId="horizontal" spinnerMode="horizontal" [step]="5" 
-                incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-        </p-inputNumber>
-        <span *ngIf="isValidField('attributeValue')"  class="form-text text-danger" style="color:red">
-            Value can`t be empty
-        </span> 
-        <p-button label="Add filter" styleClass="p-button-primary" class="p-fluid col-4">
-        </p-button> -->
     <div class="grid col-12" >
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()" autocomplete="off"  class="grid col-12">
             <div class="grid col-12 justify-content-center text-center" >
@@ -213,7 +118,6 @@
                 <p-button label="Add filter" styleClass="p-button-primary" class="p-fluid col-12"  type="submit">
                 </p-button>
             </div>
-            
         </form>
     </div> 
     
@@ -250,18 +154,20 @@
     </div>
     <div class="grid col-12 justify-content-center text-center">
         <p-checkbox #filter value="Filter sets by attributes"
-         label="Filter sets by attributes" class="text-center col-3 m-2">
+         label="Filter by attributes value" class="text-center col-3">
         </p-checkbox>
         <p-checkbox #order value="Order sets by attributes value"
-         label="Order sets by attributes value" class="text-center col-3 m-2">
+         label="Order by attributes value" class="text-center col-3">
         </p-checkbox>
-        <p-button styleClass="p-button-danger" label="Delete filter" class="col-3"
-        (click)="deleteAttribute()">
-            <i class="pi pi-trash" style="font-size: 1rem"></i>
-        </p-button>
+        <p-checkbox #awakening value="Order sets by attributes value"
+         label="Search in awakenings" class="text-center col-3">
+        </p-checkbox>
+        <p-checkbox #or value="Order sets by attributes value"
+         label="Ninjas must have all attributes" class="text-center col-3">
+        </p-checkbox>
     </div>
     <div class="grid col-12 justify-content-center text-center">
-        <div class="grid col-6 justify-content-center text-center mt-2 mr-5">
+        <div class="grid col-5 justify-content-center text-center mt-2 mr-5">
             <p-dropdown [options]="ninjas" optionLabel="name" [(ngModel)]="selectedNinja"
             [filter]="true" filterBy="name" [showClear]="true" placeholder="Select a Ninja" 
             class="form-control p-fluid col-6 h-3rem"  >
@@ -280,6 +186,10 @@
         <p-button styleClass="p-button-priamry" label="Save filters" class="col-3"
         (click)="saveFilters()">
             <i class="pi pi-save" style="font-size: 1rem"></i>
+        </p-button>
+        <p-button styleClass="p-button-danger" label="Delete filter" class="col-3"
+        (click)="deleteAttribute()">
+            <i class="pi pi-trash" style="font-size: 1rem"></i>
         </p-button>
     </div>
 

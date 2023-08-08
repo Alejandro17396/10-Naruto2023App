@@ -1,29 +1,29 @@
 <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" style="border: 1px solid red;" *ngIf="setReady">
     <div class="mb-3">
-        <img src="assets/images/accesorios/{{set.partes[7].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[7].image | imageUrl: set.partes[7].nombre: 'accesories' " style="height:50px; width:50px;"
         
         class="m-1"/>
-        <img src="assets/images/accesorios/{{set.partes[6].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[6].image | imageUrl: set.partes[6].nombre: 'accesories' "  style="height:50px; width:50px;"
         
         class="m-1"/>
-        <img src="assets/images/accesorios/{{set.partes[5].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[5].image | imageUrl: set.partes[5].nombre: 'accesories' "  style="height:50px; width:50px;"
         
         class="m-1"/> 
-        <img src="assets/images/accesorios/{{set.partes[4].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[4].image | imageUrl: set.partes[4].nombre: 'accesories' " style="height:50px; width:50px;"
         
         class="m-1"/> 
     </div>
     <div class="mb-3" >
-        <img src="assets/images/accesorios/{{set.partes[3].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[3].image | imageUrl: set.partes[3].nombre: 'accesories' "  style="height:50px; width:50px;"
         
         class="m-1"/>
-        <img src="assets/images/accesorios/{{set.partes[2].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[2].image | imageUrl: set.partes[2].nombre: 'accesories' "  style="height:50px; width:50px;"
         
         class="m-1"/>
-        <img src="assets/images/accesorios/{{set.partes[1].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[1].image | imageUrl: set.partes[1].nombre: 'accesories' "  style="height:50px; width:50px;"
         
         class="m-1"/>
-        <img src="assets/images/accesorios/{{set.partes[0].nombre}}.jpg" style="height:50px; width:50px;"
+        <img [src]="set.partes[0].image | imageUrl: set.partes[0].nombre: 'accesories' "  style="height:50px; width:50px;"
         
         class="m-1"/> 
     </div>

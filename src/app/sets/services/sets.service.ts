@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { enviroments } from 'src/enviroments/enviroments';
-import { Atributo, DeleteUserSetDTOResponse, Filters, GenerateSetsResponse, ICreateUserSet, ListaBonus, Set, SetsResponsePaginated, UserSetDTOResponse } from '../interfaces/set.interfaces';
+import { Atributo, DeleteUserSetDTOResponse, Filters, GenerateSetsResponse, ICreateUserSet, ListaBonus, Pageable, Pageable_, SaveEquipment, Set, SetsResponsePaginated, UserSetDTOResponse } from '../interfaces/set.interfaces';
 import { Observable, catchError, of } from 'rxjs';
 
 @Injectable({
@@ -9,23 +9,29 @@ import { Observable, catchError, of } from 'rxjs';
 })
 export class SetsService {
   private baseUrl:string = enviroments.baseUrl;
+
   constructor(private http:HttpClient) { }
 
   getSets():Observable<SetsResponsePaginated>{
     return this.http.get<SetsResponsePaginated>(`${this.baseUrl}/sets`);
   }
 
+  getSetsPagination(pageable:Pageable_):Observable<SetsResponsePaginated>{
+    return this.http.get<SetsResponsePaginated>
+    (`${this.baseUrl}/sets?page=${pageable.page}&size=${pageable.size}`);
+  }
+
   getComboSets(attributes : Atributo [],
                order : Atributo [],
                attributesFilter : ListaBonus [],
-               
-               filters:Filters):
+               filters:Filters,
+               page:Pageable_):
                Observable<GenerateSetsResponse>{
                 let headers = new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token'));
                 let setName:string = filters.set;
                 let body = { attributes, order, attributesFilter, setName };
                 return this.http.post<GenerateSetsResponse>
-                (`${this.baseUrl}/sets/CombinacionesBonusTotal?sorted=${filters.order}&filtred=${filters.filter}`
+                (`${this.baseUrl}/sets/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}`
                 ,body,{ headers });
               }
 
@@ -107,167 +113,51 @@ export class SetsService {
       });
   }
 
-              getSetTest() {
-                let url = {
-                    "nombre": "amegakure set",
-                    "partes": [
-                        {
-                            "nombre": "amegakure armor",
-                            "atributo": {
-                                "nombre": "physical defense"
-                            },
-                            "valor": 59000
-                        },
-                        {
-                            "nombre": "amegakure belt",
-                            "atributo": {
-                                "nombre": "power"
-                            },
-                            "valor": 590000
-                        },
-                        {
-                            "nombre": "amegakure boots",
-                            "atributo": {
-                                "nombre": "speed"
-                            },
-                            "valor": 59000
-                        },
-                        {
-                            "nombre": "amegakure coat",
-                            "atributo": {
-                                "nombre": "strategy defense"
-                            },
-                            "valor": 59000
-                        },
-                        {
-                            "nombre": "amegakure headband",
-                            "atributo": {
-                                "nombre": "physical defense"
-                            },
-                            "valor": 59000
-                        },
-                        {
-                            "nombre": "amegakure kunai",
-                            "atributo": {
-                                "nombre": "physical attack"
-                            },
-                            "valor": 59000
-                        },
-                        {
-                            "nombre": "amegakure scroll",
-                            "atributo": {
-                                "nombre": "strategy attack"
-                            },
-                            "valor": 59000
-                        },
-                        {
-                            "nombre": "amegakure shuriken",
-                            "atributo": {
-                                "nombre": "physical attack"
-                            },
-                            "valor": 59000
-                        }
-                    ],
-                    "bonuses": [
-                        {
-                            "nombre": "2 effect : ",
-                            "listaBonus": [
-                                {
-                                    "nombreAtributo": "attack",
-                                    "valor": 25,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "damage rate",
-                                    "valor": 20,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "force",
-                                    "valor": 10000,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "punch rate",
-                                    "valor": 30,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                }
-                            ]
-                        },
-                        {
-                            "nombre": "4 effect : ",
-                            "listaBonus": [
-                                {
-                                    "nombreAtributo": "after release skill has 80% chance to make 2 random enemies enter frozen for 2 rounds",
-                                    "valor": 0,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "damage rate",
-                                    "valor": 20,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "increase cc rate",
-                                    "valor": 40,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                }
-                            ]
-                        },
-                        {
-                            "nombre": "6 effect : ",
-                            "listaBonus": [
-                                {
-                                    "nombreAtributo": "after release skill dispel 2 random allies debuff",
-                                    "valor": 0,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "agility",
-                                    "valor": 50000,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                },
-                                {
-                                    "nombreAtributo": "weaken enemy attack",
-                                    "valor": 30,
-                                    "action": "increase",
-                                    "impact": "self",
-                                    "condition": "ninja is alive",
-                                    "time": "battle ends"
-                                }
-                            ]
-                        }
-                    ]
-                };
-            
-                return Object.assign(new Set(), url);
-              }
+  saveSet(body:FormData):Observable<HttpResponse<Set>>{
+    const url = `${this.baseUrl}/sets/equipment/create`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+  
+    return this.http.post<Set>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  updateSet(body:FormData):Observable<HttpResponse<Set>>{
+    const url = `${this.baseUrl}/sets/equipment/update`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+  
+    return this.http.put<Set>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  deleteEquipment(name:String):Observable<HttpResponse<DeleteUserSetDTOResponse>>{
+    const url = `${this.baseUrl}/sets/equipment/delete/${name}`
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  
+    return this.http.delete<DeleteUserSetDTOResponse>(url,  {
+      headers,
+      observe: 'response'
+    });
+  }
+
+  saveSet2(set:SaveEquipment):Observable<HttpResponse<Set>>{
+    const url = `${this.baseUrl}/sets/equipment/create`
+    const body: SaveEquipment = set;
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + 
+    localStorage.getItem('token'));
+  
+    return this.http.post<Set>(url, body, {
+      headers,
+      observe: 'response'
+    });
+  }
         
 }

@@ -12,6 +12,6 @@ export class SetItemsService {
   constructor(private http:HttpClient) { }
 
   getSetItems():Observable<Parte[]>{
-    return this.http.get<Parte[]>(`${this.baseUrl}/setItems`);
+    return this.http.get<Parte[]>(`${this.baseUrl}/items/equipment`);
   }
 }

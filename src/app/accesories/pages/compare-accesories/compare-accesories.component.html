@@ -3,30 +3,31 @@
         <ng-template let-accesorieSet pTemplate="item">
             <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
                 <div class="mb-3">
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[7].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[7].image | imageUrl: accesorieSet.partes[7].nombre: 'accesories' " 
+                    style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[6].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[6].image | imageUrl: accesorieSet.partes[6].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[5].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[5].image | imageUrl: accesorieSet.partes[5].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[4].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[4].image | imageUrl: accesorieSet.partes[4].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
                 </div>
                 <div class="mb-3">
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[3].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[3].image | imageUrl: accesorieSet.partes[3].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[2].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[2].image | imageUrl: accesorieSet.partes[2].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[1].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[1].image | imageUrl: accesorieSet.partes[1].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
-                    <img src="assets/images/accesorios/{{accesorieSet.partes[0].nombre}}.jpg" style="height:50px; width:50px;"
+                    <img [src]="accesorieSet.partes[0].image | imageUrl: accesorieSet.partes[0].nombre: 'accesories' "  style="height:50px; width:50px;"
                     [alt]="accesorieSet.nombre"
                     class="m-1"/>
                 </div>

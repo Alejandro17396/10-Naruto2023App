@@ -20,7 +20,7 @@
             <ng-template pTemplate="body" let-ninja let-rowIndex="rowIndex">
                 <tr >
                     <td class="btn-cell">
-                        <img src="assets/images/ninjas/images/{{ninja.name}}.jpg" alt="" style="height:50px; width:50px;">
+                        <img [src]="ninja.ninjaImage | imageUrl: ninja.name: 'ninjaFace' " alt="" style="height:50px; width:50px;">
                         <a class="setName">{{ninja.name}}</a>
                         <p-button label="Add" styleClass="p-button-primary" (click)="addNinja(ninja)" ></p-button>
                     </td>
@@ -50,7 +50,8 @@
             <ng-template pTemplate="body" let-set let-rowIndex="rowIndex">
                 <tr >
                     <td class="btn-cell">
-                        <img src="assets/images/sets/{{set.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                        <!-- src="assets/images/sets/{{set.nombre}}.jpg" -->
+                        <img [src]="set.image | imageUrl: set.nombre: 'equipment' "  alt="" style="height:50px; width:50px;">
                         <a class="setName">{{set.nombre}}</a>
                         <p-button label="Add" styleClass="p-button-primary"  (click)="addSetItem(set)"></p-button>
                     </td>
@@ -80,7 +81,8 @@
             <ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
                 <tr >
                     <td class="btn-cell">
-                        <img src="assets/images/accesorios/{{accesorieSet.nombre}}.jpg" alt="" style="height:50px; width:50px;">
+                        <!-- src="assets/images/accesorios/{{accesorieSet.nombre}}.jpg" -->
+                        <img [src]="accesorieSet.image | imageUrl: accesorieSet.nombre: 'accesories' "alt="" style="height:50px; width:50px;">
                         <a class="setName">{{accesorieSet.nombre}}</a>
                         <p-button label="Add" styleClass="p-button-primary" (click)="addAccesoriesSetItem(accesorieSet)"></p-button>
                     </td>

@@ -15,6 +15,8 @@ import { ViewAccesorieSetDifferencesComponent } from './pages/view-accesorie-set
 import { CreateOwnAccesoriesSetComponent } from './pages/create-own-accesories-set/create-own-accesories-set.component';
 import { ConfirmDialogAccesorieSetComponent } from './pages/confirm-dialog-accesorie-set/confirm-dialog-accesorie-set.component';
 import { CompareAcesorieSetDialogComponent } from './pages/compare-acesorie-set-dialog/compare-acesorie-set-dialog.component';
+import { NewAccesorieSetComponent } from './pages/admin/new-accesorie-set/new-accesorie-set.component';
+import { UpdateAccesorieSetComponent } from './pages/admin/update-accesorie-set/update-accesorie-set.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { CompareAcesorieSetDialogComponent } from './pages/compare-acesorie-set-
     ViewAccesorieSetDifferencesComponent,
     CreateOwnAccesoriesSetComponent,
     ConfirmDialogAccesorieSetComponent,
-    CompareAcesorieSetDialogComponent
+    CompareAcesorieSetDialogComponent,
+    NewAccesorieSetComponent,
+    UpdateAccesorieSetComponent
   ],
   imports: [
     CommonModule,

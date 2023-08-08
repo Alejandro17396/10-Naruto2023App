@@ -19,7 +19,7 @@ export class FilterNinjaPanelComponent implements OnInit{
 
   ngOnInit(): void {
   
-    console.log(this.selectedTarget);
+
     Object.values(Target).forEach(
       element =>{
         this.targetsOptions.push({value:element});
@@ -95,6 +95,8 @@ export class FilterNinjaPanelComponent implements OnInit{
   selectedNinja!:Ninja;
   @ViewChild('order', { static: false }) orderCheckbox!: Checkbox;
   @ViewChild('filter', { static: false }) filterCheckbox!: Checkbox;
+  @ViewChild('awakening', { static: false }) awakeningCheckbox!: Checkbox;
+  @ViewChild('or', { static: false }) orCheckbox!: Checkbox;
 
   public myForm: FormGroup = this.fb.group({
     //name: ['', [ Validators.required, Validators.pattern( this.validatorsService.firstNameAndLastnamePattern )  ]],
@@ -183,6 +185,8 @@ export class FilterNinjaPanelComponent implements OnInit{
 
     this.filter.filter = this.filterCheckbox?.checked();
     this.filter.order = this.orderCheckbox?.checked();
+    this.filter.awakening = this.awakeningCheckbox?.checked();
+    this.filter.or = this.orCheckbox?.checked();
     this.ref.close();
   }
 

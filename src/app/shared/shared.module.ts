@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from './components/menu/menu.component';
-import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+
 import { SliderComponent } from './slider/slider.component';
 import { StringTamPipe } from './pipes/string-tam.pipe';
+import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { ImageUrlPipe } from './pipes/image-url.pipe';
+import { FallBackImgDirective } from './directives/fall-back-img.directive';
 
 
 
@@ -11,7 +14,9 @@ import { StringTamPipe } from './pipes/string-tam.pipe';
   declarations: [
     MenuComponent,
     SliderComponent,
-    StringTamPipe
+    StringTamPipe,
+    ImageUrlPipe,
+    FallBackImgDirective
   ],
   imports: [
     CommonModule,
@@ -20,7 +25,9 @@ import { StringTamPipe } from './pipes/string-tam.pipe';
   exports:[
     MenuComponent,
     SliderComponent,
-    StringTamPipe
+    StringTamPipe,
+    ImageUrlPipe,
+    FallBackImgDirective
   ]
 })
 export class SharedModule { }

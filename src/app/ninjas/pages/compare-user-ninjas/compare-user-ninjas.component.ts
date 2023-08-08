@@ -55,6 +55,7 @@ export class CompareUserNinjasComponent implements  OnInit{
   ninjaCompareRight!:NinjaUserFormationDTO;
 
   changeNinjaLeft(ninja:NinjaUserFormationDTO){
+    console.log("holaS")
     this.ninjaLeft = JSON.parse(JSON.stringify(ninja));
     console.log(this.ninjas)
     let body : CompareNinjasUserDTO ={

@@ -3,8 +3,10 @@
         <ng-template let-ninja pTemplate="item">
             <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
                 <div class="mb-3">
-                    <img src="assets/images/ninjas/images/{{ninja.name}}.jpg" style="height:50px; width:50px;"
+                    <!-- <img src="assets/images/ninjas/images/{{ninja.name}}.jpg" style="height:50px; width:50px;"
                     [alt]="ninja.name"
+                    class="m-1"/> -->
+                    <img [src]="ninja.ninjaImage | imageUrl: ninja.name: 'ninjaFace' "style="height:50px; width:50px;"
                     class="m-1"/>
                 </div>
                 <div>

@@ -1,0 +1,9 @@
+.btn-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mi-textarea {
+    width: 80%; /* Ajusta el ancho según tus necesidades */
+    height: 45%; /* Ajusta la altura según tus necesidades */
+  }
