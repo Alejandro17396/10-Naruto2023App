@@ -168,12 +168,13 @@ export class NinjaListComponent implements OnInit{
   @ViewChild(ShowNinjaComponent)
   hijoComponent!: ShowNinjaComponent;
 
-  showNinjaStats(index:number,table:string){
-    if(table === 'setCompareList'){
+  showNinjaStats(index:number,table:string,ninja:Ninja){
+   /* if(table === 'setCompareList'){
       this.showNinja=this.ninjas[index];
     }else{
       this.showNinja=this.ninjas[index];
-    }
+    }*/
+    this.showNinja = JSON.parse(JSON.stringify(ninja));
     if(this.hijoComponent){
       this.hijoComponent.setShowNinja(this.showNinja);
       console.log("existo" +index);
@@ -184,7 +185,7 @@ export class NinjaListComponent implements OnInit{
 
   }
 
-  addNinjaToCompare(rowIndex:number){
+  addNinjaToCompare(rowIndex:number,ninja:Ninja){
 
   }
 

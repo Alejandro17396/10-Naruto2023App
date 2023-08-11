@@ -22,9 +22,9 @@
         <ng-template pTemplate="body" let-ninja let-rowIndex="rowIndex">
             <tr >
                 <td class="btn-cell">
-                    <p-button label="Compare" styleClass="p-button-primary" (click)="addNinjaToCompare(rowIndex)" ></p-button>
+                    <p-button label="Compare" styleClass="p-button-primary" (click)="addNinjaToCompare(rowIndex,ninja)" ></p-button>
                     <a class="setName">{{ninja.name}}</a>
-                    <p-button label="Show" styleClass="p-button-secondary" (click)="showNinjaStats(rowIndex,'sets')"></p-button>
+                    <p-button label="Show" styleClass="p-button-secondary" (click)="showNinjaStats(rowIndex,'sets',ninja)"></p-button>
                 </td>
             </tr>
         </ng-template>
