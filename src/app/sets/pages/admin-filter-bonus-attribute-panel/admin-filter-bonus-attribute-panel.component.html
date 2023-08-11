@@ -155,7 +155,7 @@
         </div>  
         <div class="grid col-4 justify-content-center text-center" *ngIf="level && levelOptions && levelOptions.length > 0 ">
             <p-dropdown [options]="levelOptions" optionLabel="value"
-            id="selectedLevel"  [(ngModel)] ="selectedLevel.value"
+            id="selectedLevel"  [(ngModel)] ="selectedLevel"
             [filter]="true" filterBy="value" [showClear]="true" 
             placeholder="Select a Level" 
             class="form-control p-fluid col-12 h-3rem" >

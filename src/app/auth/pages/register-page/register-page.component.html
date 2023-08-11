@@ -77,23 +77,3 @@
     </p-panel>
 </div>
 
-<h2>Form Valid: {{ myForm.valid }} </h2>
-<h2>Form Status: {{ myForm.status }} </h2>
-<h2>Form Pending: {{ myForm.pending }} </h2>
-<h2>Form errors</h2>
-<pre>{{ myForm.errors | json }}</pre>
-
-
-
-<h5>Email</h5>
-<pre>{{ myForm.controls['email'].errors | json }}</pre>
-
-<h5>Username</h5>
-<pre>{{ myForm.controls['username'].errors | json }}</pre>
-
-
-<h5>Password</h5>
-<pre>{{ myForm.value.password | json }}</pre>
-
-<h5>Confirmar</h5>
-<pre>{{ myForm.controls['password2'].errors| json }}</pre>

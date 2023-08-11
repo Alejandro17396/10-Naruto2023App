@@ -157,6 +157,8 @@ export class AdminFilterBonusAttributePanelComponent implements OnInit{
         ninjaAttribute.time = value.value;
       }
       if(this.level){
+        console.log("El valor es " +this.selectedLevel.value)
+        console.log(this.selectedLevel.value)
         if(this.selectedLevel.value){
           ninjaAttribute.level = this.selectedLevel.value;
         }else{
