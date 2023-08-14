@@ -16,6 +16,9 @@ export class NinjasService {
   getNinjas():Observable<NinjasResponsePaginated>{
     return this.http.get<NinjasResponsePaginated>(`${this.baseUrl}/ninjas`);
   }
+  getAllNinjas():Observable<NinjasResponsePaginated>{
+    return this.http.get<NinjasResponsePaginated>(`${this.baseUrl}/ninjas/all`);
+  }
   getNinjasPagination(page:Pageable_):Observable<NinjasResponsePaginated>{
     return this.http.get<NinjasResponsePaginated>
     (`${this.baseUrl}/ninjas?page=${page.page}&size=${page.size}`);

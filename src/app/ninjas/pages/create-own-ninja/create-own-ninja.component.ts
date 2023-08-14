@@ -46,12 +46,17 @@ export class CreateOwnNinjaComponent {
     @Optional() public config: DynamicDialogConfig){
     }
 
+    
   ngOnInit(): void {
-    this.ninjasService.getNinjas().subscribe(
+    this.ninjasService.getAllNinjas().subscribe(
       response =>{
         if(this.config && this.config.data && this.config.data.formationPosition){
           this.ninjas = response.ninjas.filter(ninja => ninja.formation === this.config.data.formationPosition);
+          console.log("desde fuera")
+          console.log(response.ninjas)
         }else{
+          console.log("desde dentro")
+          console.log(response.ninjas)
           this.ninjas = response.ninjas;
         }
       }

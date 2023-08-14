@@ -5,8 +5,11 @@
     <p-tabView [scrollable]="true">
         <!-- NINJAS -->
         <p-tabPanel header="ninjas" *ngIf="ninjas.length>0" > 
-            <p-table #ninjasTable [value]="ninjas" selectionMode="single" [(selection)]="selectedNinja"  
-            [rows]="8" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+            <p-table #ninjasTable [value]="ninjas" 
+            selectionMode="single" [(selection)]="selectedNinja"  
+            [rows]="8" [paginator]="true" stateStorage="session"
+            [totalRecords]="ninjas.length" 
+            stateKey="statedemo-session">
             <ng-template pTemplate="header">
                 <tr>
                     <th pSortableColumn="name" >Ninjas list</th>
