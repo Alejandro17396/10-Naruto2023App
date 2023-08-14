@@ -10,13 +10,13 @@
                 <div>
                     <h4 class="mb-1">{{ ninja.name }}</h4>
                     <div class="car-buttons mt-5">
-                        <p-button type="button" label="Add" 
+                        <p-button type="button" label="Update" 
                         styleClass="p-button p-button-rounded mr-2" 
-                        icon="pi pi-arrow-down-left"
+                        icon="pi pi-eye"
                         (click)="showNinja(ninja)"></p-button>
-                        <p-button type="button" label="Add" 
-                        styleClass="p-button-success p-button-rounded mr-2" 
-                        icon="pi pi-arrow-down-right" iconPos="right"
+                        <p-button type="button" label="Delete" 
+                        styleClass="p-button-danger p-button-rounded mr-2" 
+                        icon="pi pi-trash"
                         (click)="deleteNinja(ninja)"></p-button>
                     </div>
                 </div>

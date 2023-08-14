@@ -390,7 +390,7 @@ export class UpdateNinjaComponent implements OnInit{
         }
     ];
 
-      this.ninjasService.getNinjas().subscribe(
+      this.ninjasService.getAllNinjas().subscribe(
         response =>{
           this.ninjas = response.ninjas;
         }

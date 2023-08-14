@@ -32,7 +32,7 @@ export class UpdateEquipmentComponent implements OnInit  {
   ngOnInit() {
     this.sets = this.setDataSharedService._setsToCompareList;
     if(this.sets.length === 0){
-      this.setsService.getSets().subscribe(
+      this.setsService.getAllSets().subscribe(
         response => {
           this.sets=response.content;
           console.log(response.content);

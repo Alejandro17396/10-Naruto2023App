@@ -16,6 +16,10 @@ export class SetsService {
     return this.http.get<SetsResponsePaginated>(`${this.baseUrl}/sets`);
   }
 
+  getAllSets():Observable<SetsResponsePaginated>{
+    return this.http.get<SetsResponsePaginated>(`${this.baseUrl}/sets/all`);
+  }
+
   getSetsPagination(pageable:Pageable_):Observable<SetsResponsePaginated>{
     return this.http.get<SetsResponsePaginated>
     (`${this.baseUrl}/sets?page=${pageable.page}&size=${pageable.size}`);
