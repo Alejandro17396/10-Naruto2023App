@@ -18,7 +18,7 @@ export class NinjaCompareComponent {
 
     ngOnInit(): void {
     if(this.ninjas.length === 0){
-    this.ninjasService.getNinjas().subscribe(
+    this.ninjasService.getAllNinjas().subscribe(
     response =>{
     this.ninjas = response.ninjas;
     console.log(response.ninjas);

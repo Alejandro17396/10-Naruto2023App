@@ -18,7 +18,8 @@ export class CompareAccesoriesComponent implements OnInit{
   ngOnInit(): void {
     this.accesories = this.accesoriesSharedDataService._accesoriesToCompareList;
     if(this.accesories.length === 0){
-      this.accesoriesService.getAccesories().subscribe(
+      console.log("Solucionadogfjkshdlosm")
+      this.accesoriesService.getAllAccesories().subscribe(
         response =>{
           this.accesories = response.content;
           console.log(response.content);

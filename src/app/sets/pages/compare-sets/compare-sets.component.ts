@@ -35,7 +35,8 @@ export class CompareSetsComponent implements OnInit {
   ngOnInit() {
     this.sets = this.setDataSharedService._setsToCompareList;
     if(this.sets.length === 0){
-      this.setService.getSets().subscribe(
+      console.log("msndflaouisdmxf asdo")
+      this.setService.getAllSets().subscribe(
         response => {
           this.sets=response.content;
           console.log(response.content);
@@ -43,7 +44,7 @@ export class CompareSetsComponent implements OnInit {
       );
     }
     
-    this.sets = this.setDataSharedService._setsToCompareList;
+    //this.sets = this.setDataSharedService._setsToCompareList;
     this.responsiveOptions = [
           {
               breakpoint: '1199px',

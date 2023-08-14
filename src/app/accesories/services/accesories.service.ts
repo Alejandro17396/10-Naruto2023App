@@ -17,6 +17,10 @@ export class AccesoriesService {
     return this.http.get<AccesoriesResponsePaginated>(`${this.baseUrl}/accesories`);
   }
 
+  getAllAccesories():Observable<AccesoriesResponsePaginated>{
+    return this.http.get<AccesoriesResponsePaginated>(`${this.baseUrl}/accesories/all`);
+  }
+
   getAccesoriesPagination(pageable:Pageable_):Observable<AccesoriesResponsePaginated>{
     return this.http.get<AccesoriesResponsePaginated>
     (`${this.baseUrl}/accesories?page=${pageable.page}&size=${pageable.size}`);
