@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AttributesService } from 'src/app/shared/services/attributes.service';
 import { SetsService } from '../../services/sets.service';
@@ -7,13 +7,21 @@ import { ValidatorsService } from 'src/app/auth/services/validators.service';
 import { Action, Condition,Attribute as NinjaAttribute, Ninja, Target, WrapEnumsDropdown, BattleActions } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 import { Attribute as GeneralAttribute} from 'src/app/shared/interfaces/attributes.interface,';
 import { Filters } from '../../interfaces/set.interfaces';
+import { AutoComplete } from 'primeng/autocomplete';
+import { DomHandler } from 'primeng/dom';
+
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 
 @Component({
   selector: 'app-admin-filter-bonus-attribute-panel',
   templateUrl: './admin-filter-bonus-attribute-panel.component.html',
-  styleUrls: ['./admin-filter-bonus-attribute-panel.component.css']
+  styleUrls: ['./admin-filter-bonus-attribute-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class AdminFilterBonusAttributePanelComponent implements OnInit{
+export class AdminFilterBonusAttributePanelComponent implements OnInit,AfterViewInit{
 
   ngOnInit(): void {
   
@@ -68,21 +76,27 @@ export class AdminFilterBonusAttributePanelComponent implements OnInit{
   level:boolean = false;
 
   targetsOptions:WrapEnumsDropdown[] = [];//Object.values(Target);
+  filteredTargetsOptions:WrapEnumsDropdown[] = [];//Object.values(Target);
   selectedTarget!:WrapEnumsDropdown;// = {value:Target.AllAllies};
 
   actionsOptions:WrapEnumsDropdown[] = [];
+  filteredActionsOptions:WrapEnumsDropdown[] = [];
   selectedAction!:WrapEnumsDropdown;
 
   conditionOptions:WrapEnumsDropdown[] = [];
+  filteredConditionOptions:WrapEnumsDropdown[] = [];
   selectedCondition!:WrapEnumsDropdown;
 
   timeOptions:WrapEnumsDropdown[] =  [];
+  filteredTimeOptions:WrapEnumsDropdown[] =  [];
   selectedTime!:WrapEnumsDropdown;
 
   levelOptions:WrapEnumsDropdown[]=[];
+  filteredLevelOptions:WrapEnumsDropdown[]=[];
   selectedLevel:WrapEnumsDropdown={value:""};
 
   attributes:GeneralAttribute [] = [];
+  filteredAttributes:GeneralAttribute [] = [];
   selectedAttribute:GeneralAttribute = new GeneralAttribute("");
 
 
@@ -198,12 +212,124 @@ export class AdminFilterBonusAttributePanelComponent implements OnInit{
     this.ref.close();
   }
 
+  
+
+
+  filterTarget(event: AutoCompleteCompleteEvent) {
+      let filtered: WrapEnumsDropdown[] = [];
+      let query = event.query;
+
+      for (let i = 0; i < this.targetsOptions.length; i++) {
+          let target = this.targetsOptions[i];
+          if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+              filtered.push(target);
+          }
+      }
+
+      this.filteredTargetsOptions = filtered;
+  }
+
+  filterActions(event: AutoCompleteCompleteEvent) {
+    let filtered: WrapEnumsDropdown[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.actionsOptions.length; i++) {
+        let target = this.actionsOptions[i];
+        if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(target);
+        }
+    }
+
+    this.filteredActionsOptions = filtered;
+  }
+
+  filterCondition(event: AutoCompleteCompleteEvent) {
+    let filtered: WrapEnumsDropdown[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.conditionOptions.length; i++) {
+        let target = this.conditionOptions[i];
+        if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(target);
+        }
+    }
+
+    this.filteredConditionOptions = filtered;
+  }
+
+  filterTime(event: AutoCompleteCompleteEvent) {
+    let filtered: WrapEnumsDropdown[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.timeOptions.length; i++) {
+        let target = this.timeOptions[i];
+        if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(target);
+        }
+    }
+
+    this.filteredTimeOptions = filtered;
+  }
+
+  filterLevel(event: AutoCompleteCompleteEvent) {
+    let filtered: WrapEnumsDropdown[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.levelOptions.length; i++) {
+        let target = this.levelOptions[i];
+        if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(target);
+        }
+    }
+
+    this.filteredLevelOptions = filtered;
+  }
+
+  filterAttributes(event: AutoCompleteCompleteEvent) {
+    let filtered: GeneralAttribute[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.attributes.length; i++) {
+        let target = this.attributes[i];
+        if (target.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(target);
+        }
+    }
+
+    this.filteredAttributes = filtered;
+  }
+
+  @ViewChild('AttributesAutocomplete') autoComplete!: AutoComplete;
+
+  ngAfterViewInit() {
+    if (this.autoComplete) {
+      this.autoComplete.onDropdownClick.subscribe(() => {
+        setTimeout(() => {
+          this.adjustDropdownWidth();
+        });
+      });
+    }
+  }
+
+adjustDropdownWidth() {
+  const panel = document.querySelector('.p-autocomplete-panel') as HTMLElement;
+  if (panel) {
+    const autoCompleteWidth = this.autoComplete.el.nativeElement.clientWidth;
+    panel.style.width = autoCompleteWidth + 'px';
+  }
+}
+
+
+  
+  
+
   constructor(public config: DynamicDialogConfig,
     public ref: DynamicDialogRef,
     private attributeServices:AttributesService,
     private cd: ChangeDetectorRef,
     private setService:SetsService,
     private fb:FormBuilder,
-    private validatorsService: ValidatorsService) {}
-
+    private validatorsService: ValidatorsService,
+    private renderer: Renderer2, 
+    private el: ElementRef) {}
 }

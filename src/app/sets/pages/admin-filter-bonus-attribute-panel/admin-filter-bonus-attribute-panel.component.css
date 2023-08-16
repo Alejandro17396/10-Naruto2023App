@@ -1,0 +1,4 @@
+#miAutoComplete .p-autocomplete-panel {
+    width: calc(100% - 2px); /* Ajusta el valor de 2px según lo necesario */
+    max-width: calc(100% - 2px); /* Asegúrate de que no se expanda más allá del límite */
+}
