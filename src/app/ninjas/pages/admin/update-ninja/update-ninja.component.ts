@@ -5,7 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Attribute, AttributeName, Awakening, AwakeningStat, ChakraNature, Formation, Ninja, NinjaFormationUtils, NinjaSexUtils, NinjaStat, NinjaType, NinjaTypeUtils, SaveNinja, Sex, Skill, SkillType, StatsAttribute, WrapEnumsDropdown } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 import { NinjasService } from 'src/app/ninjas/services/ninjas-service.service';
-import { Filters } from 'src/app/sets/interfaces/set.interfaces';
+import { DeleteUserSetDTOResponse, ErrorResponse, Filters } from 'src/app/sets/interfaces/set.interfaces';
 import { AdminFilterBonusAttributePanelComponent } from 'src/app/sets/pages/admin-filter-bonus-attribute-panel/admin-filter-bonus-attribute-panel.component';
 import { DeleteEquipmentComponent } from 'src/app/sets/pages/admin/delete-equipment/delete-equipment.component';
 import { ListaBonusUtils } from 'src/app/sets/utils/lista-bonus-utils';
@@ -206,19 +206,16 @@ export class UpdateNinjaComponent implements OnInit{
       }
     }*/
 
-    console.log(body);
-    console.log(this.uploadedFiles);
+ 
    this.ninjasService.updateNinja(formData).subscribe(
       (response: HttpResponse<Ninja>) => {
-        console.log("succes")
+     
         const statusCode = response.status; // Código de respuesta
-        console.log(statusCode);
+       
         // Resto del manejo de la respuesta
         this.showSuccess("Set "+ this.ninja.name +" saved succesfully");
       },
       (error) =>{
-        console.log("error")
-        console.log(error.error);
         this.showError(error.error.message);
       }
     )
@@ -242,15 +239,18 @@ export class UpdateNinjaComponent implements OnInit{
   statsNinjaPhoto:any = {};
   ninjas:Ninja[]=[];
   responsiveOptions:any[] = [];
-
+  showInputs:boolean = false;
+  refreshList:boolean = true;
   showNinja(ninja:Ninja){
-    //this.stats = JSON.parse(JSON.stringify(this.ninja.stats));
+   
+    this.stats = JSON.parse(JSON.stringify(ninja.stats));
     this.ninja.stats.forEach(stat=>{
       this.stats = JSON.parse(JSON.stringify(stat.statsAttributes));
     })
-    this.skills = JSON.parse(JSON.stringify(this.ninja.skills));
-    this.awakenings = JSON.parse(JSON.stringify(this.ninja.awakenings));
+    this.skills = JSON.parse(JSON.stringify(ninja.skills));
+    this.awakenings = JSON.parse(JSON.stringify(ninja.awakenings));
     this.ninja = JSON.parse(JSON.stringify(ninja));
+
     let exists:boolean = true;
     this.skills.forEach(skill =>{
       if(SkillType.NormalAttack === skill.type){
@@ -316,12 +316,48 @@ export class UpdateNinjaComponent implements OnInit{
       this.statsNinjaPhoto.imageUrl = this.sanitizer.
       bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.statsNinjaPhoto.oldFile);
     }
-  
-
+    this.showInputs = true;
   }
 
   deleteNinja(ninja:Ninja){
+    let opcion:DialogConfirmation = {message:"Are you sure you want to delete ninja " + ninja.name, opcion:""};
+    const data = {
+      wrap:opcion
+    };
+    this.ref = this.dialogService.open(DeleteEquipmentComponent, {
+      header: 'Confirmation',
+      width: '50%',
+      height:'20%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
 
+    this.ref.onClose.subscribe(()=>{
+      console.log(opcion);
+      if(opcion.opcion === "accept" && ninja.name){
+        this.ninjasService.deleteNinja(ninja.name).subscribe(
+          (response:HttpResponse<DeleteUserSetDTOResponse>) =>{
+          
+          const index = this.ninjas.findIndex(ninja1 => ninja1.name === ninja.name);
+          if (index !== -1) {
+            this.ninjas.splice(index, 1);
+          }
+          if(ninja.name == this.ninja.name){
+            this.showInputs = false;
+          }
+          this.refreshList = false;
+          setTimeout(() => {
+            this.refreshList = true;
+          });
+        },
+        (error:ErrorResponse) =>{
+          this.showError(error.message);
+        }
+        )
+      }
+    })
   }
 
   onSelect(event:UploadEvent, index:number) {

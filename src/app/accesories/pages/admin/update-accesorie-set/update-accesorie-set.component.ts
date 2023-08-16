@@ -63,11 +63,6 @@ export class UpdateAccesorieSetComponent implements OnInit  {
   this.contentList.push({tipo:Tipo.Agility,bonuses:[]});
   this.contentList.push({tipo:Tipo.Power,bonuses:[]});
   this.contentList.push({tipo:Tipo.FullSetBonus,bonuses:[]});
-  this.contentList2.set(Tipo.Force,{tipo:Tipo.Force,bonuses:[]})
-  this.contentList2.set(Tipo.Chakra,{tipo:Tipo.Chakra,bonuses:[]})
-  this.contentList2.set(Tipo.Agility,{tipo:Tipo.Agility,bonuses:[]})
-  this.contentList2.set(Tipo.Power,{tipo:Tipo.Power,bonuses:[]})
-  this.contentList2.set(Tipo.FullSetBonus,{tipo:Tipo.FullSetBonus,bonuses:[]})
   }
 
   constructor(private accesoriesService: AccesoriesService,
@@ -133,6 +128,7 @@ export class UpdateAccesorieSetComponent implements OnInit  {
         for(var i = 0; i<set.bonuses.length; i++){
           var found = set.bonuses.find(element => element.tipo === this.contentList[i].tipo);
           if (found) {
+              this.contentList[i].bonuses = [];
               for(var j = 0; j < found.bonuses.length; j++){
                   this.contentList[i].bonuses.push(found.bonuses[j]);
               }
@@ -164,7 +160,7 @@ export class UpdateAccesorieSetComponent implements OnInit  {
 
       updateAccesorieSet(){
 
-        let opcion:DialogConfirmation = {message:"Are you sure you want to delete equipment " + this.set.nombre, opcion:""};
+        let opcion:DialogConfirmation = {message:"Are you sure you want to delete set " + this.set.nombre, opcion:""};
         const data = {
           wrap:opcion
         };
@@ -261,19 +257,15 @@ export class UpdateAccesorieSetComponent implements OnInit  {
             formData.append('files', newFile);
           }
         }
-        console.log(formData.get('files'));
-        console.log(formData.get('body'));
+
         this.accesoriesService.updateSet(formData).subscribe(
           (response: HttpResponse<AccesorieSet>) => {
             if(response.body){
             this.showEquipment(response.body);
-            console.log(response.body)
             }
             this.showSuccess("Accesorie set "+ this.set.nombre +" saved succesfully");
           },
           (error) =>{
-            console.log("error")
-            console.log(error.error);
             this.showError(error.error.message);
           }
         )
