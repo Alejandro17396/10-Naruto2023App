@@ -32,8 +32,9 @@
                     </p-dropdown>  -->
                     <p-autoComplete formControlName="selectedTarget" 
                     [suggestions]="filteredTargetsOptions"  placeholder="Select a Target" 
-                    class="form-control p-fluid col-12"
-                    (completeMethod)="filterTarget($event)" field="value" [dropdown]="true">
+                    class="form-control p-fluid col-12"  id="selectedTarget"
+                    (completeMethod)="filterTarget($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedTarget')">
                         <ng-template let-element pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ element.value }}</div>
@@ -63,8 +64,9 @@
                     </p-dropdown>  -->
                     <p-autoComplete formControlName="selectedAction" 
                     [suggestions]="filteredActionsOptions"  placeholder="Select an Action" 
-                    class="form-control p-fluid col-12"
-                    (completeMethod)="filterActions($event)" field="value" [dropdown]="true">
+                    class="form-control p-fluid col-12" id="selectedAction"
+                    (completeMethod)="filterActions($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedAction')">
                         <ng-template let-element pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ element.value }}</div>
@@ -94,9 +96,10 @@
                     </p-dropdown>  -->
                     <p-autoComplete formControlName="selectedCondition" 
                     [suggestions]="filteredConditionOptions"  placeholder="Select a Condition" 
-                    class="form-control p-fluid col-12"
-                    (completeMethod)="filterCondition($event)" field="value" [dropdown]="true">
-                        <ng-template let-element pTemplate="item">
+                    class="form-control p-fluid col-12" id="selectedCondition"
+                    (completeMethod)="filterCondition($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedCondition')">
+                        <ng-template let-element pTemplate="item" >
                             <div class="flex align-items-center gap-2">
                                 <div>{{ element.value }}</div>
                             </div>
@@ -136,9 +139,9 @@
                 </p-dropdown> -->
                 <p-autoComplete formControlName="selectedAttribute" #AttributesAutocomplete
                     [suggestions]="filteredAttributes"  placeholder="Select an attribute" 
-                    class="form-control p-fluid col-12"
+                    class="form-control p-fluid col-12" id="selectedAttribute"
                     (completeMethod)="filterAttributes($event)" field="nombre" [dropdown]="true"
-                    >
+                    (onBlur)="handleBlur($event, 'selectedAttribute')">
                         <ng-template let-element pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ element.nombre }}</div>
@@ -179,10 +182,11 @@
                         </div>
                     </ng-template>
                 </p-dropdown> -->
-                <p-autoComplete formControlName="selectedTime" 
+                <p-autoComplete formControlName="selectedTime" id="selectedTime"
                     [suggestions]="filteredTimeOptions"  placeholder="Select a Condition" 
                     class="form-control p-fluid col-12"
-                    (completeMethod)="filterTime($event)" field="value" [dropdown]="true">
+                    (completeMethod)="filterTime($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedTime')">
                         <ng-template let-element pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ element.value }}</div>
@@ -223,10 +227,11 @@
                     </div>
                 </ng-template>
             </p-dropdown> -->
-            <p-autoComplete formControlName="selectedTime" 
+            <p-autoComplete [(ngModel)] ="selectedLevel" optionLabel="value" id="selectedLevel"
                     [suggestions]="filteredLevelOptions"  placeholder="Select a Level" 
                     class="form-control p-fluid col-12"
-                    (completeMethod)="filterLevel($event)" field="value" [dropdown]="true">
+                    (completeMethod)="filterLevel($event)" field="value" [dropdown]="true"
+                    >
                         <ng-template let-element pTemplate="item">
                             <div class="flex align-items-center gap-2">
                                 <div>{{ element.value }}</div>
@@ -266,6 +271,9 @@
     </div>
     <div class="grid col-12 justify-content-center text-center">
         <p-button label="Add filter" styleClass="p-button-primary" class="col-3"  (click)="onSubmit()">
+        </p-button>
+        <p-button label="2222222222" styleClass="p-button-primary" class="col-3"  
+        (click)="prueba()">
         </p-button>
         <p-button styleClass="p-button-danger" label="Delete filter" class="col-3"
         (click)="deleteAttribute()">

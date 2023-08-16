@@ -311,15 +311,28 @@ export class AdminFilterBonusAttributePanelComponent implements OnInit,AfterView
     }
   }
 
-adjustDropdownWidth() {
-  const panel = document.querySelector('.p-autocomplete-panel') as HTMLElement;
-  if (panel) {
-    const autoCompleteWidth = this.autoComplete.el.nativeElement.clientWidth;
-    panel.style.width = autoCompleteWidth + 'px';
+  adjustDropdownWidth() {
+    const panel = document.querySelector('.p-autocomplete-panel') as HTMLElement;
+    if (panel) {
+      const autoCompleteWidth = this.autoComplete.el.nativeElement.clientWidth;
+      panel.style.width = autoCompleteWidth + 'px';
+    }
   }
-}
 
+  handleBlur(event: any, controlName: string) {
+    const inputValue = event.target.value;
+    if(controlName ==='selectedAttribute'){
+      this.myForm.controls[controlName].setValue(new GeneralAttribute(inputValue));;
+ 
+    }else{
+      this.myForm.controls[controlName].setValue({value:inputValue});
 
+    }
+   }
+ 
+ prueba(){
+  console.log(this.myForm.controls['selectedAttribute'].value)
+ }
   
   
 
