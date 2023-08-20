@@ -9,6 +9,7 @@ import { FilterSetPanelComponent } from 'src/app/sets/pages/filter-set-panel/fil
 import { AccesoriesService } from '../../services/accesories.service';
 import { ConfirmDialogSetComponent } from 'src/app/sets/pages/confirm-dialog-set/confirm-dialog-set.component';
 import { ConfirmDialogAccesorieSetComponent } from '../confirm-dialog-accesorie-set/confirm-dialog-accesorie-set.component';
+import { AccesorieSetsFilterPanelComponent } from '../accesorie-sets-filter-panel/accesorie-sets-filter-panel.component';
 
 @Component({
   selector: 'show-accesories',
@@ -70,36 +71,57 @@ export class ShowAccesoriesComponent implements OnInit{
   }
 
   generateComboSets(){
-    if(this.attributesFilterList.length === 0){
-      this.showError();
-    }else{
-      let attributes : Atributo [] = [];
-      let order : Atributo [] = [];
-      let attributesFilter : ListaBonus [] = [];
-      this.attributesFilterList.forEach(attribute =>{
-        attributes.push({nombre:attribute.name});
-        order.push({nombre:attribute.name});
-        attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value,action:"",impact:"",condition:"",time:""});
-      });
+    const data = {
+      attributesFilterList: this.attributesFilterList,
+      filters: this.filter,
+      setFilter :this.setFilter
+    };
+    this.ref = this.dialogService.open(AccesorieSetsFilterPanelComponent, {
+      header: 'Accesories to use',
+      width: '80%',
+      height:'90%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: data
+    });
 
-      let filtro :SearchSetsByFilter ={
-        attributes : attributes,
-        order : order,
-        attributesFilter : attributesFilter,
-        filters:this.filter,
-        type:"combo"
+    this.ref.onClose.subscribe((result) => {
+      if(!result){
+        this.showError();
+        console.log(result)
+        return;
       }
-      this.setsChanged.emit(filtro);
-      /*this.accesoriesService.getAccesoriesComboSets(
-        attributes,order,attributesFilter,
-        this.filter
-      ).subscribe( response =>{
-        console.log(response.sets);
-        this.accesories = response.sets;
-        this.setsChanged.emit(this.accesories);
-      } );*/
-      this.showSuccess();
-    }
+      if(this.attributesFilterList.length === 0){
+        this.showError();
+      }else{
+        let attributes : Atributo [] = [];
+        let order : Atributo [] = [];
+        let attributesFilter : ListaBonus [] = [];
+        this.attributesFilterList.forEach(attribute =>{
+          attributes.push({nombre:attribute.name});
+          order.push({nombre:attribute.name});
+          attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value,action:"",impact:"",condition:"",time:""});
+        });
+  
+        let filtro :SearchSetsByFilter ={
+          attributes : attributes,
+          order : order,
+          attributesFilter : attributesFilter,
+          filters:this.filter,
+          type:"combo",
+          intensity:result?.intensity,
+          sets:result?.sets,
+          startSet:result?.startSet,
+          endSet:result?.endSet
+
+        }
+        this.setsChanged.emit(filtro);
+        this.showSuccess();
+      }
+  });
+
+   
   }
 
   mostrarResultados(){

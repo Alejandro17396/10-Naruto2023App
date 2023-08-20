@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccesoriesService } from '../../services/accesories.service';
 import { AccesorieSet } from '../../interfaces/accesories.interfaces';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
-import { ListaBonus, Pageable_, SearchSetsByFilter } from 'src/app/sets/interfaces/set.interfaces';
+import { IntensityFilter, ListaBonus, Pageable_, SearchSetsByFilter } from 'src/app/sets/interfaces/set.interfaces';
 import { AccesoriesSharedDataService } from '../../../shared/services/accesories-shared-data.service';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -103,14 +103,17 @@ export class ListAccesoriesComponent implements OnInit{
   totalRecords:number = 0;
 
   tablaElements:string = "base";
-    loadSetsLazy(event: LazyLoadEvent) {
-      if(this.tablaElements !== 'base'){
-        this.loadComboSetsLazy(event);
-      }else{
-        this.loadSetsBaseLazy(event);
-      }
 
+
+  loadSetsLazy(event: LazyLoadEvent) {
+    console.log(event)
+    if(this.tablaElements !== 'base'){
+      this.loadComboSetsLazy(event);
+    }else{
+      this.loadSetsBaseLazy(event);
     }
+
+  }
 
     loadComboSetsLazy(event: LazyLoadEvent) {
       this.loading = true;
@@ -120,16 +123,22 @@ export class ListAccesoriesComponent implements OnInit{
         console.log("combo no principio");
         let page:Pageable_ ={page:0,size:0};
         page.page = Math.floor(event.first / event.rows) +1;
-        page.size = event.rows
+        page.size = event.rows;
+        let intensityfilters:IntensityFilter ={
+          intensity: this.filtro.intensity,
+          sets: this.filtro.sets,
+          startSet: this.filtro.startSet,
+          endSet: this.filtro.endSet
+        };
         this.accesoriesService.getAccesoriesComboSets(
           this.filtro.attributes, this.filtro.order, this.filtro.attributesFilter,
-          page,this.filtro.filters
+          page,this.filtro.filters,intensityfilters
         ).subscribe(
             response => {
                 //this.sets = [...this.sets, ...response.content];
                 this.accesories = response.sets;
                 this.totalRecords = response.total;
-                console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size +" el total es " +response.number)
+                console.log("Se ha buscado " + page.page +"  numero de elementos " + page.size +" el total es " + response.number)
                 console.log(this.accesories)
             },
             error => {
@@ -139,9 +148,15 @@ export class ListAccesoriesComponent implements OnInit{
         }else{
           console.log("combo si principio");
           let page:Pageable_ ={page:0,size:8}; 
+          let intensityfilters:IntensityFilter ={
+            intensity: this.filtro.intensity,
+            sets: this.filtro.sets,
+            startSet: this.filtro.startSet,
+            endSet: this.filtro.endSet
+          };
           this.accesoriesService.getAccesoriesComboSets(
             this.filtro.attributes, this.filtro.order, this.filtro.attributesFilter,
-            page,this.filtro.filters
+            page,this.filtro.filters,intensityfilters
           ).subscribe(
               response => {
 
@@ -211,11 +226,17 @@ export class ListAccesoriesComponent implements OnInit{
     filtro!:SearchSetsByFilter;
     handleDataFromChild(filtro:SearchSetsByFilter){
       this.filtro = filtro;
+      let intensityfilters:IntensityFilter ={
+        intensity: filtro.intensity,
+        sets: filtro.sets,
+        startSet:filtro.startSet,
+        endSet:filtro.endSet
+      };
       this.tablaElements = filtro.type;
       let page:Pageable_ ={page:1,size:8};
       this.accesoriesService.getAccesoriesComboSets(
         filtro.attributes,filtro.order,filtro.attributesFilter,
-        page,filtro.filters
+        page,filtro.filters,intensityfilters
       ).subscribe( response =>{
         console.log("son :"+response.number)
         this.totalRecords = response.total;

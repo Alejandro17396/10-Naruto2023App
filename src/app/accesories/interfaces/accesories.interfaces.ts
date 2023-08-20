@@ -16,7 +16,7 @@ export interface AccesoriesResponsePaginated {
 
 
 export class AccesorieSet implements AccesorieSet{
-    
+    fechaSalida?: Date;
    constructor(public nombre: string, public partes: Parte[], public bonuses: ContentBonus[]) {}
     
     static createSetAux(){
@@ -201,6 +201,7 @@ export interface AccesorieSet {
     nombre:  string;
     partes:  Parte[];
     bonuses: ContentBonus[];
+    
 }
 
 export interface ContentBonus {

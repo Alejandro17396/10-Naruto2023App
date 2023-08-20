@@ -1,0 +1,180 @@
+<div class="grid " style="background: #2a323d;">
+    <div class="col-4 border-1 surface-border border-round m-3">
+        <p-table #accesoriesTable2 [value]="accesories" 
+            selectionMode="single" [(selection)]="selectedAccesorie"  
+            [rows]="8" [paginator]="true" 
+            [globalFilterFields]="['nombre']"
+            [totalRecords]="accesories.length">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre" >Accesories list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" 
+                        (input)="filterAccesoriesTable($event)" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <a class="setName">{{accesorieSet.nombre}}</a>
+                        <p-button label="Add to use" styleClass="p-button-primary" 
+                        (click)="addAccesorieSetToUse(accesorieSet)" ></p-button>
+                        <!-- <p-button label="Show" styleClass="p-button-secondary"  (input)="filter($event,accesoriesTable)"
+                        (click)="showAccesorieSetStats(rowIndex,'sets',accesorieSet)"></p-button> -->
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div class="col-4 border-1 surface-border border-round m-3">
+        <p-table #accesoriesTable2 [value]="attributesFilterList" 
+            selectionMode="single" [(selection)]="selectedAccesorie"  
+            [rows]="8" [paginator]="true" 
+            [globalFilterFields]="['nombre']"
+            [totalRecords]="attributesFilterList.length">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="name" >attributesFilter list</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" 
+                        placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-attribute let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <p-button label="Delete filter" styleClass="p-button-danger"
+                        (click)="deleteFilter(attribute)"></p-button> 
+                        <a class="setName"  [ngClass]="{'filtered': isAttributeFiltered(attribute)}">{{attribute.name}}</a>
+                        <p-button label="apply filter" styleClass="p-button-primary" 
+                        (click)="addFilter(attribute)" ></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div class="col-3 border-1 surface-border border-round m-3">
+        <p-table #accesoriesTable1 [value]="accesoriesToUse" 
+            selectionMode="single" [(selection)]="selectedAccesorie"  
+            [rows]="8" [paginator]="true" 
+            stateStorage="session" stateKey="statedemo-session"
+            [lazy]="true" [totalRecords]="accesoriesToUse.length">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="nombre" >Accesories to use</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input pInputText type="text" placeholder="Search by Name" class="w-full">
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
+                <tr >
+                    <td class="btn-cell">
+                        <p-button label="Delete" styleClass="p-button-danger" 
+                        (click)="deleteAccesorieSetToUse(accesorieSet)" ></p-button>
+                        <a class="setName">{{accesorieSet.nombre}}</a>
+                        <!-- <p-button label="Show" styleClass="p-button-secondary"  (input)="filter($event,accesoriesTable)"
+                        (click)="showAccesorieSetStats(rowIndex,'sets',accesorieSet)"></p-button> -->
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No sets found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    
+    <div class="col-4 grid justify-content-center text-center m-2">
+        <div class="col-4">
+            <p-radioButton name="intensity" value="LOW" [(ngModel)]="intensity" inputId="intensity1"></p-radioButton>
+            <label for="intensity1" class="ml-2">low</label>
+        </div>
+        
+        <div class="col-4">
+            <p-radioButton name="intensity" value="MEDIUM" [(ngModel)]="intensity" inputId="intensity2"></p-radioButton>
+            <label for="intensity2" class="ml-2">medium</label>
+        </div>
+        
+        <div class="col-4">
+            <p-radioButton name="intensity" value="HIGH" [(ngModel)]="intensity" inputId="intensity3"></p-radioButton>
+            <label for="intensity3" class="ml-2">high</label>
+        </div>
+    </div>
+
+    <div class="col-4 grid justify-content-center text-center m-2">
+    
+        <div class="col-6">
+            <label for="initialSet">Start Set</label>
+            <p-dropdown [options]="setsNames"  optionLabel="value"
+            id="selectedInitialSet"  [(ngModel)]="selectedInitialSet" 
+            [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a Target" 
+            class="form-control p-fluid col-12 ">
+                <ng-template pTemplate="selectedTargetI">
+                    <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedInitialSet">
+                        <div>{{ selectedInitialSet.value  }}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-element pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <div>{{ element.value }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown> 
+        </div>
+    
+        <div class="col-6">
+            <label for="finalSet">End Set</label>
+            <p-dropdown [options]="setsNames"  optionLabel="value"
+            id="selectedFinalSet"  [(ngModel)]="selectedFinalSet" 
+            [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a Target" 
+            class="form-control p-fluid col-12">
+                <ng-template pTemplate="selectedTargetI">
+                    <div class="flex align-items-center gap-2 h-2rem" *ngIf="selectedFinalSet">
+                        <div>{{ selectedFinalSet.value  }}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-element pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <div>{{ element.value }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown> 
+        </div>
+    
+        
+    </div>
+
+    <div class="col-3 grid justify-content-center text-center m-2">
+        <!-- Tus radio buttons de intensidad aquí -->
+    
+        <!-- Botón para generar -->
+        <div class="col-12 mt-3">
+            <p-button label="Generate" styleClass="p-button-success" (click)="generateCombos()"></p-button>
+        </div>
+    </div>
+    
+
+
+</div>

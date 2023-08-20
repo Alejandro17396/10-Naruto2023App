@@ -17,6 +17,7 @@ import { ConfirmDialogAccesorieSetComponent } from './pages/confirm-dialog-acces
 import { CompareAcesorieSetDialogComponent } from './pages/compare-acesorie-set-dialog/compare-acesorie-set-dialog.component';
 import { NewAccesorieSetComponent } from './pages/admin/new-accesorie-set/new-accesorie-set.component';
 import { UpdateAccesorieSetComponent } from './pages/admin/update-accesorie-set/update-accesorie-set.component';
+import { AccesorieSetsFilterPanelComponent } from './pages/accesorie-sets-filter-panel/accesorie-sets-filter-panel.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { UpdateAccesorieSetComponent } from './pages/admin/update-accesorie-set/
     ConfirmDialogAccesorieSetComponent,
     CompareAcesorieSetDialogComponent,
     NewAccesorieSetComponent,
-    UpdateAccesorieSetComponent
+    UpdateAccesorieSetComponent,
+    AccesorieSetsFilterPanelComponent
   ],
   imports: [
     CommonModule,

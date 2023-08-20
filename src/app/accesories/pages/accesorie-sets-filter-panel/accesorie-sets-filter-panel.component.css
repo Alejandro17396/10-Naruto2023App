@@ -1,0 +1,47 @@
+
+.setName{
+    font-size: 0.8rem;
+}
+
+:host ::ng-deep .custom-button-size .p-button {
+    width: 100px !important;;
+    height: 40px !important;;
+}
+
+
+
+.btn-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-cell p-button,
+.btn-cell .setName {
+    margin: 0 10px; /* 0 en la parte superior e inferior y 10px a izquierda y derecha */
+}
+
+.container {
+    display: flex;
+}
+
+.item{
+    flex: 33%;
+}
+
+.item-2 {
+    flex: 3;
+    background-color: green;
+}
+
+.filtered {
+    background-color: blue;
+  }
+
+  p-dropdown {
+    z-index: 1000 !important;
+}
+
+.tu-clase-contenedora {
+    overflow: visible !important;
+}

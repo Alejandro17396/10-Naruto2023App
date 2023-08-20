@@ -145,6 +145,7 @@
                         [paginator]="true"
                         [rows]="6"
                         [loading]="false"
+                        [totalRecords]="skill.attributes.length"
                         [globalFilterFields]="['action', 'impact', 'nombreAtributo', 'valor']">
                         <ng-template pTemplate="header">
                             <tr>
@@ -211,6 +212,7 @@
                         [paginator]="true"
                         [rows]="6"
                         [loading]="false"
+                        [totalRecords]="awaken.stats.length"
                         [globalFilterFields]="['action', 'impact', 'nombreAtributo', 'valor']">
                         <ng-template pTemplate="header">
                             <tr>

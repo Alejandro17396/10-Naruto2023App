@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { enviroments } from 'src/enviroments/enviroments';
 import { Observable, catchError, of } from 'rxjs';
 import { AccesorieSet, AccesoriesResponsePaginated, DeleteUserAccesorieSetDTO, GenerateAccesorieSetsResponse, ICreateUserAccesorieSet, UserAccesorieSetDTO } from '../interfaces/accesories.interfaces';
-import { Atributo, DeleteUserSetDTOResponse, Filters, ListaBonus, Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
+import { Atributo, DeleteUserSetDTOResponse, Filters, IntensityFilter, ListaBonus, Pageable_ } from 'src/app/sets/interfaces/set.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -34,14 +34,20 @@ export class AccesoriesService {
     order : Atributo [],
     attributesFilter : ListaBonus [],
     page:Pageable_,
-    filters:Filters):
+    filters:Filters,
+    intensityFilter:IntensityFilter):
     Observable<GenerateAccesorieSetsResponse>{
+     let intensity = intensityFilter?.intensity;
+     let sets = intensityFilter?.sets;
+     let startSet = intensityFilter?.startSet;
+     let endSet = intensityFilter?.endSet;
      let headers = new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token'));
      let setFilter:string = filters?.set? filters.set : "";
-     let body = { attributes, order, attributesFilter, setFilter };
+     let body = { attributes, order, attributesFilter, setFilter,
+                  intensity, sets, startSet, endSet };
      return this.http.post<GenerateAccesorieSetsResponse>
      (`${this.baseUrl}/accesories/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}`
-     ,body,{ headers });
+     ,body,{ headers }); 
    }
 
    createUserSet(set: ICreateUserAccesorieSet): 

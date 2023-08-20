@@ -308,6 +308,17 @@ export interface SearchSetsByFilter{
     attributesFilter : ListaBonus [];
     filters:Filters;
     type:string;
+    intensity?:string;
+    sets?:string[];
+    startSet?:string;
+    endSet?:string;
+}
+
+export interface IntensityFilter{
+    intensity?:string;
+    sets?:string[];
+    startSet?:string;
+    endSet?:string;
 }
 
 export interface Pageable_{

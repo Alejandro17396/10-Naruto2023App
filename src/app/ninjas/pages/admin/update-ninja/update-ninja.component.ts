@@ -62,8 +62,14 @@ export class UpdateNinjaComponent implements OnInit{
     this.ref.onClose.subscribe(()=>{
       console.log(this.attributesFilterList);
       this.cdr.detectChanges();
+      this.refreshSkillLists = false;
+          setTimeout(() => {
+            this.refreshSkillLists = true;
+          });
     })
   }
+
+  refreshSkillLists:boolean = true;
 
   showFilterPanelAwaken(awaken:Awakening){
     
