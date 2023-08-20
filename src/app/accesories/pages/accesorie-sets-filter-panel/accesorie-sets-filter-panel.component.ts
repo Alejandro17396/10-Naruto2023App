@@ -114,7 +114,7 @@ export class AccesorieSetsFilterPanelComponent implements OnInit{
     const exists = this.accesoriesToUse.some(set => set.nombre === accesorieSet.nombre);
 
     // Si no existe, agregarlo al array
-    if (!exists) {
+    if (!exists && this.accesoriesToUse.length <=15) {
         this.accesoriesToUse.push(accesorieSet);
     }
     this.cd.detectChanges();
