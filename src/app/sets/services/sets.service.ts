@@ -20,22 +20,23 @@ export class SetsService {
     return this.http.get<SetsResponsePaginated>(`${this.baseUrl}/sets/all`);
   }
 
-  getSetsPagination(pageable:Pageable_):Observable<SetsResponsePaginated>{
+  getSetsPagination(pageable:Pageable_,name:string):Observable<SetsResponsePaginated>{
     return this.http.get<SetsResponsePaginated>
-    (`${this.baseUrl}/sets?page=${pageable.page}&size=${pageable.size}`);
+    (`${this.baseUrl}/sets?page=${pageable.page}&size=${pageable.size}&name=${name}`);
   }
 
   getComboSets(attributes : Atributo [],
                order : Atributo [],
                attributesFilter : ListaBonus [],
                filters:Filters,
-               page:Pageable_):
+               page:Pageable_,
+               name:string):
                Observable<GenerateSetsResponse>{
                 let headers = new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token'));
                 let setName:string = filters.set;
                 let body = { attributes, order, attributesFilter, setName };
                 return this.http.post<GenerateSetsResponse>
-                (`${this.baseUrl}/sets/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}`
+                (`${this.baseUrl}/sets/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}&name=${name}`
                 ,body,{ headers });
               }
 

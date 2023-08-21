@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AccesoriesService } from '../../services/accesories.service';
 import { AccesorieSet } from '../../interfaces/accesories.interfaces';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
@@ -17,17 +17,15 @@ import { LazyLoadEvent, MessageService } from 'primeng/api';
 export class ListAccesoriesComponent implements OnInit{
 
   ngOnInit(): void {
-    console.log(this.showAccesories);
     this.showAccesories = AccesorieSet.createSetAux();
     this.showAccesories.bonuses.forEach(bonus =>{
      bonus.bonuses.forEach((bonusAt: ListaBonus) =>{
         this.listaBonus.push(bonusAt);
-      })
-      console.log(this.showAccesories);
+      });
     });
 
     let page:Pageable_ ={page:0,size:8};
-    this.accesoriesService.getAccesoriesPagination(page).subscribe(
+    this.accesoriesService.getAccesoriesPagination(page,this.textoFiltro).subscribe(
       response =>{
         this.loading = true;
         this.accesories = response.content;
@@ -67,11 +65,6 @@ export class ListAccesoriesComponent implements OnInit{
     });
   }
 
-  filter(elemento:any,elemento2:any){
-    elemento2.filter(elemento.target.value,'nombre', 'contains');
-    console.log(elemento2);
-  }
-
   
 
   addAccesorieSetToCompare(index:number){
@@ -101,12 +94,11 @@ export class ListAccesoriesComponent implements OnInit{
   attributesFilterList:BonusAttribute[]=[];
   loading:boolean = false;
   totalRecords:number = 0;
-
+  textoFiltro:string = "";
   tablaElements:string = "base";
-
+  @ViewChild('accesoriesTable') accesoriesTable: any;
 
   loadSetsLazy(event: LazyLoadEvent) {
-    console.log(event)
     if(this.tablaElements !== 'base'){
       this.loadComboSetsLazy(event);
     }else{
@@ -115,12 +107,22 @@ export class ListAccesoriesComponent implements OnInit{
 
   }
 
+  filter(event: any,elemento2:any){
+    console.log("filtro")
+    this.textoFiltro = event.target?.value || "";
+    this.accesoriesTable.reset();
+    //this.accesoriesTable.reset();
+    if(this.tablaElements !== 'base'){
+      this.loadComboSetsLazy({first: 0, rows: 8});
+    }else{
+      this.loadSetsBaseLazy({first: 0, rows: 8});
+    }
+  }
+
     loadComboSetsLazy(event: LazyLoadEvent) {
+      console.log("stoy")
       this.loading = true;
-      // La página actual se calcula a partir del primer registro que se necesita
-      console.log("combos")
       if(event.first && event.rows){
-        console.log("combo no principio");
         let page:Pageable_ ={page:0,size:0};
         page.page = Math.floor(event.first / event.rows) +1;
         page.size = event.rows;
@@ -132,21 +134,22 @@ export class ListAccesoriesComponent implements OnInit{
         };
         this.accesoriesService.getAccesoriesComboSets(
           this.filtro.attributes, this.filtro.order, this.filtro.attributesFilter,
-          page,this.filtro.filters,intensityfilters
+          page,this.filtro.filters,intensityfilters,this.textoFiltro
         ).subscribe(
             response => {
-                //this.sets = [...this.sets, ...response.content];
                 this.accesories = response.sets;
                 this.totalRecords = response.total;
-                console.log("Se ha buscado " + page.page +"  numero de elementos " + page.size +" el total es " + response.number)
-                console.log(this.accesories)
+                this.accesories.forEach(accesorio =>{
+                  accesorio.partes.forEach(part =>{
+                    part.image = response.partes[part.nombre]?.image; 
+                  });
+                });
             },
             error => {
                 // Manejar el error aquí...
             }
         );
         }else{
-          console.log("combo si principio");
           let page:Pageable_ ={page:0,size:8}; 
           let intensityfilters:IntensityFilter ={
             intensity: this.filtro.intensity,
@@ -156,14 +159,16 @@ export class ListAccesoriesComponent implements OnInit{
           };
           this.accesoriesService.getAccesoriesComboSets(
             this.filtro.attributes, this.filtro.order, this.filtro.attributesFilter,
-            page,this.filtro.filters,intensityfilters
+            page,this.filtro.filters,intensityfilters,this.textoFiltro
           ).subscribe(
               response => {
-
                   this.accesories = response.sets;
                   this.totalRecords = response.total;
-                  console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size)
-                  console.log(this.accesories)
+                  this.accesories.forEach(accesorio =>{
+                    accesorio.partes.forEach(part =>{
+                      part.image = response.partes[part.nombre]?.image; 
+                    });
+                  });
               },
               error => {
                   // Manejar el error aquí...
@@ -175,40 +180,29 @@ export class ListAccesoriesComponent implements OnInit{
 
     loadSetsBaseLazy(event: LazyLoadEvent) {
       this.loading = true;
-      // La página actual se calcula a partir del primer registro que se necesita
-      console.log("base")
-      console.log(event);
       if(event.first && event.rows){
-        //let page:Pageable = Math.floor(event.first / event.rows);
-        console.log("base no principio");
         let page:Pageable_ ={page:0,size:0};
         page.page = Math.floor(event.first / event.rows);
         page.size = event.rows
-        this.accesoriesService.getAccesoriesPagination(page).subscribe(
+        this.accesoriesService.getAccesoriesPagination(page,this.textoFiltro).subscribe(
             response => {
-                //this.sets = [...this.sets, ...response.content];
                 this.accesories = response.content;
                 this.totalRecords = response.totalElements;
-                console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size)
-                console.log(this.accesories)
             },
             error => {
+              console.log("he dado error principio")
                 // Manejar el error aquí...
             }
         );
         }else{
-          console.log("base si principio");
           let page:Pageable_ ={page:0,size:8}; 
-          this.accesoriesService.getAccesoriesPagination(page).subscribe(
+          this.accesoriesService.getAccesoriesPagination(page,this.textoFiltro).subscribe(
               response => {
-
                   this.accesories = response.content;
                   this.totalRecords = response.totalElements;
-                  console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size)
-                  console.log(this.accesories)
               },
               error => {
-                  // Manejar el error aquí...
+                console.log("he dado error fin")
               }
           );
         }
@@ -236,12 +230,15 @@ export class ListAccesoriesComponent implements OnInit{
       let page:Pageable_ ={page:1,size:8};
       this.accesoriesService.getAccesoriesComboSets(
         filtro.attributes,filtro.order,filtro.attributesFilter,
-        page,filtro.filters,intensityfilters
+        page,filtro.filters,intensityfilters,this.textoFiltro
       ).subscribe( response =>{
-        console.log("son :"+response.number)
         this.totalRecords = response.total;
-        console.log(response.sets);
         this.accesories = response.sets;
+        this.accesories.forEach(accesorio =>{
+          accesorio.partes.forEach(part =>{
+            part.image = response.partes[part.nombre]?.image; 
+          });
+        });
         this.rechargeAccesoriesSetList = false;
           setTimeout(() => {
             this.rechargeAccesoriesSetList = true;
@@ -268,12 +265,6 @@ export class ListAccesoriesComponent implements OnInit{
   }
 
   showAccesorieSetStats(index:number,table:string,accesorieSet:AccesorieSet){
-
-    /*if(table === 'setCompareList'){
-      this.showAccesories=this.accesoriesToCompare[index];
-    }else{
-      this.showAccesories=this.accesories[index];
-    }*/
 
     this.showAccesories = JSON.parse(JSON.stringify(accesorieSet));
     this.listaBonus = [];

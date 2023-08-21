@@ -14,7 +14,7 @@ stateStorage="session" stateKey="statedemo-session"
     </tr>
     <tr>
         <th>
-            <input pInputText type="text" (input)="filter($event,accesoriesTable)" placeholder="Search by Name" class="w-full">
+            <input pInputText type="text" (input)="filter($event,accesoriesTable)" placeholder="Search by Name" class="w-full" [(ngModel)]="textoFiltro">
         </th>
     </tr>
 </ng-template>

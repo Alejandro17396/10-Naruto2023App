@@ -1,4 +1,5 @@
 import { ListaBonus } from "src/app/sets/interfaces/set.interfaces";
+import { Parte as ParteAccesorio } from 'src/app/accesories/interfaces/accesories.interfaces';
 
 export interface AccesoriesResponsePaginated {
     content:          AccesorieSet[];
@@ -261,6 +262,7 @@ export interface GenerateAccesorieSetsResponse {
     number: number;
     total:  number;
     sets:   AccesorieSet[];
+    partes: {[key: string]: ParteAccesorio};
 }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit,Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { SetsResponsePaginated ,Set, ListaBonus, Pageable, SearchSetsByFilter, Pageable_} from '../../interfaces/set.interfaces';
 import { SetsService } from '../../services/sets.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -65,7 +65,7 @@ export class SearchSetsComponent implements OnInit{
       );
 
       let page:Pageable_ = {page:0,size:8}
-      this.setService.getSetsPagination(page).subscribe(
+      this.setService.getSetsPagination(page,this.textoFiltro).subscribe(
         response => {
             //this.sets = [...this.sets, ...response.content];
             this.sets = response.content;
@@ -102,11 +102,6 @@ export class SearchSetsComponent implements OnInit{
 
     verSet(set:Set){
 
-    }
-
-    filter(elemento:any,elemento2:any){
-      elemento2.filter(elemento.target.value,'nombre', 'contains');
-      console.log(elemento2);
     }
 
     showSetStats(index:number,table:string,showSet:Set){
@@ -185,42 +180,48 @@ export class SearchSetsComponent implements OnInit{
 
     }
 
+    textoFiltro:string = "";
+    @ViewChild('setsTable') table: any;
+    filter(event: any,elemento2:any){
+      this.textoFiltro = event.target?.value || "";
+      this.table.reset();
+      if(this.tablaElements !== 'base'){
+        this.loadComboSetsLazy({first: 0, rows: 8});
+      }else{
+        this.loadSetsBaseLazy({first: 0, rows: 8});
+      }
+    }
+
     loadComboSetsLazy(event: LazyLoadEvent) {
       this.loading = true;
       // La página actual se calcula a partir del primer registro que se necesita
       if(event.first && event.rows){
-        console.log("combo no principio");
         let page:Pageable_ ={page:0,size:0};
         page.page = Math.floor(event.first / event.rows) +1;
         page.size = event.rows
         this.setService.getComboSets(
           this.filtro.attributes, this.filtro.order, this.filtro.attributesFilter,
-          this.filtro.filters,page
+          this.filtro.filters,page,this.textoFiltro
         ).subscribe(
             response => {
                 //this.sets = [...this.sets, ...response.content];
                 this.sets = response.sets;
                 this.totalRecords = response.number;
-                console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size +" el total es " +response.number)
-                console.log(this.sets)
             },
             error => {
                 // Manejar el error aquí...
             }
         );
         }else{
-          console.log("combo si principio");
           let page:Pageable_ ={page:0,size:8}; 
           this.setService.getComboSets(
             this.filtro.attributes, this.filtro.order, this.filtro.attributesFilter,
-            this.filtro.filters,page
+            this.filtro.filters,page,this.textoFiltro
           ).subscribe(
               response => {
 
                   this.sets = response.sets;
                   this.totalRecords = response.number;
-                  console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size)
-                  console.log(this.sets)
               },
               error => {
                   // Manejar el error aquí...
@@ -232,37 +233,26 @@ export class SearchSetsComponent implements OnInit{
 
     loadSetsBaseLazy(event: LazyLoadEvent) {
       this.loading = true;
-      // La página actual se calcula a partir del primer registro que se necesita
-      console.log("aquisds")
-      console.log(event);
       if(event.first && event.rows){
-        //let page:Pageable = Math.floor(event.first / event.rows);
-        console.log("base no principio");
         let page:Pageable_ ={page:0,size:0};
         page.page = Math.floor(event.first / event.rows);
         page.size = event.rows
-        this.setService.getSetsPagination(page).subscribe(
+        this.setService.getSetsPagination(page,this.textoFiltro).subscribe(
             response => {
-                //this.sets = [...this.sets, ...response.content];
                 this.sets = response.content;
                 this.totalRecords = response.totalElements;
-                console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size)
-                console.log(this.sets)
             },
             error => {
                 // Manejar el error aquí...
             }
         );
         }else{
-          console.log("base si principio");
           let page:Pageable_ ={page:0,size:8}; 
-          this.setService.getSetsPagination(page).subscribe(
+          this.setService.getSetsPagination(page,this.textoFiltro).subscribe(
               response => {
 
                   this.sets = response.content;
                   this.totalRecords = response.totalElements;
-                  console.log("Se ha buscado"+page.page +"  numero de elementos "+page.size)
-                  console.log(this.sets)
               },
               error => {
                   // Manejar el error aquí...
@@ -289,11 +279,9 @@ export class SearchSetsComponent implements OnInit{
       let page:Pageable_ ={page:1,size:8};
       this.setService.getComboSets(
         filtro.attributes,filtro.order,filtro.attributesFilter,
-        filtro.filters,page
+        filtro.filters,page,this.textoFiltro
       ).subscribe( response =>{
-        console.log("son :"+response.number)
         this.totalRecords = response.number;
-        console.log(response.sets);
         this.sets = response.sets;
         this.rechargeSetList = false;
           setTimeout(() => {

@@ -21,9 +21,9 @@ export class AccesoriesService {
     return this.http.get<AccesoriesResponsePaginated>(`${this.baseUrl}/accesories/all`);
   }
 
-  getAccesoriesPagination(pageable:Pageable_):Observable<AccesoriesResponsePaginated>{
+  getAccesoriesPagination(pageable:Pageable_,name:string):Observable<AccesoriesResponsePaginated>{
     return this.http.get<AccesoriesResponsePaginated>
-    (`${this.baseUrl}/accesories?page=${pageable.page}&size=${pageable.size}`);
+    (`${this.baseUrl}/accesories?page=${pageable.page}&size=${pageable.size}&name=${name}`);
   }
 
   getAccesoriesList():Observable<AccesorieSet[]>{
@@ -35,7 +35,8 @@ export class AccesoriesService {
     attributesFilter : ListaBonus [],
     page:Pageable_,
     filters:Filters,
-    intensityFilter:IntensityFilter):
+    intensityFilter:IntensityFilter,
+    name:string):
     Observable<GenerateAccesorieSetsResponse>{
      let intensity = intensityFilter?.intensity;
      let sets = intensityFilter?.sets;
@@ -46,7 +47,7 @@ export class AccesoriesService {
      let body = { attributes, order, attributesFilter, setFilter,
                   intensity, sets, startSet, endSet };
      return this.http.post<GenerateAccesorieSetsResponse>
-     (`${this.baseUrl}/accesories/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}`
+     (`${this.baseUrl}/accesories/chatgpt?sorted=${filters.order}&filtred=${filters.filter}&page=${page.page}&size=${page.size}&name=${name}`
      ,body,{ headers }); 
    }
 
