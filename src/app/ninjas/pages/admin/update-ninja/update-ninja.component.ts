@@ -249,14 +249,15 @@ export class UpdateNinjaComponent implements OnInit{
   refreshList:boolean = true;
   showNinja(ninja:Ninja){
    
-    this.stats = JSON.parse(JSON.stringify(ninja.stats));
-    this.ninja.stats.forEach(stat=>{
+    //this.stats = JSON.parse(JSON.stringify(ninja.stats.));
+
+    ninja.stats.forEach(stat=>{
       this.stats = JSON.parse(JSON.stringify(stat.statsAttributes));
     })
     this.skills = JSON.parse(JSON.stringify(ninja.skills));
     this.awakenings = JSON.parse(JSON.stringify(ninja.awakenings));
     this.ninja = JSON.parse(JSON.stringify(ninja));
-
+    console.log(this.stats);
     let exists:boolean = true;
     this.skills.forEach(skill =>{
       if(SkillType.NormalAttack === skill.type){
@@ -323,6 +324,8 @@ export class UpdateNinjaComponent implements OnInit{
       bypassSecurityTrustUrl('data:image/jpeg;base64,' + this.statsNinjaPhoto.oldFile);
     }
     this.showInputs = true;
+    this.cdr.detectChanges();
+    console.log(this.stats);
   }
 
   deleteNinja(ninja:Ninja){

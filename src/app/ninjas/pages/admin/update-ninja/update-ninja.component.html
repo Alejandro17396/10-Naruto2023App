@@ -52,8 +52,8 @@
         <div class="grid col-12 m-2 border-1 surface-border border-round 
         justify-content-center text-cente" >
             <div class="col-5 m-2" *ngFor="let stat of stats; index as i">
-                <label for="float-input" class="mr-2">{{stats[i].attribute_name}}</label>
-                <p-inputNumber [(ngModel)]="stats[i].value" 
+                <label for="float-input" class="mr-2">{{stat.attribute_name}}</label>
+                <p-inputNumber [(ngModel)]="stat.value" 
                 placeholder="value" ></p-inputNumber>
             </div>
         </div>
