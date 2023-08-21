@@ -194,6 +194,7 @@ export class SearchSetsComponent implements OnInit{
 
     loadComboSetsLazy(event: LazyLoadEvent) {
       this.loading = true;
+      console
       // La página actual se calcula a partir del primer registro que se necesita
       if(event.first && event.rows){
         let page:Pageable_ ={page:0,size:0};
