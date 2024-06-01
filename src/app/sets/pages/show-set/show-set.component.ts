@@ -1,11 +1,12 @@
 import { Component,EventEmitter,Input, Output } from '@angular/core';
-import { SetsResponsePaginated, Set, ListaBonus, Filters, Atributo, SearchSetsByFilter } from '../../interfaces/set.interfaces';
+import { SetsResponsePaginated, Set, ListaBonus, Filters, Atributo, SearchSetsByFilter, Parte } from '../../interfaces/set.interfaces';
 import { FilterSetPanelComponent } from '../filter-set-panel/filter-set-panel.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
 import { SetsService } from '../../services/sets.service';
 import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogSetComponent } from '../confirm-dialog-set/confirm-dialog-set.component';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 
 @Component({
@@ -115,14 +116,6 @@ export class ShowSetComponent {
         attributesFilter.push({nombreAtributo:attribute.name,valor:attribute.value,action:"",impact:"",condition:"",time:""});
       });
 
-      /*this.setService.getComboSets(
-        attributes,order,attributesFilter,
-        this.filter
-      ).subscribe( response =>{
-        console.log(response.sets);
-        this.sets = response.sets;
-        this.setsChanged.emit(this.sets);
-      } );*/
       let filtro :SearchSetsByFilter ={
         attributes : attributes,
         order : order,
@@ -153,6 +146,12 @@ export class ShowSetComponent {
       maximizable: true,
       data: data
     });
+  }
+
+  selectedPart!:Parte;
+  showOverlay(event: MouseEvent, op: OverlayPanel, parte: Parte): void {
+    this.selectedPart=parte;
+    op.show(event);
   }
   
 

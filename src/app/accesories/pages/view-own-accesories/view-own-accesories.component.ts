@@ -30,6 +30,7 @@ export class ViewOwnAccesoriesComponent {
       response =>{
         this.sets = response;
         this.sets2 = response;
+        console.log("bbbb")
         this.showSetItem(this.sets2[0],0);
         console.log(this.sets);
         console.log(this.sets2);
@@ -69,7 +70,10 @@ export class ViewOwnAccesoriesComponent {
         listaBonusL.push(...aux);
       }
     )
+    console.log("aaaaa");
+    console.log(listaBonusL);
     this.listaBonus = ListaBonusUtils.mergeListBonus(listaBonusL);
+    console.log(this.listaBonus);
   }
 
   viewCompareList(){

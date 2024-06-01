@@ -328,7 +328,7 @@ export class AdminFilterBonusAttributePanelComponent implements OnInit,AfterView
       this.myForm.controls[controlName].setValue({value:inputValue});
 
     }
-   }
+  }
  
  prueba(){
   console.log(this.myForm.controls['selectedAttribute'].value)

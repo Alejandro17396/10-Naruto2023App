@@ -10,6 +10,11 @@ import { ValidatorsService } from 'src/app/auth/services/validators.service';
 import { Checkbox } from 'primeng/checkbox';
 import { Filters } from 'src/app/sets/interfaces/set.interfaces';
 
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
+
 @Component({
   selector: 'app-filter-ninja-panel-component',
   templateUrl: './filter-ninja-panel-component.component.html',
@@ -77,13 +82,21 @@ export class FilterNinjaPanelComponent implements OnInit{
 
   
   targetsOptions:WrapEnumsDropdown[] = [];//Object.values(Target);
+  filteredTargetsOptions:WrapEnumsDropdown[] = [];//Object.values(Target);
   selectedTarget!:WrapEnumsDropdown;// = {value:Target.AllAllies};
+
   actionsOptions:WrapEnumsDropdown[] = [];
+  filteredActionsOptions:WrapEnumsDropdown[] = [];
   selectedAction!:WrapEnumsDropdown;
+
   conditionOptions:WrapEnumsDropdown[] = [];
+  filteredConditionOptions:WrapEnumsDropdown[] = [];
   selectedCondition!:WrapEnumsDropdown;
+
   attributes:GeneralAttribute [] = [];
+  filteredAttributes:GeneralAttribute [] = [];
   selectedAttribute:GeneralAttribute = new GeneralAttribute("");
+
   attributeValue:number = 0;
   rechargeNinjasList:boolean = true;
   attributesFilterList:NinjaAttribute [] = [];
@@ -186,9 +199,77 @@ export class FilterNinjaPanelComponent implements OnInit{
     this.filter.filter = this.filterCheckbox?.checked();
     this.filter.order = this.orderCheckbox?.checked();
     this.filter.awakening = this.awakeningCheckbox?.checked();
-    this.filter.or = this.orCheckbox?.checked();
+    this.filter.or = !this.orCheckbox?.checked();
     this.ref.close();
   }
+
+  filterTarget(event: AutoCompleteCompleteEvent) {
+    let filtered: WrapEnumsDropdown[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.targetsOptions.length; i++) {
+        let target = this.targetsOptions[i];
+        if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+            filtered.push(target);
+        }
+    }
+
+    this.filteredTargetsOptions = filtered;
+}
+
+filterActions(event: AutoCompleteCompleteEvent) {
+  let filtered: WrapEnumsDropdown[] = [];
+  let query = event.query;
+
+  for (let i = 0; i < this.actionsOptions.length; i++) {
+      let target = this.actionsOptions[i];
+      if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(target);
+      }
+  }
+
+  this.filteredActionsOptions = filtered;
+}
+
+filterCondition(event: AutoCompleteCompleteEvent) {
+  let filtered: WrapEnumsDropdown[] = [];
+  let query = event.query;
+
+  for (let i = 0; i < this.conditionOptions.length; i++) {
+      let target = this.conditionOptions[i];
+      if (target.value.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(target);
+      }
+  }
+
+  this.filteredConditionOptions = filtered;
+}
+
+filterAttributes(event: AutoCompleteCompleteEvent) {
+  let filtered: GeneralAttribute[] = [];
+  let query = event.query;
+
+  for (let i = 0; i < this.attributes.length; i++) {
+      let target = this.attributes[i];
+      if (target.nombre.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+          filtered.push(target);
+      }
+  }
+
+  this.filteredAttributes = filtered;
+}
+
+
+handleBlur(event: any, controlName: string) {
+  const inputValue = event.target.value;
+  if(controlName ==='selectedAttribute'){
+    this.myForm.controls[controlName].setValue(new GeneralAttribute(inputValue));;
+
+  }else{
+    this.myForm.controls[controlName].setValue({value:inputValue});
+
+  }
+}
 
   constructor(public config: DynamicDialogConfig,
     public ref: DynamicDialogRef,

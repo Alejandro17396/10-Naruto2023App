@@ -1,78 +1,123 @@
 
-<div class="container" style="background: #2a323d;">
+<div class="grid" style="background: #2a323d;">
     <!-- style="border: 1px solid #ffffff;" -->
-<div class="border-1 surface-border border-round item mt-3" *ngIf="rechargeSetList">
-<p-table #setsTable [value]="sets" selectionMode="single" 
-[(selection)]="selectedSet" [rows]="8" [paginator]="true" 
-stateStorage="session" stateKey="statedemo-session"
-(onLazyLoad)="loadSetsLazy($event)"
-[lazy]="true" [totalRecords]="totalRecords"
-[loading]="loading">
-<ng-template pTemplate="header">
-    <tr>
-        <th pSortableColumn="name" >Sets list</th>
-    </tr>
-    <tr>
-        <th>
-            <input pInputText type="text" (input)="filter($event,setsTable)" placeholder="Search by Name" class="w-full">
-        </th>
-    </tr>
-</ng-template>
-<ng-template pTemplate="body" let-set let-rowIndex="rowIndex">
-    <tr >
-        <td class="btn-cell">
-            <p-button label="Compare" styleClass="p-button-primary" (click)="addSetToCompare(rowIndex)" ></p-button>
-            <a class="setName">{{set.nombre}}</a>
-            <p-button label="Show" styleClass="p-button-secondary" (click)="showSetStats(rowIndex,'sets',set)"></p-button>
-        </td>
-    </tr>
-</ng-template>
-<ng-template pTemplate="emptymessage">
-    <tr>
-        <td colspan="4">No sets found.</td>
-    </tr>
-</ng-template>
-</p-table>
-</div> 
- <div class="border-1 surface-border border-round item mt-3 card" >
-     <app-show-set 
-     [showSet]="showSet" 
-     [listaBonus]="listaBonus"
-     [attributesFilterList]="attributesFilterList"
-     (setsChanged)="handleDataFromChild($event)"
-     (showCompareView)="compareSets($event)">
-    </app-show-set>
-</div> 
+    <div class="col-3 border-1 surface-border border-round mt-3" *ngIf="rechargeSetList">
+        <p-table #setsTable [value]="sets" selectionMode="single" 
+        [(selection)]="selectedSet" [rows]="8" [paginator]="true" 
+        stateStorage="session" stateKey="statedemo-session"
+        (onLazyLoad)="loadSetsLazy($event)"
+        [lazy]="true" [totalRecords]="totalRecords"
+        [loading]="loading">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" >Sets list</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="filter($event,setsTable)" placeholder="Search by Name" class="w-full">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-set let-rowIndex="rowIndex">
+            <tr >
+                <td class="btn-cell">
+                    <p-button label="Compare" styleClass="p-button-primary p-button-sm" (click)="addSetToCompare(set)" ></p-button>
+                    <a class="setName">{{set.nombre}}</a>
+                    <p-button label="Show" styleClass="p-button-secondary p-button-sm" (click)="showSetStats('sets',set)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No sets found.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div> 
+    <div class="col-9 border-1 surface-border border-round mt-3 card" >
+        <app-show-set 
+        [showSet]="showSet" 
+        [listaBonus]="listaBonus"
+        [attributesFilterList]="attributesFilterList"
+        (setsChanged)="handleDataFromChild($event)"
+        (showCompareView)="compareSets($event)">
+        </app-show-set>
+    </div> 
 
-<div class="border-1 surface-border border-round item mt-3"  *ngIf="rechargeCompareSetList">
-    <p-table #setsTableToCompare [value]="setsToCompare" selectionMode="single" [(selection)]="selectedCompareSet"  
-    [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="name" >Sets to compare list</th>
-        </tr>
-        <tr>
-            <th>
-                <input pInputText type="text" (input)="filter($event,setsTableToCompare)" placeholder="Search by Name" class="w-full">
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-set  let-rowIndex="rowIndex">
-        <tr >
-            <td class="btn-cell">
-                <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
-                <a class="setName">{{set.nombre}}</a>
-                <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showSetStats(rowIndex,'setCompareList',set)"></p-button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="4">No sets to compare.</td>
-        </tr>
-    </ng-template>
-    </p-table>
-</div> 
+    <!-- <div class="col-3 border-1 surface-border border-round mt-3"  *ngIf="rechargeCompareSetList">
+        <p-table #setsTableToCompare [value]="setsToCompare" selectionMode="single" [(selection)]="selectedCompareSet"  
+        [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" >Sets to compare list</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="filter($event,setsTableToCompare)" placeholder="Search by Name" class="w-full">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-set  let-rowIndex="rowIndex">
+            <tr >
+                <td class="btn-cell">
+                    <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
+                    <a class="setName">{{set.nombre}}</a>
+                    <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showSetStats('setCompareList',set)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No sets to compare.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div>  -->
+
+    <div class="col-12" >
+        <p-carousel [value]="setsToCompare" [numVisible]="4" [numScroll]="4" [circular]="true" 
+        [responsiveOptions]="responsiveOptions" *ngIf="rechargeCompareSetList" class="col-12">
+            <ng-template let-set pTemplate="item">
+                <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" *ngIf="set && set.partes">
+                    <div class="mb-3">
+                        <img [src]="set.partes[5].image | imageUrl: set.partes[5].nombre: 'equipment' " style="height:50px; width:50px;"
+                        [alt]="set.nombre"
+                        class="m-1"/>
+                        <img [src]="set.partes[4].image | imageUrl: set.partes[4].nombre: 'equipment' " style="height:50px; width:50px;"
+                        [alt]="set.nombre"
+                        class="m-1"/>
+                        <img [src]="set.partes[3].image | imageUrl: set.partes[3].nombre: 'equipment' " style="height:50px; width:50px;"
+                        [alt]="set.nombre"
+                        class="m-1"/>
+                    </div>
+                    <div class="mb-3">
+                        <img [src]="set.partes[2].image | imageUrl: set.partes[2].nombre: 'equipment' " style="height:50px; width:50px;"
+                        [alt]="set.nombre"
+                        class="m-1"/>
+                        <img [src]="set.partes[1].image | imageUrl: set.partes[1].nombre: 'equipment' " style="height:50px; width:50px;"
+                        [alt]="set.nombre"
+                        class="m-1"/>
+                        <img [src]="set.partes[0].image | imageUrl: set.partes[0].nombre: 'equipment' " style="height:50px; width:50px;"
+                        [alt]="set.nombre"
+                        class="m-1"/>
+                    </div>
+                    <div>
+                        <h4 class="mb-1">{{ set.nombre }}</h4>
+                        <div class="car-buttons mt-5">
+                            <p-button type="button" label="Show" 
+                            styleClass="p-button p-button-rounded mr-2" 
+                            icon="pi pi-arrow-up-right"
+                            (click)="showSetStats('setCompareList',set)"></p-button>
+                            <p-button type="button" label="Delete" 
+                            styleClass="p-button-danger p-button-rounded mr-2" 
+                            icon="pi pi-trash" iconPos="right"
+                            (click)="deleteSetFromCompare(set)"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div> 
 </div>
 
 <p-toast></p-toast>

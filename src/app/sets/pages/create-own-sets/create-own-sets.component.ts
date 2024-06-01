@@ -9,6 +9,7 @@ import { SetItemsService } from '../../services/set-items-service.service';
 import { ListaBonusUtils } from '../../utils/lista-bonus-utils';
 import { HttpResponse } from '@angular/common/http';
 import { concat, concatMap, tap } from 'rxjs';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class CreateOwnSetsComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.setService.getSets().pipe(
+    this.setService.getAllSets().pipe(
       concatMap((response) => {
         response.content.forEach((set) => {
           this.setsMap.set(set.nombre, set);
@@ -103,7 +104,11 @@ export class CreateOwnSetsComponent implements OnInit{
     
   }
 
-  
+  selectedPart!:Parte;
+  showOverlay(event: MouseEvent, op: OverlayPanel, parte: Parte): void {
+    this.selectedPart=parte;
+    op.show(event);
+  }
 
 
   addSetItem(item:Parte){

@@ -7,6 +7,7 @@ import { StringTamPipe } from './pipes/string-tam.pipe';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { ImageUrlPipe } from './pipes/image-url.pipe';
 import { FallBackImgDirective } from './directives/fall-back-img.directive';
+import { FilterAccessoryPartsByTypePipePipe } from './pipes/filter-accessory-parts-by-type-pipe.pipe';
 
 
 
@@ -16,7 +17,8 @@ import { FallBackImgDirective } from './directives/fall-back-img.directive';
     SliderComponent,
     StringTamPipe,
     ImageUrlPipe,
-    FallBackImgDirective
+    FallBackImgDirective,
+    FilterAccessoryPartsByTypePipePipe
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { FallBackImgDirective } from './directives/fall-back-img.directive';
     SliderComponent,
     StringTamPipe,
     ImageUrlPipe,
+    FilterAccessoryPartsByTypePipePipe,
     FallBackImgDirective
   ]
 })

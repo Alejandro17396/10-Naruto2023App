@@ -53,7 +53,6 @@ export class NinjaListComponent implements OnInit{
       response =>{
         this.ninjas = response.ninjas;
         this.totalRecords = response.number;
-        console.log(this.ninjas); 
       }
     )
   }
@@ -63,9 +62,8 @@ export class NinjaListComponent implements OnInit{
     this.tablaElements = "filtro.type";
     let page:Pageable_ ={page:1,size:8};
     this.ninjasService.getNinjasFilterAnd(filtro.filter,filtro.sorted,filtro.filtred
-      ,page,filtro.awakening,filtro.or).subscribe(
+      ,page,filtro.awakening,filtro.or,this.textoFiltro).subscribe(
       response =>{
-        console.log(response)
         this.ninjas =response.content;
         this.totalRecords = response.totalElements;
       }
@@ -76,9 +74,17 @@ export class NinjaListComponent implements OnInit{
     this.cdr.detectChanges();*/
   }
 
-  filter(elemento:any,elemento2:any){
-    elemento2.filter(elemento.target.value,'name', 'contains');
-    console.log(elemento2);
+  @ViewChild('ninjasTable') ninjasTable: any;
+  textoFiltro:string = "";
+
+  filter(event:any,elemento2:any){
+    this.textoFiltro = event.target?.value || "";
+    this.ninjasTable.reset();
+    if(this.tablaElements !== 'base'){
+      this.loadComboSetsLazy({first: 0, rows: 8});
+    }else{
+      this.loadSetsBaseLazy({first: 0, rows: 8});
+    }
   }
 
   loading:boolean = true;
@@ -97,25 +103,21 @@ export class NinjaListComponent implements OnInit{
     this.loading = true;
     // La página actual se calcula a partir del primer registro que se necesita
     if(event.first && event.rows){
-      console.log("combo no principio");
       let page:Pageable_ ={page:0,size:0};
       page.page = Math.floor(event.first / event.rows) +1;
       page.size = event.rows
       this.ninjasService.getNinjasFilterAnd(this.filtro.filter,this.filtro.sorted,this.filtro.filtred
-      ,page,this.filtro.awakening,this.filtro.or).subscribe(
+      ,page,this.filtro.awakening,this.filtro.or,this.textoFiltro).subscribe(
       response =>{
-          console.log(response)
           this.ninjas =response.content;
           this.totalRecords = response.totalElements;
         }
       );
     }else{
-      console.log("combo si principio");
       let page:Pageable_ ={page:0,size:8}; 
       this.ninjasService.getNinjasFilterAnd(this.filtro.filter,this.filtro.sorted,this.filtro.filtred
-      ,page,this.filtro.awakening,this.filtro.or).subscribe(
+      ,page,this.filtro.awakening,this.filtro.or,this.textoFiltro).subscribe(
       response =>{
-          console.log(response)
           this.ninjas =response.content;
           this.totalRecords = response.number;
         }
@@ -127,11 +129,8 @@ export class NinjaListComponent implements OnInit{
   loadSetsBaseLazy(event: LazyLoadEvent) {
     this.loading = true;
     // La página actual se calcula a partir del primer registro que se necesita
-    console.log("aquisds")
-    console.log(event);
     if(event.first && event.rows){
       //let page:Pageable = Math.floor(event.first / event.rows);
-      console.log("base no principio");
       let page:Pageable_ ={page:0,size:0};
       page.page = Math.floor(event.first / event.rows);
       page.size = event.rows
@@ -139,17 +138,14 @@ export class NinjaListComponent implements OnInit{
         response =>{
           this.ninjas = response.ninjas;
           this.totalRecords = response.number;
-          console.log(this.ninjas); 
         }
       )
       }else{
-        console.log("base si principio");
         let page:Pageable_ ={page:0,size:8}; 
         this.ninjasService.getNinjasPagination(page).subscribe(
           response =>{
             this.ninjas = response.ninjas;
             this.totalRecords = response.number;
-            console.log(this.ninjas); 
           }
         )
       }
@@ -177,8 +173,6 @@ export class NinjaListComponent implements OnInit{
     this.showNinja = JSON.parse(JSON.stringify(ninja));
     if(this.hijoComponent){
       this.hijoComponent.setShowNinja(this.showNinja);
-      console.log("existo" +index);
-      console.log(this.showNinja);
     }
 
 

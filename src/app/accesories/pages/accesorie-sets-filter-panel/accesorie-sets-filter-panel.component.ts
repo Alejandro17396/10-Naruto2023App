@@ -7,6 +7,7 @@ import { Table } from 'primeng/table';
 import { BonusAttribute } from 'src/app/shared/interfaces/attributes.interface,';
 import { WrapEnumsDropdown } from 'src/app/ninjas/interfaces/Ninja.interfaces';
 import { IntensityFilter } from 'src/app/sets/interfaces/set.interfaces';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-accesorie-sets-filter-panel',
@@ -19,7 +20,8 @@ export class AccesorieSetsFilterPanelComponent implements OnInit{
     public ref: DynamicDialogRef,
     private attributeServices:AttributesService,
     private cd: ChangeDetectorRef,
-    private accesorieService: AccesoriesService) {}
+    private accesorieService: AccesoriesService,
+    private messageService: MessageService) {}
 
 
     ngOnInit(): void {
@@ -88,11 +90,12 @@ export class AccesorieSetsFilterPanelComponent implements OnInit{
   addFilter(attribute: BonusAttribute): void {
     // Verifica si el atributo no está ya en el array.
     if (!this.filtersToUse.includes(attribute)) {
+      this.showInfo("Added attribute " + attribute.name + "from filter");
       this.filtersToUse.push(attribute);
     }
 
     this.applyFilters();
-    console.log(this.accesories)
+
     this.cd.detectChanges();
   }
 
@@ -102,10 +105,11 @@ export class AccesorieSetsFilterPanelComponent implements OnInit{
     // Si el atributo está presente en el array, elimínalo.
     if (index !== -1) {
       this.filtersToUse.splice(index, 1);
+      this.showInfo("Deleted attribute " + attribute.name + "from filter");
     }
 
     this.applyFilters();
-    console.log(this.accesories)
+  
     this.cd.detectChanges();
   }
 
@@ -114,8 +118,11 @@ export class AccesorieSetsFilterPanelComponent implements OnInit{
     const exists = this.accesoriesToUse.some(set => set.nombre === accesorieSet.nombre);
 
     // Si no existe, agregarlo al array
-    if (!exists && this.accesoriesToUse.length <=15) {
+    if (!exists && this.accesoriesToUse.length <15) {
         this.accesoriesToUse.push(accesorieSet);
+        this.showSuccess("Set added");
+    }else if(this.accesoriesToUse.length >=15){
+        this.showError("the list of sets cannot contain more than 15 items ")
     }
     this.cd.detectChanges();
   }
@@ -130,5 +137,19 @@ export class AccesorieSetsFilterPanelComponent implements OnInit{
   filterAccesoriesTable(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.accesoriesTable.filterGlobal(inputValue, 'contains');
-}
+  }
+
+  showSuccess(message:string) {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
+  }
+            
+  showError(message:string) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+  }
+
+  showInfo(message:string) {
+    this.messageService.add({ severity: 'info', summary: 'Info', detail: message });
+  }
+
+
 }

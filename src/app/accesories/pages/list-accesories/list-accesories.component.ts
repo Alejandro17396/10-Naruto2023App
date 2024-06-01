@@ -63,14 +63,32 @@ export class ListAccesoriesComponent implements OnInit{
       }
       return 0;
     });
+    this.responsiveOptions = [
+      {
+          breakpoint: '1199px',
+          numVisible: 2,
+          numScroll: 1
+      },
+      {
+          breakpoint: '991px',
+          numVisible: 2,
+          numScroll: 1
+      },
+      {
+          breakpoint: '767px',
+          numVisible: 2,
+          numScroll: 1
+      }
+  ];
   }
 
   
 
-  addAccesorieSetToCompare(index:number){
-    const set = this.accesories[index];
-    const setExisteEnLista = this.accesoriesToCompare.includes(set);
+  addAccesorieSetToCompare(accesorieSet:AccesorieSet){
+    const set = JSON.parse(JSON.stringify(accesorieSet));
+    const setExisteEnLista = this.accesoriesToCompare.some(existingSet => existingSet.nombre === set.nombre);
 
+    console.log(set)
     if (!setExisteEnLista) {
       this.accesoriesToCompare.push(set);
 
@@ -96,6 +114,7 @@ export class ListAccesoriesComponent implements OnInit{
   totalRecords:number = 0;
   textoFiltro:string = "";
   tablaElements:string = "base";
+  responsiveOptions: any[] =[];
   @ViewChild('accesoriesTable') accesoriesTable: any;
 
   loadSetsLazy(event: LazyLoadEvent) {
@@ -108,10 +127,8 @@ export class ListAccesoriesComponent implements OnInit{
   }
 
   filter(event: any,elemento2:any){
-    console.log("filtro")
     this.textoFiltro = event.target?.value || "";
     this.accesoriesTable.reset();
-    //this.accesoriesTable.reset();
     if(this.tablaElements !== 'base'){
       this.loadComboSetsLazy({first: 0, rows: 8});
     }else{
@@ -120,7 +137,6 @@ export class ListAccesoriesComponent implements OnInit{
   }
 
     loadComboSetsLazy(event: LazyLoadEvent) {
-      console.log("stoy")
       this.loading = true;
       if(event.first && event.rows){
         let page:Pageable_ ={page:0,size:0};
@@ -264,7 +280,7 @@ export class ListAccesoriesComponent implements OnInit{
     this.accesoriesToCompare.splice(rowIndex,1);
   }
 
-  showAccesorieSetStats(index:number,table:string,accesorieSet:AccesorieSet){
+  showAccesorieSetStats(table:string,accesorieSet:AccesorieSet){
 
     this.showAccesories = JSON.parse(JSON.stringify(accesorieSet));
     this.listaBonus = [];
@@ -285,6 +301,7 @@ export class ListAccesoriesComponent implements OnInit{
       return 0;
     });
 
+    console.log(this.listaBonus)
   }
 
   constructor(private accesoriesService: AccesoriesService,

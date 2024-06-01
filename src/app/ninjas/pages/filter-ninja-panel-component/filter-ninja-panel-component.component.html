@@ -14,7 +14,7 @@
             </div>        
             <div class="grid col-12" >
                 <div class="grid col-4">
-                    <p-dropdown [options]="targetsOptions"  optionLabel="value"
+                    <!-- <p-dropdown [options]="targetsOptions"  optionLabel="value"
                     id="selectedTarget"  formControlName="selectedTarget"
                     [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a Target" class="form-control p-fluid col-12">
                         <ng-template pTemplate="selectedTargetI">
@@ -27,13 +27,24 @@
                                 <div>{{ element.value }}</div>
                             </div>
                         </ng-template>
-                    </p-dropdown> 
+                    </p-dropdown>  -->
+                    <p-autoComplete formControlName="selectedTarget" 
+                    [suggestions]="filteredTargetsOptions"  placeholder="Select a Target" 
+                    class="form-control p-fluid col-12"  id="selectedTarget"
+                    (completeMethod)="filterTarget($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedTarget')">
+                        <ng-template let-element pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+                                <div>{{ element.value }}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
                     <span *ngIf="isValidField('selectedTarget')"  class="form-text text-danger col-4" style="color:red">
                         Target can`t be empty
                     </span> 
                 </div>
                 <div class="grid col-4">
-                    <p-dropdown [options]="actionsOptions"  optionLabel="value"
+                    <!-- <p-dropdown [options]="actionsOptions"  optionLabel="value"
                     id="selectedAction"  formControlName="selectedAction"
                     [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a action" class="form-control p-fluid col-12">
                         <ng-template pTemplate="selectedActionI">
@@ -46,13 +57,24 @@
                                 <div>{{ element.value }}</div>
                             </div>
                         </ng-template>
-                    </p-dropdown> 
+                    </p-dropdown> -->
+                    <p-autoComplete formControlName="selectedAction" 
+                    [suggestions]="filteredActionsOptions"  placeholder="Select an Action" 
+                    class="form-control p-fluid col-12" id="selectedAction"
+                    (completeMethod)="filterActions($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedAction')">
+                        <ng-template let-element pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+                                <div>{{ element.value }}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
                     <span *ngIf="isValidField('selectedAction')"  class="form-text text-danger col-4" style="color:red">
                         Action can`t be empty
                     </span> 
                 </div>
                 <div class="grid col-4">
-                    <p-dropdown [options]="conditionOptions"  optionLabel="value"
+                    <!-- <p-dropdown [options]="conditionOptions"  optionLabel="value"
                     id="selectedCondition"  formControlName="selectedCondition"
                     [filter]="true" filterBy="value" [showClear]="true" placeholder="Select a condition" class="form-control p-fluid col-12">
                         <ng-template pTemplate="selectedConditionI">
@@ -65,7 +87,18 @@
                                 <div>{{ element.value }}</div>
                             </div>
                         </ng-template>
-                    </p-dropdown> 
+                    </p-dropdown>  -->
+                    <p-autoComplete formControlName="selectedCondition" 
+                    [suggestions]="filteredConditionOptions"  placeholder="Select a Condition" 
+                    class="form-control p-fluid col-12" id="selectedCondition"
+                    (completeMethod)="filterCondition($event)" field="value" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedCondition')">
+                        <ng-template let-element pTemplate="item" >
+                            <div class="flex align-items-center gap-2">
+                                <div>{{ element.value }}</div>
+                            </div>
+                        </ng-template>
+                    </p-autoComplete>
                     <span *ngIf="isValidField('selectedCondition')"  class="form-text text-danger col-4" style="color:red">
                         Condition can`t be empty
                     </span> 
@@ -83,7 +116,7 @@
                 </div>
             </div>  
             <div class="grid col-4">
-                <p-dropdown [options]="attributes" optionLabel="nombre"
+                <!-- <p-dropdown [options]="attributes" optionLabel="nombre"
                 id="selectedAttribute"  formControlName="selectedAttribute"
                 [filter]="true" filterBy="nombre" [showClear]="true" placeholder="Select a Attribute" 
                 class="form-control p-fluid col-12 h-3rem" >
@@ -97,7 +130,18 @@
                             <div>{{ attribute.nombre }}</div>
                         </div>
                     </ng-template>
-                </p-dropdown>
+                </p-dropdown> -->
+                <p-autoComplete formControlName="selectedAttribute" #AttributesAutocomplete
+                    [suggestions]="filteredAttributes"  placeholder="Select an attribute" 
+                    class="form-control p-fluid col-12" id="selectedAttribute"
+                    (completeMethod)="filterAttributes($event)" field="nombre" [dropdown]="true"
+                    (onBlur)="handleBlur($event, 'selectedAttribute')">
+                        <ng-template let-element pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+                                <div>{{ element.nombre }}</div>
+                            </div>
+                        </ng-template>
+                </p-autoComplete>
                 <span *ngIf="isValidField('selectedAttribute')"  class="form-text text-danger col-4" style="color:red">
                     Attribute can`t be empty
                 </span> 

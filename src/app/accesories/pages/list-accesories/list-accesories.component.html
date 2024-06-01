@@ -1,76 +1,128 @@
-<div class="container" style="background: #2a323d;">
+<div class="grid overflow-hidden" style="background: #2a323d;">
     <!-- style="border: 1px solid #ffffff;" -->
-<div class="border-1 surface-border border-round item mt-3" *ngIf="rechargeAccesoriesSetList">
-<p-table #accesoriesTable [value]="accesories" 
-selectionMode="single" [(selection)]="selectedAccesorie"  
-[rows]="8" [paginator]="true" 
-stateStorage="session" stateKey="statedemo-session"
-(onLazyLoad)="loadSetsLazy($event)"
-[lazy]="true" [totalRecords]="totalRecords"
-[loading]="loading">
-<ng-template pTemplate="header">
-    <tr>
-        <th pSortableColumn="name" >Accesories list</th>
-    </tr>
-    <tr>
-        <th>
-            <input pInputText type="text" (input)="filter($event,accesoriesTable)" placeholder="Search by Name" class="w-full" [(ngModel)]="textoFiltro">
-        </th>
-    </tr>
-</ng-template>
-<ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
-    <tr >
-        <td class="btn-cell">
-            <p-button label="Compare" styleClass="p-button-primary" (click)="addAccesorieSetToCompare(rowIndex)" ></p-button>
-            <a class="setName">{{accesorieSet.nombre}}</a>
-            <p-button label="Show" styleClass="p-button-secondary" (click)="showAccesorieSetStats(rowIndex,'sets',accesorieSet)"></p-button>
-        </td>
-    </tr>
-</ng-template>
-<ng-template pTemplate="emptymessage">
-    <tr>
-        <td colspan="4">No sets found.</td>
-    </tr>
-</ng-template>
-</p-table>
-</div> 
-<div class="border-1 surface-border border-round item mt-3 card" >
-    <show-accesories 
-     [showAccesories]="showAccesories" 
-     [listaBonus]="listaBonus"
-     [attributesFilterList]="attributesFilterList"
-     (setsChanged)="handleDataFromChild($event)"
-     (showCompareView)="compareSets($event)">
-    </show-accesories>
-</div> 
-<div class="border-1 surface-border border-round item mt-3 card" *ngIf="rechargeCompareAccesoriesSetList">
-    <p-table #setsTableToCompare [value]="accesoriesToCompare" selectionMode="single" [(selection)]="selectedCompareAccesorieSet"  
-    [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="name" >Sets to compare list</th>
-        </tr>
-        <tr>
-            <th>
-                <input pInputText type="text" (input)="filter($event,setsTableToCompare)" placeholder="Search by Name" class="w-full">
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-set  let-rowIndex="rowIndex">
-        <tr >
-            <td class="btn-cell">
-                <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
-                <a class="setName">{{set.nombre}}</a>
-                <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showAccesorieSetStats(rowIndex,'setCompareList',set)"></p-button>
-            </td>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-        <tr>
-            <td colspan="4">No sets to compare.</td>
-        </tr>
-    </ng-template>
-    </p-table>
-</div> 
+    <div class="col-3 border-1 surface-border border-round mt-3" *ngIf="rechargeAccesoriesSetList" >
+        <p-table #accesoriesTable [value]="accesories" 
+        selectionMode="single" [(selection)]="selectedAccesorie"  
+        [rows]="8" [paginator]="true" 
+        stateStorage="session" stateKey="statedemo-session"
+        (onLazyLoad)="loadSetsLazy($event)"
+        [lazy]="true" [totalRecords]="totalRecords"
+        [loading]="loading">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" >Accesories list</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="filter($event,accesoriesTable)" placeholder="Search by Name" class="w-full" [(ngModel)]="textoFiltro">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-accesorieSet let-rowIndex="rowIndex">
+            <tr >
+                <td class="btn-cell">
+                    <p-button label="Compare" styleClass="p-button-primary" (click)="addAccesorieSetToCompare(accesorieSet)" ></p-button>
+                    <a class="setName">{{accesorieSet.nombre}}</a>
+                    <p-button label="Show" styleClass="p-button-secondary" (click)="showAccesorieSetStats('sets',accesorieSet)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No sets found.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div> 
+    <div class="col-9 border-1 surface-border border-round mt-3 card" >
+        <show-accesories 
+        [showAccesories]="showAccesories" 
+        [listaBonus]="listaBonus"
+        [attributesFilterList]="attributesFilterList"
+        (setsChanged)="handleDataFromChild($event)"
+        (showCompareView)="compareSets($event)">
+        </show-accesories>
+    </div> 
+    <!-- <div class="col-3 border-1 surface-border border-round mt-3" *ngIf="rechargeCompareAccesoriesSetList">
+        <p-table #setsTableToCompare [value]="accesoriesToCompare" selectionMode="single" [(selection)]="selectedCompareAccesorieSet"  
+        [rows]="6" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" >Sets to compare list</th>
+            </tr>
+            <tr>
+                <th>
+                    <input pInputText type="text" (input)="filter($event,setsTableToCompare)" placeholder="Search by Name" class="w-full">
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-set  let-rowIndex="rowIndex">
+            <tr >
+                <td class="btn-cell">
+                    <p-button label="Delete" styleClass="p-button-raised p-button-danger" (click)="deleteSetFromCompare(rowIndex)"></p-button>
+                    <a class="setName">{{set.nombre}}</a>
+                    <p-button label="Show" styleClass="p-button-secondary setName"  (click)="showAccesorieSetStats(rowIndex,'setCompareList',set)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No sets to compare.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div>  -->
+
+    <div class="col-12" >
+        <p-carousel [value]="accesoriesToCompare" [numVisible]="4" [numScroll]="4" [circular]="true" 
+        [responsiveOptions]="responsiveOptions" *ngIf="rechargeCompareAccesoriesSetList">
+            <ng-template let-accesorieSet pTemplate="item" >
+                <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+                    <div class="mb-3">
+                        <img [src]="accesorieSet.partes[7].image | imageUrl: accesorieSet.partes[7].nombre: 'accesories' " 
+                        style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                        <img [src]="accesorieSet.partes[6].image | imageUrl: accesorieSet.partes[6].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                        <img [src]="accesorieSet.partes[5].image | imageUrl: accesorieSet.partes[5].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                        <img [src]="accesorieSet.partes[4].image | imageUrl: accesorieSet.partes[4].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                    </div>
+                    <div class="mb-3">
+                        <img [src]="accesorieSet.partes[3].image | imageUrl: accesorieSet.partes[3].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                        <img [src]="accesorieSet.partes[2].image | imageUrl: accesorieSet.partes[2].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                        <img [src]="accesorieSet.partes[1].image | imageUrl: accesorieSet.partes[1].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                        <img [src]="accesorieSet.partes[0].image | imageUrl: accesorieSet.partes[0].nombre: 'accesories' "  style="height:50px; width:50px;"
+                        [alt]="accesorieSet.nombre"
+                        class="m-1"/>
+                    </div>
+                    <div>
+                        <h4 class="mb-1">{{ accesorieSet.nombre }}</h4>
+                        <div class="car-buttons mt-5">
+                            <p-button type="button" label="Show" 
+                            styleClass="p-button p-button-rounded mr-2" 
+                            icon="pi pi-arrow-up-right"
+                            (click)="showAccesorieSetStats('setCompareList',accesorieSet)"></p-button>
+                            <p-button type="button" label="Delete" 
+                            styleClass="p-button-danger p-button-rounded mr-2" 
+                            icon="pi pi-trash" iconPos="right"
+                            (click)="deleteSetFromCompare(accesorieSet)"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
 </div>
 <p-toast></p-toast>

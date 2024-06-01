@@ -1,0 +1,41 @@
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .img-responsive {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+  }
+
+  .custom-overlay-content {
+    background-color: rgba(28, 40, 51, 0.9); /* Fondo azul-gris con transparencia */
+    color: #adcbe3; /* Color claro para el texto */
+    border: 1px solid #adcbe3; /* Borde en el mismo tono claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra para efecto de profundidad */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+    font-family: 'Arial', sans-serif; /* Fuente común, cambia a la que prefieras */
+  }
+  
+  .custom-overlay-content p {
+    margin-bottom: 5px; /* Espaciado entre párrafos */
+  }
+  
+  .custom-overlay-content p.title {
+    font-weight: bold; /* Título en negrita */
+    color: #ffffff; /* Blanco para resaltar el título */
+    margin-bottom: 10px; /* Mayor espaciado después del título */
+  }
+  
+  .custom-overlay-content p.effect-title {
+    color: #ffffff; /* Blanco para los títulos de efectos */
+    font-weight: bold;
+    margin-top: 10px; /* Espacio antes del título de efectos */
+  }
+
+  
+
+

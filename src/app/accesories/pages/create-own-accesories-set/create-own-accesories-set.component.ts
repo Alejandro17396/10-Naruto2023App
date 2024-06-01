@@ -21,7 +21,7 @@ export class CreateOwnAccesoriesSetComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.accesoriesService.getAccesories().pipe(
+    this.accesoriesService.getAllAccesories().pipe(
       concatMap((response) => {
         response.content.forEach((set) => {
           this.accesoriesMap.set(set.nombre, set);
@@ -56,6 +56,7 @@ export class CreateOwnAccesoriesSetComponent implements OnInit{
         return this.accesorieSetItemsService.getSetItems();
       }),
       concatMap((response) => {
+        console.log(response)
         this.items = response;
         this.rechargeItemsList = false;
         setTimeout(() => {
@@ -115,7 +116,9 @@ export class CreateOwnAccesoriesSetComponent implements OnInit{
   
     
     addSetItem(item:Parte){
+      //console.log(this.items)
       let type;
+      //console.log(item)
       for(let key of Object.values(TypeAccesorieItemSet)){
         if(item.nombre.includes(key)){
           type = key;
@@ -126,9 +129,13 @@ export class CreateOwnAccesoriesSetComponent implements OnInit{
           break;
         }
       }
+      console.log(this.accesorieSet.partes.length)
       if(this.accesorieSet.partes.length < 8 ){
         let setName = this.accesoriesByItemMap.get(item.nombre)?.nombre;
+        console.log(this.accesoriesByItemMap)
+        console.log(setName)
         if(setName){
+        console.log("lo habia asi que lo meto")
         item.setName =setName;
         this.accesorieSet.partes.push(item);
         this.calculateBonuses(this.accesorieSet.partes);

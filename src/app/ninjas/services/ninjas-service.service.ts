@@ -82,10 +82,10 @@ export class NinjasService {
 
 
   getNinjasFilterAnd(filter:NinjaFilter,sorted:boolean,filtred:boolean,page:Pageable_,
-    awakening:boolean,or:boolean):
+    awakening:boolean,or:boolean,name:string):
   Observable<NinjaResponsePageable>{
     const url = 
-    `${this.baseUrl}/ninjas/filter/and?sorted=${sorted}&filtred=${filtred}&or=${or}&awakenings=${awakening}`;
+    `${this.baseUrl}/ninjas/filter/and?sorted=${sorted}&filtred=${filtred}&or=${or}&awakenings=${awakening}&name=${name}`;
     const body: NinjaFilter = filter;
     console.log("voy a hacer llamada" +sorted+" "+filtred)
     console.log(filter)

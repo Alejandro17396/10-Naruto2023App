@@ -10,3 +10,10 @@ body {
   border: 1px solid #ffffff;
 }
 
+/* En tu archivo styles.css global */
+.p-tooltip .ui-tooltip-text {
+  width: 300px !important; /* O el ancho que prefieras */
+}
+
+
+
